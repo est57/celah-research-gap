@@ -1,0 +1,55 @@
+/* Dark theme: the same tokens, redefined. Set by lib/display.ts on <html data-theme>. */
+:root[data-theme="dark"] {
+  --chrome: #1b1f24;
+  --chrome-line: #2d333b;
+  --panel: #22272e;
+  --panel-alt: #1f242a;
+  --sunken: #181c21;
+  --line: #3a414a;
+  --line-soft: #333a42;
+  --line-faint: #2b3138;
+  --ink: #e6e9ed;
+  --ink-2: #c3c9d0;
+  --muted: #98a1ab;
+  --control-line: #4a525c;
+  --accent: #3f74c6;
+  --accent-strong: #9dbcf0;
+  --accent-soft: #233650;
+  --hover: #29313c;
+  --gap: #e0773f;
+  --gap-ink: #f2ad80;
+  --gap-soft: #36281f;
+  --gap-line: #6b4630;
+  --ok: #3fa585;
+  --ok-2: #8cc078;
+  --warn: #e0b23a;
+  --bad: #e66b3d;
+  --head-bg: #1f242a;
+  --head-ink: #aab2bb;
+  --axis: #6b7480;
+  --accent-hatch: #34507a;
+  --accent-line: #3266b5;
+  --on-solid: #ffffff;
+  --halo: rgba(34, 39, 46, 0.9);
+  --ok-ink: #7fd1b0;
+  --ok-solid: #2c8467;
+  --ok-soft: #1c3a31;
+  --ok-line: #2f5f4f;
+  --warn-soft: #393020;
+  --warn-ink: #e8c46a;
+  --heat-3: #4a3020;
+  --heat-4: #6b3a1e;
+  --heat-ink: #ffd2b0;
+  --bad-line: #b4532a;
+  --rose-soft: #3d2531;
+  --rose-ink: #f0a3c4;
+  --neutral-bar: #5c6b80;
+  --chip-bg: #2b3138;
+  color-scheme: dark;
+}
+
+/* The reduced-motion setting, on top of the system preference in base.css. */
+:root[data-motion="reduce"] * {
+  transition: none !important;
+  animation: none !important;
+}

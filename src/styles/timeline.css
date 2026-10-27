@@ -1,0 +1,50 @@
+.timeline-row {
+  display: grid;
+  grid-template-columns: minmax(70px, 120px) minmax(0, 1fr);
+  align-items: center;
+  min-height: 32px;
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.timeline-name {
+  font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timeline-track {
+  position: relative;
+  height: 32px;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  background: var(--control-line);
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  border: 1px solid var(--panel);
+  transform: translate(-50%, -50%);
+}
+
+.timeline-axis {
+  border-bottom: 0;
+  min-height: 18px;
+}
+
+.timeline-axis .timeline-track {
+  height: 18px;
+}
+
+.timeline-axis .timeline-track span {
+  position: absolute;
+  top: 2px;
+  font-size: 10.5px;
+  transform: translateX(-50%);
+}

@@ -1,0 +1,141 @@
+.filter-page {
+  container: filter / inline-size;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--sunken);
+  padding: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+@container filter (max-width: 760px) {
+  .filter-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.filter-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.filter-years {
+  display: grid;
+  grid-template-columns: auto minmax(0, 110px) auto minmax(0, 110px);
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+}
+
+.filter-search {
+  display: flex;
+  gap: 8px;
+  padding: 8px 14px 4px;
+}
+
+.filter-search .input {
+  flex: 1;
+}
+
+.filter-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 6px;
+}
+
+.filter-list-long {
+  max-height: 460px;
+  overflow-y: auto;
+}
+
+.filter-list label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.filter-list label:hover {
+  background: var(--hover);
+}
+
+.filter-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filter-none {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+.filter-error {
+  margin: 0;
+  padding: 0 14px 10px;
+  font-size: 12px;
+  color: var(--bad);
+}
+
+.filter-bar .filter-error {
+  padding: 0;
+}
+
+.filter-bar {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 10px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 10px;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+}
+
+.filter-count {
+  margin-right: auto;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.filter-warn {
+  color: var(--bad);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-color: var(--gap-line);
+  background: var(--gap-soft);
+  color: var(--gap-ink);
+  font-weight: 500;
+}

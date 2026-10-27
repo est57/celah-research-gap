@@ -1,0 +1,114 @@
+/* Reference Publication Year Spectroscopy: chart marks and the peak list. */
+
+.rpys-bar {
+  fill: var(--accent-soft);
+  stroke: var(--accent-line);
+  stroke-width: 0.5;
+  cursor: pointer;
+}
+
+.rpys-bar[data-peak="true"] {
+  fill: var(--accent-hatch);
+}
+
+.rpys-bar[data-selected="true"] {
+  fill: var(--accent);
+}
+
+.rpys-line {
+  fill: none;
+  stroke: var(--gap);
+  stroke-width: 1.6;
+}
+
+.rpys-peak {
+  fill: var(--gap);
+  stroke: var(--panel);
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+
+.rpys-swatch-bar {
+  background: var(--accent-soft);
+  outline: 1px solid var(--accent-line);
+}
+
+.rpys-swatch-line {
+  height: 2px;
+  background: var(--gap);
+}
+
+.rpys-swatch-peak {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gap);
+}
+
+.rpys-peaks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.rpys-peaks > li {
+  border-bottom: 1px solid var(--line-soft);
+  padding: 8px 14px 10px;
+}
+
+.rpys-peaks > li[data-selected="true"] {
+  background: var(--accent-soft);
+}
+
+.rpys-peak-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 12.5px;
+}
+
+.rpys-year {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.rpys-refs {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rpys-refs li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 10px;
+  font-size: 12.5px;
+}
+
+.rpys-ref-label {
+  font-weight: 500;
+}
+
+.rpys-ref-example {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.rpys-empty {
+  margin: 0;
+  padding: 12px 14px;
+}

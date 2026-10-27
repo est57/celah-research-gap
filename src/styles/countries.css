@@ -1,0 +1,76 @@
+.corr-row {
+  display: grid;
+  grid-template-columns: minmax(70px, 110px) minmax(0, 1fr) 34px;
+  gap: 8px;
+  align-items: center;
+  min-height: 22px;
+  font-size: 12px;
+}
+
+.corr-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.corr-bar {
+  display: flex;
+  height: 10px;
+  background: var(--line-faint);
+}
+
+.corr-total {
+  text-align: right;
+  font-size: 11px;
+}
+
+.pair-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 12px 12px;
+}
+
+.pair-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 26px;
+  align-items: center;
+  font-size: 12px;
+  border-bottom: 1px solid var(--line-faint);
+}
+
+/* World map of production and collaboration. */
+.wmap {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wmap-land {
+  fill: var(--line-soft);
+  stroke: var(--panel);
+  stroke-width: 0.5;
+}
+
+.wmap-land[data-has="true"] {
+  fill: var(--accent);
+}
+
+.wmap-arc {
+  fill: none;
+  stroke: var(--gap);
+  stroke-opacity: 0.75;
+  stroke-linecap: round;
+}
+
+.wmap-dot {
+  fill: var(--gap);
+  stroke: var(--panel);
+  stroke-width: 1;
+}
+
+.wmap-loading {
+  padding: 40px 0;
+  text-align: center;
+}

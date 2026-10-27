@@ -1,0 +1,119 @@
+/* Testing a researcher's own gap idea. */
+.idea-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+}
+
+.idea-form p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.idea-inputs {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 10px;
+}
+
+@container years (max-width: 760px) {
+  .idea-inputs {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .idea-inputs .btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+.idea-verdict {
+  padding: 12px 14px;
+  gap: 8px;
+  border-left: 4px solid var(--muted);
+  font-size: 12.5px;
+}
+
+.idea-verdict[data-verdict="celah"] {
+  border-left-color: var(--gap);
+}
+
+.idea-verdict[data-verdict="jarang"] {
+  border-left-color: var(--warn);
+}
+
+.idea-verdict[data-verdict="banyak"] {
+  border-left-color: var(--ok);
+}
+
+.idea-verdict p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.idea-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.idea-stats > div {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  border: 1px solid var(--line-faint);
+  border-radius: 4px;
+}
+
+.idea-stats .num {
+  font-size: 18px;
+}
+
+.idea-momentum {
+  font-size: 12px;
+}
+
+.idea-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0 14px;
+  padding: 12px 14px;
+}
+
+.idea-docs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12.5px;
+}
+
+.idea-docs ol {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.idea-docs li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.idea-docs li .muted {
+  font-size: 11.5px;
+}
+
+.idea-check {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+}
+

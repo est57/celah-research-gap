@@ -1,0 +1,113 @@
+/* Home screen: the research workflow. */
+.wf-head h1 {
+  margin: 0 0 2px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.wf-head p {
+  margin: 0;
+  font-size: 12.5px;
+}
+
+.wf-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wf-step {
+  flex-direction: row;
+  gap: 14px;
+  padding: 14px;
+}
+
+.wf-step[data-next="true"] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.wf-num {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--chip-bg);
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.wf-step[data-state="done"] .wf-num {
+  background: var(--ok-soft);
+  color: var(--ok-ink);
+}
+
+.wf-step[data-next="true"] .wf-num {
+  background: var(--accent);
+  color: var(--on-solid);
+}
+
+.wf-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.wf-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+}
+
+.wf-body p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.wf-facts {
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 11.5px !important;
+}
+
+.wf-chip {
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--chip-bg);
+  color: var(--ink-2);
+}
+
+.wf-chip[data-state="done"] {
+  background: var(--ok-soft);
+  color: var(--ok-ink);
+}
+
+.wf-chip[data-state="attention"] {
+  background: var(--warn-soft);
+  color: var(--warn-ink);
+}
+
+.wf-chip[data-state="ready"] {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.wf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}

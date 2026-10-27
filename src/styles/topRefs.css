@@ -1,0 +1,97 @@
+/* Most cited references: list rows, collection status chip and copy actions. */
+
+.tr-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+}
+
+.tr-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.tr-list > li {
+  padding: 8px 14px 10px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.tr-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.tr-label {
+  font-weight: 600;
+}
+
+.tr-chip {
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  background: var(--gap-soft);
+  color: var(--gap-ink);
+}
+
+.tr-chip[data-in="true"] {
+  background: var(--ok-soft);
+  color: var(--ok-ink);
+}
+
+.tr-count {
+  margin-left: auto;
+  color: var(--ink-2);
+}
+
+.tr-title {
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.tr-example {
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.tr-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tr-btn {
+  height: 22px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.tr-missing {
+  color: var(--gap-ink);
+  font-weight: 600;
+}
+
+.tr-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 10px 14px 0;
+  font-size: 12.5px;
+}
+
+.tr-msg {
+  color: var(--ok-ink);
+}
+
+.tr-msg-error {
+  color: var(--bad);
+}

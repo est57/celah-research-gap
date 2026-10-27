@@ -1,0 +1,138 @@
+.evo-chart {
+  width: 100%;
+  overflow: hidden;
+}
+
+.evo-period {
+  font-size: 12px;
+  fill: var(--ink);
+}
+
+.evo-period-n {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.evo-node {
+  cursor: pointer;
+}
+
+.evo-label {
+  font-size: 11px;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.evo-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 8px;
+  font-size: 11.5px;
+}
+
+.evo-legend .theme-swatch,
+.evo-chip .theme-swatch {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.evo-changes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.evo-changes .notice {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.evo-change-row {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 10px;
+  font-size: 12px;
+}
+
+.evo-change-period {
+  padding-top: 3px;
+  font-weight: 500;
+}
+
+.evo-change-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.evo-change-lists > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+}
+
+.evo-change-lists .opt-label {
+  width: 96px;
+}
+
+.evo-chip {
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  background: var(--panel);
+  padding: 2px 7px;
+  font-size: 11.5px;
+  text-align: left;
+}
+
+.evo-chip:hover {
+  background: var(--hover);
+}
+
+.evo-hint,
+.evo-error,
+.evo-empty {
+  margin: 0;
+  padding: 0 12px;
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.evo-error {
+  color: var(--bad);
+}
+
+.evo-empty {
+  padding: 10px 12px;
+}
+
+.evo-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.evo-flow-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 8px;
+  border: 1px solid var(--line-faint);
+  border-radius: 4px;
+  background: var(--panel);
+}
+
+.evo-flow-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}

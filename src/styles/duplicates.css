@@ -1,0 +1,90 @@
+.dup-page {
+  container: dup / inline-size;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--sunken);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dup-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.dup-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dup-reason {
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.dup-reason[data-reason="similar_title"] {
+  background: var(--warn-soft);
+  color: var(--warn-ink);
+}
+
+.dup-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@container dup (max-width: 760px) {
+  .dup-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dup-rec + .dup-rec {
+    border-left: 0;
+    border-top: 1px solid var(--line-soft);
+  }
+}
+
+.dup-rec {
+  padding: 10px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.dup-rec + .dup-rec {
+  border-left: 1px solid var(--line-soft);
+}
+
+.dup-rec[data-kept="false"] {
+  background: var(--panel-alt);
+}
+
+.dup-rec[data-kept="false"] .dup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.dup-confirm {
+  flex: 1 1 260px;
+  font-size: 12px;
+  color: var(--gap-ink);
+}

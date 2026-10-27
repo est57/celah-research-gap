@@ -1,0 +1,120 @@
+/* Removing documents and exporting the collection: selection bar, confirmations, export list. */
+.delete-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 8px 16px;
+  background: var(--gap-soft);
+  border-bottom: 1px solid var(--gap-line);
+  font-size: 12.5px;
+}
+
+.delete-bar > span:first-child {
+  margin-right: auto;
+}
+
+.delete-warn {
+  color: var(--gap-ink);
+  font-weight: 500;
+}
+
+.delete-error {
+  color: var(--bad);
+  font-size: 12px;
+  margin: 0;
+}
+
+.removed-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 8px 16px 0;
+}
+
+.origin-remove {
+  font-size: 12px;
+}
+
+.origin-remove summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.origin-remove ul {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.origin-remove li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.origin-remove li > span:nth-child(2) {
+  margin-right: auto;
+}
+
+.exp-scope {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 12px 14px 4px;
+  font-size: 12px;
+}
+
+.exp-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.exp-list li,
+.exp-backup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line-faint);
+  font-size: 12.5px;
+}
+
+.exp-list li:last-child {
+  border-bottom: 0;
+}
+
+.exp-list li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 260px;
+}
+
+.exp-backup p {
+  margin: 0;
+  flex: 1 1 320px;
+  line-height: 1.5;
+  font-size: 12px;
+}
+
+.exp-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.exp-msg {
+  margin: 0;
+  padding: 0 14px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}

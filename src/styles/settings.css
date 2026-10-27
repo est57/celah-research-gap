@@ -1,0 +1,128 @@
+.settings-page {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--sunken);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.settings-card {
+  max-width: 680px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.settings-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.settings-body p {
+  margin: 0;
+  max-width: 64ch;
+  line-height: 1.55;
+}
+
+.key-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+  width: 100%;
+}
+
+.key-state {
+  margin-left: auto;
+  font-weight: 400;
+  font-size: 11.5px;
+  padding: 1px 8px;
+  border-radius: 3px;
+  background: var(--line-faint);
+  color: var(--muted);
+}
+
+.key-state[data-on="true"] {
+  background: var(--ok-soft);
+  color: var(--ok-ink);
+  font-family: var(--font-mono);
+}
+
+.confirm-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.confirm-row span {
+  flex: 1 1 260px;
+}
+
+.btn-danger {
+  background: var(--bad);
+  border-color: var(--bad-line);
+  color: var(--on-solid);
+}
+
+.select {
+  user-select: all;
+  color: var(--ink);
+}
+
+.security-notes {
+  margin: 0;
+  padding: 10px 0 0 18px;
+  border-top: 1px solid var(--line-soft);
+  width: 100%;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.disp-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.disp-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12.5px;
+  min-width: 220px;
+  flex: 1 1 260px;
+}
+
+.disp-text .muted {
+  font-size: 12px;
+}
+
+.disp-seg {
+  flex: none;
+}
+
+.disp-sub {
+  border-top: 1px solid var(--line-soft);
+  background: var(--panel-alt);
+}
+
+.disp-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+}

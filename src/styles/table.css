@@ -1,0 +1,99 @@
+.doc-table {
+  /* Keep at least ~6 rows visible; the screen scrolls when the window is short. */
+  flex: 1 0 240px;
+  overflow: auto;
+}
+
+.doc-row {
+  display: grid;
+  grid-template-columns: 66px minmax(220px, 1fr) 140px 48px 140px 70px 48px 84px;
+  gap: 0 10px;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.doc-row:hover {
+  background: var(--hover);
+}
+
+.doc-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  min-height: 30px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--head-ink);
+  background: var(--head-bg);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.doc-head:hover {
+  background: var(--head-bg);
+}
+
+.cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.cell-source {
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+.cell-right {
+  text-align: right;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 12px;
+}
+
+/* Columns follow the width of the table area, not the window,
+   because the navigation and inspector panels change that width. */
+@container screen (max-width: 900px) {
+  .doc-row {
+    grid-template-columns: 62px minmax(200px, 1fr) 130px 48px 140px 48px;
+  }
+
+  .col-type,
+  .col-origin {
+    display: none;
+  }
+}
+
+@container screen (max-width: 680px) {
+  .doc-row {
+    grid-template-columns: 58px minmax(160px, 1fr) 48px 48px;
+  }
+
+  .col-authors,
+  .col-source {
+    display: none;
+  }
+}
+
+.doc-pick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.doc-pick input {
+  margin: 0;
+}
+
+.doc-row[data-picked="true"] {
+  background: var(--accent-soft);
+}

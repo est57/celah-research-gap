@@ -1,0 +1,21 @@
+/* Coupling map: selected cluster details in the inspector. */
+.cm-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px 0;
+  font-size: 13px;
+}
+
+.cm-docs {
+  margin: 0;
+  padding: 0 14px 10px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.cm-docs li span {
+  display: block;
+}

@@ -1,0 +1,34 @@
+/* Medium width: score and review move under the detail. */
+@container gaps (max-width: 1050px) {
+  .gaps-page {
+    grid-template-columns: 280px minmax(0, 1fr);
+    overflow-y: auto;
+  }
+
+  .gap-main {
+    overflow: visible;
+  }
+
+  .gap-inspector {
+    grid-column: 2;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* Narrow: one column, the list keeps a bounded height. */
+@container gaps (max-width: 700px) {
+  .gaps-page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gap-list {
+    max-height: 300px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .gap-inspector {
+    grid-column: 1;
+  }
+}

@@ -1,0 +1,86 @@
+.hist-chart {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hist-grid {
+  stroke: var(--line-faint);
+}
+
+.hist-year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.hist-edge {
+  stroke: var(--axis);
+  stroke-opacity: 0.35;
+  stroke-width: 1;
+}
+
+.hist-edge[data-state="on"] {
+  stroke: var(--ink);
+  stroke-opacity: 0.8;
+  stroke-width: 1.5;
+}
+
+.hist-edge[data-state="off"] {
+  stroke-opacity: 0.07;
+}
+
+.hist-node {
+  cursor: pointer;
+}
+
+.hist-label {
+  font-size: 11px;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.hist-detail-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.refs-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.placeholder .refs-box {
+  align-items: center;
+  border-bottom: 0;
+}
+
+.refs-note,
+.refs-error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.refs-error {
+  color: var(--bad);
+}
+
+.hist-node:focus-visible {
+  outline: none;
+}
+
+/* Overrides the inline stroke so keyboard focus is visible on the node itself. */
+.hist-node:focus-visible circle {
+  stroke: var(--accent) !important;
+  stroke-width: 3;
+}

@@ -1,0 +1,133 @@
+.verify-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--sunken);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.verify-intro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.verify-intro > div {
+  flex: 1 1 360px;
+}
+
+.verify-intro p {
+  margin: 4px 0 0;
+  max-width: 76ch;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.verify-msg,
+.verify-empty {
+  margin: 0;
+}
+
+.verify-item .ph {
+  gap: 10px;
+}
+
+.verify-title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.term-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.term-chip {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 12px;
+}
+
+.check {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+}
+
+.check-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.verdict-pill {
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-weight: 500;
+  background: var(--ok-soft);
+  color: var(--ok-ink);
+}
+
+.verdict-pill[data-verdict="new"] {
+  background: var(--gap-soft);
+  color: var(--gap-ink);
+}
+
+.verdict-pill[data-verdict="answered"] {
+  background: var(--rose-soft);
+  color: var(--rose-ink);
+}
+
+.check-query {
+  font-size: 11.5px;
+}
+
+.check-papers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.check-papers li {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.check-mark {
+  font-size: 11px;
+  text-align: center;
+  padding: 1px 0;
+  border-radius: 3px;
+  background: var(--line-faint);
+  color: var(--muted);
+  align-self: start;
+}
+
+.check-mark[data-match="true"] {
+  background: var(--gap-soft);
+  color: var(--gap-ink);
+}
+
+.check-paper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}

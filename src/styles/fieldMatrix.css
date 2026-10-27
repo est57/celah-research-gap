@@ -1,0 +1,78 @@
+/* Missing-field table: rows are fields, columns are import sources. */
+.fmx-scroll {
+  overflow-x: auto;
+}
+
+.fmx {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.fmx th,
+.fmx td {
+  padding: 0 10px;
+  height: 28px;
+  border-bottom: 1px solid var(--line-faint);
+  white-space: nowrap;
+}
+
+.fmx thead th {
+  height: 34px;
+  font-weight: 600;
+  text-align: right;
+  vertical-align: bottom;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.fmx thead th:first-child,
+.fmx tbody th {
+  text-align: left;
+}
+
+.fmx tbody th {
+  font-weight: 400;
+}
+
+.fmx-n {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 400;
+}
+
+.fmx-tag {
+  display: inline-block;
+  width: 26px;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+
+.fmx td {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.fmx .fmx-total {
+  border-right: 1px solid var(--line-soft);
+  font-weight: 600;
+}
+
+.fmx td[data-level="0"] {
+  color: var(--muted);
+}
+
+.fmx td[data-level="2"] {
+  background: var(--warn-soft);
+}
+
+.fmx td[data-level="3"] {
+  background: var(--heat-3);
+  color: var(--gap-ink);
+}
+
+.fmx td[data-level="4"] {
+  background: var(--heat-4);
+  color: var(--heat-ink);
+}

@@ -1,0 +1,43 @@
+/* Tab row under the title bar of each screen. */
+
+.tabs {
+  height: 36px;
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 0 12px;
+  background: var(--sunken);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.tab {
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  background: transparent;
+  font-size: 13px;
+  color: var(--head-ink);
+  white-space: nowrap;
+}
+
+.tab[aria-selected="true"] {
+  background: var(--panel);
+  border-color: var(--line);
+  color: var(--ink);
+  font-weight: 600;
+  height: 31px;
+  margin-bottom: -1px;
+}
+
+/* Narrow windows: tighter tabs so long tab rows still fit. */
+@media (max-width: 960px) {
+  .tab {
+    padding: 0 8px;
+    font-size: 12.5px;
+  }
+}

@@ -1,0 +1,120 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+a {
+  color: var(--accent);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.btn {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--control-line);
+  background: var(--panel);
+  border-radius: 4px;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent-line);
+  color: var(--on-solid);
+  font-weight: 500;
+}
+
+.input {
+  height: 28px;
+  border: 1px solid var(--control-line);
+  border-radius: 4px;
+  padding: 0 8px;
+  font-size: 12.5px;
+  background: var(--panel);
+  min-width: 0;
+}
+
+.ph {
+  height: 32px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.notice {
+  padding: 10px 12px;
+  border: 1px solid var(--gap-line);
+  background: var(--gap-soft);
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

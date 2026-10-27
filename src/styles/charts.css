@@ -1,0 +1,126 @@
+.annual {
+  padding: 16px 16px 10px 46px;
+}
+
+.annual-plot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(2px, 1vw, 14px);
+  border-bottom: 1px solid var(--axis);
+}
+
+.gridline {
+  position: absolute;
+  left: -36px;
+  right: 0;
+  border-top: 1px dashed var(--line-soft);
+  font-size: 10.5px;
+  color: var(--muted);
+  line-height: 0;
+  padding-top: 0;
+}
+
+.annual-col {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  height: 100%;
+}
+
+.annual-value {
+  font-size: 10.5px;
+  color: var(--ink-2);
+}
+
+.annual-bar {
+  width: 100%;
+  max-width: 46px;
+  border-radius: 1px 1px 0 0;
+  background: var(--accent);
+}
+
+.annual-bar[data-partial="true"] {
+  background: repeating-linear-gradient(135deg, var(--accent) 0 3px, var(--accent-hatch) 3px 6px);
+}
+
+.annual-years {
+  display: flex;
+  gap: clamp(2px, 1vw, 14px);
+  margin-top: 4px;
+}
+
+.annual-years span {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.chart-note {
+  font-size: 11.5px;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.chart-grid {
+  stroke: var(--line-soft);
+  stroke-dasharray: 3 3;
+}
+
+.chart-baseline {
+  stroke: var(--axis);
+}
+
+.chart-axis {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--muted);
+}
+
+.chart-area {
+  fill: var(--accent);
+  fill-opacity: 0.08;
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.chart-dot {
+  fill: var(--panel);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.chart-empty {
+  padding: 24px 8px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.three-field-heads {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.sankey-label {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--halo);
+  stroke-width: 3px;
+}
+

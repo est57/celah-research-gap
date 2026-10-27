@@ -1,0 +1,136 @@
+.report-side {
+  width: var(--inspector-w);
+  flex: none;
+  border-right: 1px solid var(--line);
+  background: var(--panel-alt);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.report-side-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.opt-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.opt-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.opt-seg {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  border: 1px solid var(--control-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.opt-seg button {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-right: 1px solid var(--control-line);
+  background: var(--panel);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.opt-seg button:last-child {
+  border-right: 0;
+}
+
+.opt-seg button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-solid);
+  font-weight: 500;
+}
+
+.opt-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.opt-check input {
+  margin: 2px 0 0;
+}
+
+.opt-gaps {
+  margin: 0;
+  padding: 0 0 0 18px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.opt-link,
+.report-manage {
+  align-self: flex-start;
+}
+
+.opt-export {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 32px;
+}
+
+.opt-export:disabled {
+  opacity: 0.55;
+}
+
+.opt-hint {
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.report-main {
+  background: var(--sunken);
+  padding: 14px 16px;
+  gap: 12px;
+}
+
+.report-sample {
+  flex: none;
+}
+
+.report-preview {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.report-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.report-views {
+  width: 240px;
+  margin-right: auto;
+}
+
+.report-copied {
+  font-size: 12px;
+}

@@ -1,0 +1,60 @@
+/* Word analysis tab: frequency bars, dynamics toggle and side facts. */
+
+.words-bars .bar-list {
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+.words-mode {
+  display: inline-flex;
+  margin-left: 8px;
+  border: 1px solid var(--control-line);
+  border-radius: 4px;
+  overflow: hidden;
+  font-weight: 400;
+}
+
+.words-mode button {
+  height: 22px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--control-line);
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.words-mode button:last-child {
+  border-right: 0;
+}
+
+.words-mode button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-solid);
+  font-weight: 600;
+}
+
+.words-facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 12.5px;
+}
+
+.words-facts dt {
+  color: var(--muted);
+}
+
+.words-facts dd {
+  margin: 0;
+  text-align: right;
+}
+
+.words-hint {
+  margin: 0;
+  padding: 4px 14px 14px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}

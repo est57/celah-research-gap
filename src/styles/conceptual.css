@@ -1,0 +1,127 @@
+.conceptual-main {
+  flex: 1;
+  background: var(--sunken);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tmap {
+  container: tmap / inline-size;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  grid-template-rows: auto 22px;
+}
+
+.tmap-ylabel {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+  font-size: 11.5px;
+}
+
+.tmap-xlabel {
+  text-align: center;
+  font-size: 11.5px;
+  padding-top: 4px;
+}
+
+.tmap-plot {
+  position: relative;
+  height: clamp(340px, 52vh, 520px);
+  border-left: 1px solid var(--axis);
+  border-bottom: 1px solid var(--axis);
+}
+
+.tmap-mid-x,
+.tmap-mid-y {
+  position: absolute;
+  border: 0 dashed var(--control-line);
+}
+
+.tmap-mid-x {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  border-left-width: 1px;
+}
+
+.tmap-mid-y {
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-top-width: 1px;
+}
+
+.tmap-q {
+  position: absolute;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.tmap-q-gap {
+  color: var(--gap-ink);
+}
+
+/* Inset so bubbles at the edges stay inside the frame. */
+.tmap-area {
+  position: absolute;
+  inset: 36px 48px 46px 48px;
+}
+
+.tmap-item {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.tmap-bubble {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.tmap-bubble:hover {
+  opacity: 1;
+}
+
+.tmap-bubble[data-on="true"] {
+  opacity: 1;
+  box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px currentColor;
+}
+
+.tmap-bubble[data-signal="true"] {
+  outline: 1.5px dashed var(--gap);
+  outline-offset: 5px;
+}
+
+.tmap-label {
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 11.5px;
+  line-height: 1.3;
+  pointer-events: none;
+  text-shadow: 0 0 3px var(--panel), 0 0 3px var(--panel);
+}
+
+.tmap-label span {
+  font-size: 10.5px;
+}
+
+/* On a narrow map only the leading keyword is labelled, to avoid overlapping labels. */
+@container tmap (max-width: 720px) {
+  .tmap-label span {
+    display: none;
+  }
+}

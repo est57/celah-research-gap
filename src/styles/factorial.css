@@ -1,0 +1,105 @@
+.fmap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.fmap-axis {
+  stroke: var(--control-line);
+  stroke-dasharray: 3 3;
+}
+
+.fmap-dim {
+  font-size: 11px;
+  fill: var(--muted);
+  font-family: var(--font-mono);
+}
+
+.fmap-hull {
+  cursor: pointer;
+}
+
+.fmap-label {
+  font-size: 11px;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.fa-caption {
+  margin: 6px 0 0;
+  font-size: 11.5px;
+}
+
+.fa-docs {
+  margin: 0;
+  padding: 6px 14px 10px 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+}
+
+.fa-docs li {
+  padding-left: 2px;
+}
+
+.fa-docs li > * {
+  vertical-align: middle;
+}
+
+.fa-docs .theme-swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 7px;
+}
+
+.fa-doc-title {
+  margin-right: 8px;
+}
+
+.fa-clusters {
+  list-style: none;
+  margin: 0;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fa-clusters button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 12px;
+  text-align: left;
+}
+
+.fa-clusters button:hover {
+  background: var(--hover);
+}
+
+.fa-clusters button[aria-pressed="true"] {
+  border-color: var(--line);
+  background: var(--panel);
+}
+
+.fa-clusters .theme-swatch {
+  margin-top: 2px;
+}
+
+.fa-hint {
+  margin: 0;
+  padding: 4px 14px 14px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}

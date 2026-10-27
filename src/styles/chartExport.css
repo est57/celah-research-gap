@@ -1,0 +1,27 @@
+/* SVG and PNG buttons in chart panel headers. */
+.chart-export {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-weight: 400;
+}
+
+/* After a right-aligned aside the buttons simply follow it. */
+.ph-aside + .chart-export {
+  margin-left: 8px;
+}
+
+.chart-export-btn {
+  height: 22px;
+  padding: 0 7px;
+  font-size: 11px;
+}
+
+.chart-export-note {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
