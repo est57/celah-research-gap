@@ -16,8 +16,8 @@ jobs:
   check:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
       - uses: dtolnay/rust-toolchain@stable
         with: { components: clippy }
@@ -44,9 +44,11 @@ jobs:
           - { os: windows-latest, args: "" }
           - { os: ubuntu-22.04, args: "" }
     runs-on: ${{ matrix.os }}
+    env:
+      APPLE_SIGNING: ${{ secrets.APPLE_CERTIFICATE != '' && 'yes' || 'no' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
       - uses: dtolnay/rust-toolchain@stable
         with:
@@ -55,16 +57,29 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libdbus-1-dev
       - run: npm ci
-      - uses: tauri-apps/tauri-action@v0
+      # Empty signing variables make the macOS bundler try to import an empty certificate
+      # and fail, so the signed step only runs when the certificate secret exists.
+      - name: Build installers (signed on macOS)
+        if: env.APPLE_SIGNING == 'yes' && startsWith(matrix.os, 'macos')
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Optional. Without these the macOS app is only ad-hoc signed and Gatekeeper warns on other Macs.
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: "Celah ${{ github.ref_name }}"
+          releaseDraft: true
+          args: ${{ matrix.args }}
+      - name: Build installers (ad-hoc signed on macOS)
+        if: env.APPLE_SIGNING != 'yes' || !startsWith(matrix.os, 'macos')
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "Celah ${{ github.ref_name }}"
