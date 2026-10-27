@@ -36,3 +36,7 @@ tangan macOS, isi secret `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`, `APP
 
 Lihat [CLAUDE.md](CLAUDE.md): tanpa emoji, file pendek (di bawah 150 baris), SQL berparameter, validasi
 semua masukan `invoke()`, HTTP hanya ke API riset yang diizinkan, dan tampilan responsif.
+
+## Lisensi
+
+MIT. Lihat [LICENSE](LICENSE).
