@@ -19,9 +19,8 @@ export function FileImport({ onImported }: { onImported: () => void }) {
       }
       setMsg({
         kind: "ok",
-        text: `${r.origin}: ${formatInt(r.fetched)} rekaman dibaca, ${formatInt(r.inserted)} baru, ${formatInt(
-          r.duplicates,
-        )} duplikat dilewati.`,
+        text: `${r.origin}: ${formatInt(r.fetched)} rekaman dibaca, ${formatInt(r.inserted)} baru, ${formatInt(r.duplicates)} sudah ada`
+          + (r.completed ? ` (${formatInt(r.completed)} di antaranya dilengkapi, misalnya dengan daftar rujukan).` : "."),
       });
       onImported();
     } catch (err) {

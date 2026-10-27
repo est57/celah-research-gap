@@ -1,6 +1,7 @@
 mod bibtex;
 pub mod limits;
 mod scopus_bib;
+pub mod sjr;
 mod scopus_csv;
 mod wos;
 

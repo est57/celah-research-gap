@@ -25,6 +25,11 @@ penelitian yang didukung bukti dokumen. Semua data tersimpan di komputer Anda.
 Kunci API diatur di **Pengaturan → Sumber data** dan disimpan di keychain sistem, bukan di file.
 Koleksi yang memadai biasanya berisi ratusan sampai beberapa ribu dokumen.
 
+**Daftar rujukan** dibutuhkan Ko-sitasi, Rujukan teratas, Akar sejarah, dan Kopling. Ekspor Scopus hanya
+menyertakannya bila kolom References dicentang. Bila rujukan kosong, layar-layar itu menampilkan tombol
+*Lengkapi rujukan dari Crossref*, yang mengambil daftar rujukan lewat DOI (600 dokumen sekali jalan). Mengimpor
+ulang file yang sama juga melengkapi dokumen yang sudah ada tanpa menggandakannya.
+
 **Kualitas metadata** menunjukkan kelengkapan tiap bidang dan analisis mana yang siap. Bila rujukan atau
 institusi kurang, buka **Intelektual → Historiograf** atau **Penulis → Afiliasi**, lalu klik
 *Lengkapi rujukan & institusi dari OpenAlex*.
@@ -42,7 +47,7 @@ institusi kurang, buka **Intelektual → Historiograf** atau **Penulis → Afili
 | Layar | Isi |
 | --- | --- |
 | Ringkasan | Informasi utama, produksi tahunan, sitasi per tahun, plot tiga bidang, dokumen paling disitasi |
-| Sumber | Sumber paling relevan, hukum Bradford, tabel dan dinamika sumber |
+| Sumber | Sumber paling relevan, hukum Bradford, tabel dan dinamika sumber, kuartil jurnal (SJR) |
 | Penulis | Hukum Lotka, produksi dan dampak penulis, tabel penulis (dengan penyatuan nama), afiliasi |
 | Negara & kolaborasi | Produksi dan dampak per negara (SCP/MCP), peta dunia dan jaringan kolaborasi negara |
 | Konseptual | Peta tematik, analisis kata, ko-kemunculan, evolusi tematik, analisis faktorial, sinonim |
@@ -50,6 +55,10 @@ institusi kurang, buka **Intelektual → Historiograf** atau **Penulis → Afili
 | Sosial | Jaringan kolaborasi penulis |
 
 Setiap menu membuka halaman sendiri; tidak ada dua menu yang menampilkan isi yang sama.
+
+**Kuartil jurnal (SJR)**: unduh data dari scimagojr.com (*Download data*), lalu impor di Sumber, tab Kuartil (SJR).
+Celah mencocokkan jurnal lewat ISSN, lalu lewat judul, dan memakai kuartil terbaik jurnal pada tahun peringkat yang
+diimpor. Kuartil lalu bisa dipakai sebagai filter di Filter analisis dan muncul di Draf metode & hasil.
 
 Grafik jaringan dan historiograf bisa di-zoom dengan roda mouse dan digeser dengan menyeret. Hampir semua
 grafik bisa disimpan sebagai SVG atau PNG lewat tombol di kanan atas panelnya.

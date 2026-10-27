@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { NoReferences } from "../../components/NoReferences";
 import { EmptyCollection, ScreenMessage } from "../../components/ScreenMessage";
 import { useStructure } from "../../hooks/useStructure";
 import { formatInt } from "../../lib/format";
@@ -30,7 +31,7 @@ const SIZE: Record<Unit, string> = { references: "sitasi lokal", authors: "jumla
 
 /** Co-citation, collaboration, keyword or coupling network with its parameter and cluster panel.
  * "coupling" lets the user pick the level (documents, sources or authors). */
-export function NetworkView({ version, unit: chosen, extra }: { version: number; unit: Unit | "coupling"; extra?: ReactNode }) {
+export function NetworkView({ version, unit: chosen, extra, onDataChanged }: { version: number; unit: Unit | "coupling"; extra?: ReactNode; onDataChanged?: () => void }) {
   const [level, setLevel] = useState<CouplingUnit>("coupling_documents");
   const unit: Unit = chosen === "coupling" ? level : chosen;
   const [nodes, setNodes] = useState(50);
@@ -44,6 +45,7 @@ export function NetworkView({ version, unit: chosen, extra }: { version: number;
   else if (net.nodes.length === 0) {
     main = chosen === "coupling"
       ? <ScreenMessage>Belum ada dua dokumen yang merujuk karya yang sama. Kopling butuh daftar rujukan: impor Scopus atau Web of Science, cari lewat Crossref, atau lengkapi rujukan OpenAlex di tab Historiograf.</ScreenMessage>
+      : unit === "references" ? <NoReferences analysis="Jaringan ko-sitasi" onDone={onDataChanged} />
       : data.documents === 0 ? <EmptyCollection /> : <ScreenMessage>Belum ada data yang cukup untuk jaringan ini.</ScreenMessage>;
   } else {
     main = (

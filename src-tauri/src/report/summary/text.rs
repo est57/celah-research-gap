@@ -68,6 +68,16 @@ pub fn performance(lang: Lang, f: &Facts) -> String {
     if let Some(g) = growth {
         out.push_str(&if id { format!(" Produksi tumbuh rata-rata {g}% per tahun.") } else { format!(" Annual production grew by {g}% per year on average.") });
     }
+    if let Some((c, year)) = f.quartiles.filter(|(c, _)| c[..4].iter().sum::<usize>() > 0) {
+        let total = c.iter().sum::<usize>().max(1) as f64;
+        let share = |n: usize| dec(lang, n as f64 * 100.0 / total, 1);
+        let y = year.map(|y| format!(" {y}")).unwrap_or_default();
+        out.push_str(&if id {
+            format!(" Menurut SJR{y}, {}% dokumen terbit di jurnal Q1, {}% di Q2, {}% di Q3 atau Q4, dan {}% di sumber tanpa kuartil.", share(c[0]), share(c[1]), share(c[2] + c[3]), share(c[4]))
+        } else {
+            format!(" According to SJR{y}, {}% of the documents appeared in Q1 journals, {}% in Q2, {}% in Q3 or Q4, and {}% in sources without a quartile.", share(c[0]), share(c[1]), share(c[2] + c[3]), share(c[4]))
+        });
+    }
     if !sources.is_empty() {
         out.push_str(&if id { format!(" Sumber paling produktif adalah {sources}.") } else { format!(" The most productive sources are {sources}.") });
     }

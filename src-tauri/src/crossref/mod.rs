@@ -1,15 +1,16 @@
-mod convert;
+pub(crate) mod convert;
 mod model;
+pub mod refs;
 
 use crate::db::papers::NewPaper;
 use crate::error::AppResult;
 use crate::http;
 use crate::search::SearchQuery;
 
-const SERVICE: &str = "Crossref";
-const WORKS_URL: &str = "https://api.crossref.org/works";
+pub(crate) const SERVICE: &str = "Crossref";
+pub(crate) const WORKS_URL: &str = "https://api.crossref.org/works";
 const PER_PAGE: u32 = 100;
-const SELECT: &str = "DOI,title,author,container-title,issued,type,is-referenced-by-count,abstract,\
+const SELECT: &str = "DOI,ISSN,title,author,container-title,issued,type,is-referenced-by-count,abstract,\
 references-count,reference";
 /// Crossref's public pool is shared; keep paging gentle.
 const PAGE_PAUSE_MS: u64 = 250;

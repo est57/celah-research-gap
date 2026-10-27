@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useWidth } from "../../hooks/useWidth";
 import { formatDecimal } from "../../lib/format";
 import { convexHull, type Pt } from "../../lib/hull";
+import { placeLabels } from "../../lib/labelPlace";
 import { clusterColor } from "../../lib/structureTypes";
 import type { Factorial } from "../../lib/factorialTypes";
 
@@ -29,8 +30,15 @@ export function FactorialMap({ data, focus, onFocus }: Props) {
     };
   }, [data.words, width, height]);
   const maxFreq = Math.max(...data.words.map((w) => w.freq), 1);
-  const labelled = new Set([...data.words].sort((a, b) => b.freq - a.freq).slice(0, LABELS).map((w) => w.label));
   const dim = (c: number) => focus !== null && focus !== c;
+  const radius = (freq: number) => 2.5 + 5 * Math.sqrt(freq / maxFreq);
+  // Most frequent words first; a label that would cover another one is left out (the point keeps its tooltip).
+  const labels = new Map(
+    placeLabels(
+      data.words.flatMap((w, i) => (dim(w.cluster) ? [] : [{ index: i, x: sx(w.x), y: sy(w.y), r: radius(w.freq), text: w.label, weight: w.freq + (focus === w.cluster ? maxFreq : 0) }])),
+      width, height, focus === null ? LABELS : LABELS * 2,
+    ).map((l) => [l.index, l]),
+  );
 
   return (
     <div ref={ref} className="fmap">
@@ -48,18 +56,17 @@ export function FactorialMap({ data, focus, onFocus }: Props) {
               className="fmap-hull" onClick={(e) => { e.stopPropagation(); onFocus(c.id); }} />
           );
         })}
-        {data.words.map((w) => (
-          <g key={w.label} opacity={dim(w.cluster) ? 0.2 : 1}>
-            <circle cx={sx(w.x)} cy={sy(w.y)} r={2.5 + 5 * Math.sqrt(w.freq / maxFreq)} fill={clusterColor(w.cluster)}>
-              <title>{`${w.label} (${w.freq} dokumen)`}</title>
-            </circle>
-            {labelled.has(w.label) || focus === w.cluster ? (
-              // Labels near the right edge go to the left of their point so they are not cut off.
-              <text x={sx(w.x) + (sx(w.x) > width * 0.75 ? -7 : 7)} y={sy(w.y) + 4} textAnchor={sx(w.x) > width * 0.75 ? "end" : "start"}
-                className="fmap-label">{w.label}</text>
-            ) : null}
-          </g>
-        ))}
+        {data.words.map((w, i) => {
+          const l = labels.get(i);
+          return (
+            <g key={w.label} opacity={dim(w.cluster) ? 0.2 : 1}>
+              <circle cx={sx(w.x)} cy={sy(w.y)} r={radius(w.freq)} fill={clusterColor(w.cluster)}>
+                <title>{`${w.label} (${w.freq} dokumen)`}</title>
+              </circle>
+              {l ? <text x={l.x} y={l.y} dy="0.35em" textAnchor={l.anchor} className="fmap-label">{w.label}</text> : null}
+            </g>
+          );
+        })}
       </svg>
     </div>
   );

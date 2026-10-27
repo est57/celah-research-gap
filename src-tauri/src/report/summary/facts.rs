@@ -25,6 +25,8 @@ pub struct Facts {
     pub cited: Vec<(i64, i64)>,
     /// (year, label of the most cited work of that year), strongest peaks first.
     pub roots: Vec<(u16, String)>,
+    /// Documents per SJR quartile (Q1..Q4, none) and the ranking year; None without an SJR list.
+    pub quartiles: Option<([usize; 5], Option<i32>)>,
 }
 
 pub fn gather(conn: &Connection) -> AppResult<Facts> {
@@ -55,5 +57,7 @@ pub fn gather(conn: &Connection) -> AppResult<Facts> {
         .filter_map(|p| p.refs.first().map(|r| (p.year, r.label.clone())))
         .take(TOP)
         .collect();
-    Ok(Facts { info, origins, merged, filtered, sources, authors, countries, cited, roots })
+    let q = crate::analysis::quartiles::compute(conn)?;
+    let quartiles = (q.status.journals > 0).then_some((q.counts, q.status.year));
+    Ok(Facts { info, origins, merged, filtered, sources, authors, countries, cited, roots, quartiles })
 }

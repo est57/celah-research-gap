@@ -56,6 +56,8 @@ pub struct Location {
 #[derive(Deserialize)]
 pub struct Source {
     pub display_name: Option<String>,
+    #[serde(default)]
+    pub issn: Option<Vec<String>>,
 }
 
 #[derive(Deserialize)]

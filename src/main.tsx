@@ -36,6 +36,7 @@ import "./styles/welcome.css";
 import "./styles/entities.css";
 import "./styles/names.css";
 import "./styles/sources.css";
+import "./styles/quartiles.css";
 import "./styles/sourceCharts.css";
 import "./styles/timeline.css";
 import "./styles/conceptual.css";

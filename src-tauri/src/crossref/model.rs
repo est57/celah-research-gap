@@ -20,6 +20,8 @@ pub struct Item {
     pub title: Option<Vec<String>>,
     pub author: Option<Vec<Author>>,
     pub container_title: Option<Vec<String>>,
+    #[serde(rename = "ISSN")]
+    pub issn: Option<Vec<String>>,
     pub issued: Option<Issued>,
     #[serde(rename = "type")]
     pub work_type: Option<String>,

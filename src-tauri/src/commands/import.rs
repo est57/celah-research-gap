@@ -12,6 +12,8 @@ pub struct FileImportReport {
     fetched: usize,
     inserted: usize,
     duplicates: usize,
+    /// Duplicates whose stored copy gained a reference list, abstract or keywords.
+    completed: usize,
 }
 
 /// Opens the native file picker from the backend, so the frontend never
@@ -38,6 +40,6 @@ pub fn import_file(app: AppHandle, state: State<'_, AppState>) -> AppResult<Opti
     }
 
     let mut conn = state.db.lock().map_err(|_| AppError::Internal)?;
-    let (inserted, duplicates) = insert::insert_many(&mut conn, &items, format.origin())?;
-    Ok(Some(FileImportReport { origin: format.origin(), fetched: items.len(), inserted, duplicates }))
+    let (inserted, duplicates, completed) = insert::insert_and_fill(&mut conn, &items, format.origin())?;
+    Ok(Some(FileImportReport { origin: format.origin(), fetched: items.len(), inserted, duplicates, completed }))
 }

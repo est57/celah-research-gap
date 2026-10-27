@@ -1,0 +1,89 @@
+/* Kuartil (SJR) tab: import panel, distribution bars and quartile chips. */
+
+.sjr-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px 14px;
+  font-size: 13px;
+}
+
+.sjr-steps {
+  margin: 0;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+.sjr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.sjr-note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.q-bars {
+  list-style: none;
+  margin: 0;
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.q-bars li {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) 56px 56px;
+  gap: 12px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.q-bars .bar-track {
+  height: 14px;
+}
+
+.q-chip {
+  display: inline-block;
+  min-width: 28px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 600;
+  background: var(--chip-bg);
+  color: var(--ink-2);
+}
+
+/* Full accent for Q1, fading toward the panel for each lower quartile in both themes; Q4 and no quartile are neutral. */
+.q-chip[data-q="Q1"],
+.bar-fill[data-q="Q1"] {
+  background: var(--accent);
+  color: var(--on-solid);
+}
+
+.q-chip[data-q="Q2"],
+.bar-fill[data-q="Q2"] {
+  background: color-mix(in srgb, var(--accent) 70%, var(--panel));
+  color: var(--on-solid);
+}
+
+.q-chip[data-q="Q3"],
+.bar-fill[data-q="Q3"] {
+  background: color-mix(in srgb, var(--accent) 45%, var(--panel));
+  color: var(--ink);
+}
+
+.bar-fill[data-q="Q4"],
+.bar-fill[data-q="none"] {
+  background: var(--neutral-bar);
+}
+
+.q-bars li .q-chip[data-q="none"] {
+  font-weight: 500;
+}

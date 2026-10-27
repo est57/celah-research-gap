@@ -24,6 +24,8 @@ export interface SourceReport extends ImportReport {
 
 export interface FileImportReport extends ImportReport {
   origin: string;
+  /** Duplicates whose stored copy gained a reference list, abstract or keywords. */
+  completed: number;
 }
 
 export interface PaperRow {

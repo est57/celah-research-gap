@@ -15,12 +15,17 @@ pub fn name_key(name: &str) -> String {
 }
 
 /// Inserts papers with their authors and cited references in one transaction.
-/// A record is skipped when its source id, DOI, or title + year already exists,
-/// or when it was merged away as a duplicate earlier.
-/// Returns (inserted, skipped duplicates).
+/// Returns (inserted, skipped duplicates); see `insert_and_fill`.
 pub fn insert_many(conn: &mut Connection, items: &[NewPaper], origin: &str) -> AppResult<(usize, usize)> {
+    insert_and_fill(conn, items, origin).map(|(inserted, duplicates, _)| (inserted, duplicates))
+}
+
+/// As `insert_many`. A record whose source id, DOI, or title + year already exists is not
+/// added again, but the stored copy gets what it lacks (reference list, abstract, keywords);
+/// a record merged away as a duplicate earlier is skipped. Returns (inserted, duplicates, completed).
+pub fn insert_and_fill(conn: &mut Connection, items: &[NewPaper], origin: &str) -> AppResult<(usize, usize, usize)> {
     let tx = conn.transaction()?;
-    let mut inserted = 0;
+    let (mut inserted, mut completed) = (0, 0);
     {
         let mut same_title = tx.prepare_cached(
             "SELECT 1 FROM papers WHERE title_key = ?1 AND title_key <> '' AND year IS ?2 LIMIT 1",
@@ -31,8 +36,8 @@ pub fn insert_many(conn: &mut Connection, items: &[NewPaper], origin: &str) -> A
         let mut insert = tx.prepare_cached(
             "INSERT OR IGNORE INTO papers (ext_id, doi, title, title_key, year, source_name, doc_type,
              cited_by, authors, author_count, has_affiliation, abstract, keywords, keywords_plus,
-             ref_count, origin)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16)",
+             ref_count, origin, issn)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)",
         )?;
         let mut add_ref = tx.prepare_cached("INSERT INTO paper_refs (paper_id, position, raw) VALUES (?1, ?2, ?3)")?;
         let mut add_cite = tx.prepare_cached("INSERT OR IGNORE INTO paper_cites (paper_id, cited) VALUES (?1, ?2)")?;
@@ -48,15 +53,25 @@ pub fn insert_many(conn: &mut Connection, items: &[NewPaper], origin: &str) -> A
         )?;
         for p in items {
             let key = title_key(&p.title);
-            if same_title.exists(params![key, p.year])? || merged_away.exists(params![p.ext_id, p.doi])? {
+            if merged_away.exists(params![p.ext_id, p.doi])? {
+                continue;
+            }
+            if same_title.exists(params![key, p.year])? {
+                if let Some(id) = super::fill::existing(&tx, p)? {
+                    completed += usize::from(super::fill::fill(&tx, id, p)?);
+                }
                 continue;
             }
             let changed = insert.execute(params![
                 p.ext_id, p.doi, p.title, key, p.year, p.source_name, p.doc_type, p.cited_by,
                 p.authors, p.author_count, p.has_affiliation, p.abstract_text, p.keywords,
-                p.keywords_plus, p.ref_count, origin
+                p.keywords_plus, p.ref_count, origin, p.issn
             ])?;
             if changed == 0 {
+                // Same source id or DOI as a stored record.
+                if let Some(id) = super::fill::existing(&tx, p)? {
+                    completed += usize::from(super::fill::fill(&tx, id, p)?);
+                }
                 continue;
             }
             let id = tx.last_insert_rowid();
@@ -85,5 +100,5 @@ pub fn insert_many(conn: &mut Connection, items: &[NewPaper], origin: &str) -> A
         }
     }
     tx.commit()?;
-    Ok((inserted, items.len() - inserted))
+    Ok((inserted, items.len() - inserted, completed))
 }

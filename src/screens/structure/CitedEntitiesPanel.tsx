@@ -1,13 +1,15 @@
+import { NoReferences } from "../../components/NoReferences";
 import { ScreenMessage } from "../../components/ScreenMessage";
 import { useCitedEntities } from "../../hooks/useCitedEntities";
 import { formatInt } from "../../lib/format";
 import { TopSources } from "../sources/TopSources";
 
 /** Sources or first authors most cited by the collection's references. */
-export function CitedEntitiesPanel({ version, kind }: { version: number; kind: "sources" | "authors" }) {
+export function CitedEntitiesPanel({ version, kind, onDataChanged }: { version: number; kind: "sources" | "authors"; onDataChanged?: () => void }) {
   const { data, sample, error, loading } = useCitedEntities(version);
   if (error) return <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
   if (!data) return <ScreenMessage>{loading ? "Menghitung sumber dan penulis yang dirujuk..." : ""}</ScreenMessage>;
+  if (data.references === 0) return <NoReferences analysis={kind === "sources" ? "Sumber yang dirujuk" : "Penulis yang dirujuk"} onDone={onDataChanged} />;
   const list = kind === "sources" ? data.sources : data.authors;
   return (
     <>

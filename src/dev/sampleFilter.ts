@@ -12,6 +12,7 @@ export const SAMPLE_FILTER: FilterOptions = {
   docTypes: [{ value: "article", count: 402 }, { value: "proceedings", count: 71 }, { value: "review", count: 48 }, { value: "preprint", count: 25 }, { value: "", count: 7 }],
   origins: [{ value: "OpenAlex", count: 312 }, { value: "Scopus", count: 168 }, { value: "PubMed", count: 73 }],
   sources: [...journals.map((value, i) => ({ value, count: 40 - i * 4 })), { value: "", count: 21 }],
-  filter: { yearFrom: 2018, yearTo: null, docTypes: ["article", "review"], origins: [], sources: [] },
+  quartiles: [{ value: "Q1", count: 214 }, { value: "Q2", count: 151 }, { value: "Q3", count: 62 }, { value: "Q4", count: 19 }, { value: "none", count: 107 }],
+  filter: { yearFrom: 2018, yearTo: null, docTypes: ["article", "review"], origins: [], sources: [], quartiles: [] },
   matching: 371,
 };

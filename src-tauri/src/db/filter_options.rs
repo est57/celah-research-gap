@@ -23,6 +23,8 @@ pub struct FilterOptions {
     pub doc_types: Vec<Choice>,
     pub origins: Vec<Choice>,
     pub sources: Vec<Choice>,
+    /// "Q1".."Q4" and "none", with counts; empty until an SJR list is imported.
+    pub quartiles: Vec<Choice>,
     pub filter: CollectionFilter,
     pub matching: i64,
 }
@@ -45,7 +47,22 @@ pub fn options(conn: &Connection) -> AppResult<FilterOptions> {
         doc_types: choices(conn, "COALESCE(doc_type, '')", 50)?,
         origins: choices(conn, "origin", 50)?,
         sources: choices(conn, "COALESCE(source_name, '')", MAX_SOURCES)?,
+        quartiles: quartile_choices(conn)?,
         matching: filter::matching(conn, &current)?,
         filter: current,
     })
+}
+
+fn quartile_choices(conn: &Connection) -> AppResult<Vec<Choice>> {
+    if super::sjr::status(conn)?.journals == 0 {
+        return Ok(Vec::new());
+    }
+    let mut list = choices(conn, super::sjr::QUARTILE_SQL, 10)?;
+    for c in &mut list {
+        if c.value.is_empty() {
+            c.value = "none".into();
+        }
+    }
+    list.sort_by(|a, b| a.value.cmp(&b.value));
+    Ok(list)
 }

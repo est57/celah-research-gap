@@ -16,7 +16,7 @@ fn author_name(a: &Author) -> Option<String> {
 
 /// Crossref references are either free text or structured parts.
 /// Structured ones are rendered close to the WoS "AUTHOR, YEAR, SOURCE, DOI" style.
-fn reference_text(r: &Reference) -> Option<String> {
+pub(crate) fn reference_text(r: &Reference) -> Option<String> {
     if let Some(u) = &r.unstructured {
         return Some(clean(u, MAX_REF_LEN)).filter(|s| !s.is_empty());
     }
@@ -59,6 +59,7 @@ pub fn to_paper(item: Item) -> Option<NewPaper> {
         title,
         year,
         source_name: clean_opt(item.container_title.as_ref().and_then(|c| c.first()).map(String::as_str), MAX_FIELD),
+        issn: item.issn.as_ref().and_then(|list| crate::text::normalize_issns(list.iter().map(String::as_str))),
         doc_type: item.work_type.as_deref().and_then(normalize_doc_type),
         cited_by: item.is_referenced_by_count.unwrap_or(0).max(0),
         authors: authors_display(&names),

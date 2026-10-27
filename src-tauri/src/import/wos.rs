@@ -77,6 +77,7 @@ fn to_paper(f: &Fields) -> Option<NewPaper> {
         title,
         year: number("PY").map(|y| y as i32).filter(|y| (1500..=2100).contains(y)),
         source_name: text(f, "SO", MAX_FIELD),
+        issn: crate::text::normalize_issns(["SN", "EI"].iter().filter_map(|t| f.get(*t)).flatten().map(String::as_str)),
         doc_type: text(f, "DT", 80).and_then(|t| normalize_doc_type(&t)),
         cited_by: number("TC").or_else(|| number("Z9")).unwrap_or(0).max(0),
         authors: authors_display(&names),

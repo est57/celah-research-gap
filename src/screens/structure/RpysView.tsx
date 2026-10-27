@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { ChartExport } from "../../components/ChartExport";
+import { NoReferences } from "../../components/NoReferences";
 import { EmptyCollection, ScreenMessage } from "../../components/ScreenMessage";
 import { useRpys } from "../../hooks/useRpys";
 import { formatInt } from "../../lib/format";
@@ -9,7 +10,7 @@ import { RpysPeaks } from "./RpysPeaks";
 import { RpysSide } from "./RpysSide";
 
 /** Reference Publication Year Spectroscopy: the historical roots of the collection. */
-export function RpysView({ version }: { version: number }) {
+export function RpysView({ version, onDataChanged }: { version: number; onDataChanged?: () => void }) {
   const [params, setParams] = useState<RpysParams>(DEFAULT_RPYS);
   const [selected, setSelected] = useState<number | null>(null);
   const { data, sample, error, loading } = useRpys(version, params);
@@ -18,14 +19,8 @@ export function RpysView({ version }: { version: number }) {
   if (error) main = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
   else if (!data) main = <ScreenMessage>{loading ? "Menghitung tahun terbit rujukan..." : ""}</ScreenMessage>;
   else if (data.documents === 0) main = <EmptyCollection />;
-  else if (data.dated === 0) {
-    main = (
-      <ScreenMessage>
-        Belum ada rujukan bertahun. RPYS membaca daftar rujukan dalam bentuk teks, misalnya dari impor Scopus atau Web of
-        Science, atau dari pencarian Crossref. Rujukan dari OpenAlex hanya berupa ID tanpa tahun terbit.
-      </ScreenMessage>
-    );
-  } else {
+  else if (data.dated === 0) main = <NoReferences analysis="Akar sejarah (RPYS)" onDone={onDataChanged} />;
+  else {
     main = (
       <div className="conceptual-main">
         {sample ? <div className="notice">Pratinjau browser: angka di halaman ini adalah data contoh.</div> : null}

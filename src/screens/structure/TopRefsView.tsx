@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { NoReferences } from "../../components/NoReferences";
 import { EmptyCollection, ScreenMessage } from "../../components/ScreenMessage";
 import { useAddWorks } from "../../hooks/useAddWorks";
 import { useTopRefs } from "../../hooks/useTopRefs";
@@ -17,18 +18,12 @@ export function TopRefsView({ version, onDataChanged }: { version: number; onDat
   const addable = data?.refs.filter((r) => r.inCollection === null && r.doi).map((r) => r.doi as string) ?? [];
 
   let main: ReactNode;
-  if (show !== "works") main = <div className="conceptual-main"><CitedEntitiesPanel version={version} kind={show} /></div>;
+  if (show !== "works") main = <div className="conceptual-main"><CitedEntitiesPanel version={version} kind={show} onDataChanged={onDataChanged} /></div>;
   else if (error) main = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
   else if (!data) main = <ScreenMessage>{loading ? "Menghitung rujukan teratas..." : ""}</ScreenMessage>;
   else if (data.documents === 0) main = <EmptyCollection />;
-  else if (data.refs.length === 0) {
-    main = (
-      <ScreenMessage>
-        Belum ada rujukan bertahun. Daftar ini membaca rujukan dalam bentuk teks, misalnya dari impor Scopus atau Web of
-        Science, atau dari pencarian Crossref. Rujukan dari OpenAlex hanya berupa ID tanpa tahun terbit.
-      </ScreenMessage>
-    );
-  } else {
+  else if (data.refs.length === 0) main = <NoReferences analysis="Rujukan teratas" onDone={onDataChanged} />;
+  else {
     main = (
       <div className="conceptual-main">
         {sample ? <div className="notice">Pratinjau browser: angka di halaman ini adalah data contoh.</div> : null}

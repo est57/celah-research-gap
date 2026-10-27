@@ -32,11 +32,11 @@ export function StructureScreen({ version, initialTab, onDataChanged }: Props) {
       {tab === "coupling" ? (
         <CouplingView version={version} />
       ) : tab === "references" ? (
-        <NetworkView version={version} unit="references" />
+        <NetworkView version={version} unit="references" onDataChanged={onDataChanged} />
       ) : tab === "toprefs" ? (
         <TopRefsView version={version} onDataChanged={onDataChanged} />
       ) : tab === "rpys" ? (
-        <RpysView version={version} />
+        <RpysView version={version} onDataChanged={onDataChanged} />
       ) : (
         <HistoriographView version={version} onDataChanged={onDataChanged} />
       )}

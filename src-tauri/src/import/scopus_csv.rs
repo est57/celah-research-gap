@@ -57,6 +57,7 @@ fn to_paper<'a>(get: &dyn Fn(&str) -> Option<&'a str>) -> Option<NewPaper> {
         countries,
         corresponding_country,
         abstract_text,
+        issn: crate::text::normalize_issns(get("issn")),
         keywords: keywords("author keywords"),
         keywords_plus: keywords("index keywords"),
         ref_count: refs.len() as i64,

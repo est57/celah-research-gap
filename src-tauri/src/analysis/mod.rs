@@ -20,6 +20,7 @@ pub mod idea;
 mod louvain;
 pub mod lotka;
 pub mod main_info;
+pub mod quartiles;
 pub(crate) mod network;
 pub(crate) mod refkey;
 pub mod rpys;

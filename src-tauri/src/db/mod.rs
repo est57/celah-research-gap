@@ -7,6 +7,7 @@ pub mod enrich;
 pub mod filter;
 pub mod filter_options;
 pub mod ideas;
+pub mod fill;
 pub mod insert;
 pub mod papers;
 pub mod quality;
@@ -17,7 +18,9 @@ pub mod reviews;
 mod schema;
 mod schema_late;
 pub mod stats;
+pub mod sjr;
 pub mod synonyms;
+pub mod text_refs;
 pub mod workflow;
 
 use crate::error::AppResult;

@@ -59,6 +59,7 @@ fn to_paper(e: &Entry) -> Option<NewPaper> {
         keywords: keywords("author_keywords"),
         keywords_plus: keywords("keywords"),
         ref_count: refs.len() as i64,
+        issn: crate::text::normalize_issns(get("issn")),
         cites: Vec::new(),
         affiliations,
         refs,

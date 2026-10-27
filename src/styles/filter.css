@@ -139,3 +139,10 @@
   color: var(--gap-ink);
   font-weight: 500;
 }
+
+.filter-note {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}

@@ -76,6 +76,22 @@ pub fn normalize_doc_type(raw: &str) -> Option<String> {
     Some(mapped.to_string())
 }
 
+/// Every ISSN in `raw` ("0925-2312, 1872-8286", "09252312; 18728286"), as eight uppercase
+/// characters without the hyphen, joined with "; ". None when there is no valid ISSN.
+pub fn normalize_issns<'a>(raw: impl IntoIterator<Item = &'a str>) -> Option<String> {
+    let mut out: Vec<String> = Vec::new();
+    for part in raw {
+        for token in part.split(|c: char| c == ',' || c == ';' || c.is_whitespace()) {
+            let code: String = token.chars().filter(|c| *c != '-').flat_map(char::to_uppercase).collect();
+            let valid = code.len() == 8 && code[..7].chars().all(|c| c.is_ascii_digit()) && code[7..].chars().all(|c| c.is_ascii_digit() || c == 'X');
+            if valid && !out.contains(&code) {
+                out.push(code);
+            }
+        }
+    }
+    (!out.is_empty()).then(|| out.join("; "))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -92,5 +108,12 @@ mod tests {
         assert_eq!(normalize_doc_type("posted-content").as_deref(), Some("preprint"));
         assert_eq!(split_list("a; ;b ", ';', 10, 5), vec!["a", "b"]);
         assert_eq!(clean(&strip_tags("<jats:p>A &amp; B</jats:p>"), 50), "A & B");
+    }
+
+    #[test]
+    fn normalizes_issns_from_every_source_format() {
+        assert_eq!(normalize_issns(["0925-2312, 1872-8286"]).as_deref(), Some("09252312; 18728286"));
+        assert_eq!(normalize_issns(["1234567x", "1234567X"]).as_deref(), Some("1234567X"), "case folded and deduplicated");
+        assert_eq!(normalize_issns(["-", "12345", "abcd-efgh"]), None);
     }
 }

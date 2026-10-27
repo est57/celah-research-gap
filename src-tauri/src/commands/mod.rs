@@ -13,7 +13,9 @@ pub mod report;
 pub mod restore;
 pub mod search;
 pub mod settings;
+pub mod sjr;
 pub mod synonyms;
+pub mod text_refs;
 pub mod verify;
 pub mod workflow;
 
@@ -86,6 +88,11 @@ pub fn handler() -> impl Fn(tauri::ipc::Invoke) -> bool + Send + Sync + 'static 
         idea::remove_idea,
         enrich::references_pending,
         enrich::complete_references,
+        text_refs::text_references_pending,
+        text_refs::complete_text_references,
+        sjr::import_sjr,
+        sjr::clear_sjr,
+        sjr::quartiles,
         report::report,
         report::export_report,
         report::report_summary,

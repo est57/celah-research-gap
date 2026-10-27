@@ -48,6 +48,12 @@ export function FilterView({ version, onApplied }: Props) {
             label={(v) => (v ? docTypeLabel(v) : "Tidak diketahui")} onChange={(docTypes) => setDraft({ ...draft, docTypes })} />
           <FilterChecklist id="f-origin" title="Sumber impor" choices={options.origins} selected={draft.origins}
             label={(v) => v} onChange={(origins) => setDraft({ ...draft, origins })} />
+          {options.quartiles.length ? (
+            <FilterChecklist id="f-quartile" title="Kuartil jurnal (SJR)" choices={options.quartiles} selected={draft.quartiles}
+              label={(v) => (v === "none" ? "Tanpa kuartil" : v)} onChange={(quartiles) => setDraft({ ...draft, quartiles })} />
+          ) : (
+            <p className="muted filter-note">Impor data SJR di Sumber, tab Kuartil (SJR), untuk menyaring menurut kuartil jurnal.</p>
+          )}
         </div>
         <FilterChecklist id="f-source" title="Sumber terbitan (jurnal, prosiding)" choices={options.sources} selected={draft.sources}
           label={(v) => v || "Tanpa nama sumber"} searchable onChange={(sources) => setDraft({ ...draft, sources })} />

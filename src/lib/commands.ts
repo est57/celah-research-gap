@@ -31,6 +31,7 @@ export const COMMANDS: Command[] = [
   c("Dokumen paling disitasi", "Ringkasan", "sitasi global lokal", "overview", "cited"),
   c("Ikhtisar sumber", "Sumber", "sumber relevan hukum bradford zona jurnal", "sources", "overview"),
   c("Tabel sumber", "Sumber", "dampak jurnal indeks h dinamika", "sources", "sources"),
+  c("Kuartil jurnal (SJR)", "Sumber", "q1 q2 q3 q4 scimago sjr peringkat jurnal kuartil impor", "sources", "quartiles"),
   c("Ikhtisar penulis", "Penulis", "hukum lotka produktivitas produksi dampak lokal", "authors", "overview"),
   c("Tabel penulis", "Penulis", "penulis terfraksi indeks h nama ejaan", "authors", "authors"),
   c("Afiliasi", "Penulis", "institusi universitas", "authors", "affiliations"),

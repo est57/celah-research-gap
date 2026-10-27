@@ -81,6 +81,8 @@ pub fn to_paper(w: Work) -> Option<NewPaper> {
         doi: w.doi.as_deref().and_then(normalize_doi),
         title,
         year: w.publication_year.filter(|y| (1500..=2100).contains(y)),
+        issn: w.primary_location.as_ref().and_then(|l| l.source.as_ref()).and_then(|s| s.issn.as_ref())
+            .and_then(|list| crate::text::normalize_issns(list.iter().map(String::as_str))),
         source_name: clean_opt(
             w.primary_location.as_ref().and_then(|l| l.source.as_ref()).and_then(|s| s.display_name.as_deref()),
             MAX_FIELD,

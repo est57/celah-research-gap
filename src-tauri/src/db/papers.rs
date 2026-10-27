@@ -35,6 +35,8 @@ pub struct NewPaper {
     /// Distinct institutions of the authors.
     pub affiliations: Vec<crate::geo::affil::Affiliation>,
     pub ref_count: i64,
+    /// Journal ISSNs, normalized by `text::normalize_issns`.
+    pub issn: Option<String>,
 }
 
 #[derive(Serialize)]

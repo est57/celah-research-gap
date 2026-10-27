@@ -52,6 +52,15 @@ export function completeReferences(): Promise<EnrichReport> {
   return call<EnrichReport>("complete_references");
 }
 
+export function textReferencesPending(): Promise<number> {
+  return call<number>("text_references_pending");
+}
+
+/** Reference lists from Crossref for documents with a DOI and none yet; up to 600 per run. */
+export function completeTextReferences(): Promise<EnrichReport> {
+  return call<EnrichReport>("complete_text_references");
+}
+
 /** Removes the selected documents; resolves to how many were removed. */
 export function deletePapers(ids: number[]): Promise<number> {
   return call<number>("delete_papers", { ids });

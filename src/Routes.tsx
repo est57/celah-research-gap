@@ -50,7 +50,7 @@ export function Routes({ screen, jump, version, stats, statsError, refresh, sele
     case "collection":
       return <CollectionScreen key={key} initialTab={tab<CollectionTab>("collection")} initialQuery={jump.query} stats={stats} statsError={statsError} onChanged={refresh} />;
     case "sources":
-      return <SourcesScreen key={key} version={version} initialTab={tab<SourcesScreenTab>("overview")} initialQuery={jump.query} />;
+      return <SourcesScreen key={key} version={version} initialTab={tab<SourcesScreenTab>("overview")} initialQuery={jump.query} onDataChanged={changed} />;
     case "authors":
       return <AuthorsScreen key={key} version={version} initialTab={tab<AuthorsScreenTab>("overview")} initialQuery={jump.query} onDataChanged={changed} />;
     case "countries":

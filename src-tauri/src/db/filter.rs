@@ -20,6 +20,9 @@ pub struct CollectionFilter {
     pub origins: Vec<String>,
     /// Journals or other publication sources; "" for none recorded. Empty = all.
     pub sources: Vec<String>,
+    /// Journal quartiles from the imported SJR list: "Q1".."Q4", or "none" for no quartile. Empty = all.
+    #[serde(default)]
+    pub quartiles: Vec<String>,
 }
 
 impl CollectionFilter {
@@ -35,6 +38,9 @@ impl CollectionFilter {
         };
         if !year_ok(self.year_from) || !year_ok(self.year_to) || !order_ok {
             return Err(AppError::Invalid("rentang tahun filter tidak sah".into()));
+        }
+        if self.quartiles.iter().any(|q| !matches!(q.as_str(), "Q1" | "Q2" | "Q3" | "Q4" | "none")) || self.quartiles.len() > 5 {
+            return Err(AppError::Invalid("pilihan kuartil tidak dikenal".into()));
         }
         for list in [&self.doc_types, &self.origins, &self.sources] {
             let bad = |v: &String| v.chars().count() > MAX_TEXT || v.chars().any(char::is_control);
@@ -63,6 +69,10 @@ impl CollectionFilter {
                 parts.push(format!("{column} IN ({})", vec!["?"; list.len()].join(", ")));
                 values.extend(list.iter().map(|v| Value::Text(v.clone())));
             }
+        }
+        if !self.quartiles.is_empty() {
+            parts.push(format!("{} IN ({})", super::sjr::QUARTILE_SQL, vec!["?"; self.quartiles.len()].join(", ")));
+            values.extend(self.quartiles.iter().map(|q| Value::Text(if q == "none" { String::new() } else { q.clone() })));
         }
         let sql = if parts.is_empty() { "1".to_string() } else { parts.join(" AND ") };
         (sql, values)

@@ -96,3 +96,23 @@ CREATE TABLE gap_ideas (
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 "#;
+
+/// Documents already looked up in Crossref for their reference lists, the journal ISSN
+/// ("09252312; 18728286") and the Scimago (SJR) journal list it is matched against.
+pub const V16: &str = r#"
+CREATE TABLE crossref_checked (
+    paper_id   INTEGER PRIMARY KEY REFERENCES papers(id) ON DELETE CASCADE,
+    checked_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+ALTER TABLE papers ADD COLUMN issn TEXT;
+CREATE TABLE sjr_journals (
+    issn       TEXT PRIMARY KEY,
+    title      TEXT NOT NULL,
+    title_key  TEXT NOT NULL,
+    sjr        REAL,
+    quartile   TEXT,
+    categories TEXT,
+    year       INTEGER
+) WITHOUT ROWID;
+CREATE INDEX sjr_journals_title ON sjr_journals(title_key);
+"#;
