@@ -1,0 +1,104 @@
+/* Tema peluang: ranked theme cards. */
+
+.op-intro {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.op-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.op-card {
+  padding: 10px 14px 12px;
+}
+
+.op-card[data-selected="true"] {
+  border-color: var(--accent-line);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.op-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+}
+
+.op-rank {
+  min-width: 18px;
+  color: var(--muted);
+}
+
+.op-name {
+  font-weight: 600;
+}
+
+.op-status {
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  background: var(--chip-bg);
+  color: var(--ink-2);
+}
+
+.op-status[data-status="rising"] {
+  background: var(--gap-soft);
+  color: var(--gap-ink);
+}
+
+.op-status[data-status="declining"] {
+  background: var(--warn-soft);
+  color: var(--warn-ink);
+}
+
+.op-score {
+  margin-left: auto;
+  font-size: 12px;
+}
+
+.op-why {
+  margin: 6px 0 2px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.op-words,
+.op-facts {
+  margin: 0;
+  font-size: 12px;
+}
+
+.op-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* Explicit width: as a flex child with auto margins the map would shrink to nothing. */
+.op-map {
+  width: 100%;
+  max-width: 900px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.op-hint {
+  margin: 0;
+  padding: 0 14px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}

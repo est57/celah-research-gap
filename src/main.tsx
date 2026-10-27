@@ -50,6 +50,7 @@ import "./styles/rpys.css";
 import "./styles/topRefs.css";
 import "./styles/couplingMap.css";
 import "./styles/gaps.css";
+import "./styles/opportunity.css";
 import "./styles/gapsResponsive.css";
 import "./styles/gapDetail.css";
 import "./styles/review.css";

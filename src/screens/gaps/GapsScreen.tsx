@@ -6,29 +6,28 @@ import type { ScreenId } from "../../nav";
 import { GapDetail } from "./GapDetail";
 import { GapListPane, type KindFilter, type SortBy } from "./GapListPane";
 import { ReviewPanel } from "./ReviewPanel";
-import { VerifyView } from "./VerifyView";
 import { HistoryView } from "./HistoryView";
 import { IdeaView } from "./IdeaView";
 
-export type GapsTab = "explorer" | "idea" | "verify" | "history";
+export type GapsTab = "explorer" | "idea" | "history";
 
 const TABS: TabDef<GapsTab>[] = [
-  { id: "explorer", label: "Gap Explorer" },
+  { id: "explorer", label: "Kandidat celah" },
   { id: "idea", label: "Uji ide celah" },
-  { id: "verify", label: "Verifikasi" },
   { id: "history", label: "Riwayat review" },
 ];
 
 interface Props {
   version: number;
-  initialKind: KindFilter;
   initialTab: GapsTab;
+  /** First concept for Uji ide celah, from a jump with a query. */
+  initialIdea?: string;
   onNavigate: (screen: ScreenId, tab?: string) => void;
 }
 
-export function GapsScreen({ version, initialKind, initialTab, onNavigate }: Props) {
+export function GapsScreen({ version, initialTab, initialIdea, onNavigate }: Props) {
   const [tab, setTab] = useState<GapsTab>(initialTab);
-  const [kind, setKind] = useState<KindFilter>(initialKind);
+  const [kind, setKind] = useState<KindFilter>("all");
   const [sort, setSort] = useState<SortBy>("score");
   const [selected, setSelected] = useState<string | null>(null);
   const { data, sample, error, loading, items, review, saveError, verify, verifying, reload } = useGaps(version);
@@ -48,7 +47,7 @@ export function GapsScreen({ version, initialKind, initialTab, onNavigate }: Pro
   let body: ReactNode;
   // The history lists stored reviews even when the current analysis has no candidates.
   if (tab === "history") body = <HistoryView version={version} onOpen={openInExplorer} onRemoved={reload} />;
-  else if (tab === "idea") body = <IdeaView onOpen={openInExplorer} onChanged={reload} />;
+  else if (tab === "idea") body = <IdeaView onOpen={openInExplorer} onChanged={reload} initialA={initialIdea} />;
   else if (error) body = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
   else if (!data) body = <ScreenMessage>{loading ? "Mencari kandidat celah dari semua analisis..." : ""}</ScreenMessage>;
   else if (data.documents === 0) body = <EmptyCollection />;
@@ -59,8 +58,6 @@ export function GapsScreen({ version, initialKind, initialTab, onNavigate }: Pro
         <span className="muted">Butuh lebih banyak dokumen yang punya kata kunci. Tambahkan koleksi dari OpenAlex, PubMed, atau impor Scopus/WoS.</span>
       </ScreenMessage>
     );
-  } else if (tab === "verify") {
-    body = <VerifyView gaps={items} verifying={verifying} onVerify={verify} />;
   } else {
     body = (
       <div className="gaps-wrap">

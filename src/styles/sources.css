@@ -10,30 +10,25 @@
   gap: 14px;
 }
 
+/* Two columns, so no panel leaves an empty third; `.sa-stack` puts every panel in one full-width column. */
 .sa-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   align-items: start;
 }
 
+.sa-grid.sa-stack {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .sa-wide {
-  grid-column: span 2;
+  grid-column: 1 / -1;
 }
 
-@container sa (max-width: 1000px) {
-  .sa-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@container sa (max-width: 640px) {
+@container sa (max-width: 760px) {
   .sa-grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .sa-wide {
-    grid-column: auto;
   }
 }
 
@@ -52,6 +47,16 @@
   gap: 8px;
   align-items: center;
   min-height: 24px;
+}
+
+/* Full-width panels: a wider name column so long journal titles stay readable. */
+.bar-list[data-wide="true"] li {
+  grid-template-columns: minmax(120px, 460px) minmax(0, 1fr) 40px;
+  gap: 12px;
+}
+
+.bar-list[data-wide="true"] .bar-label {
+  font-size: 13px;
 }
 
 .bar-label {

@@ -26,7 +26,7 @@ Kunci API diatur di **Pengaturan → Sumber data** dan disimpan di keychain sist
 Koleksi yang memadai biasanya berisi ratusan sampai beberapa ribu dokumen.
 
 **Kualitas metadata** menunjukkan kelengkapan tiap bidang dan analisis mana yang siap. Bila rujukan atau
-institusi kurang, buka **Intelektual → Historiograf** atau **Sumber → Afiliasi**, lalu klik
+institusi kurang, buka **Intelektual → Historiograf** atau **Penulis → Afiliasi**, lalu klik
 *Lengkapi rujukan & institusi dari OpenAlex*.
 
 ## 3. Merapikan data
@@ -42,11 +42,14 @@ institusi kurang, buka **Intelektual → Historiograf** atau **Sumber → Afilia
 | Layar | Isi |
 | --- | --- |
 | Ringkasan | Informasi utama, produksi tahunan, sitasi per tahun, plot tiga bidang, dokumen paling disitasi |
-| Sumber & penulis | Sumber relevan, Bradford, Lotka, dampak penulis, afiliasi, negara (SCP/MCP) |
-| Negara & kolaborasi | Peta dunia produksi dan kolaborasi, jaringan negara, penulis korespondensi |
+| Sumber | Sumber paling relevan, hukum Bradford, tabel dan dinamika sumber |
+| Penulis | Hukum Lotka, produksi dan dampak penulis, tabel penulis (dengan penyatuan nama), afiliasi |
+| Negara & kolaborasi | Produksi dan dampak per negara (SCP/MCP), peta dunia dan jaringan kolaborasi negara |
 | Konseptual | Peta tematik, analisis kata, ko-kemunculan, evolusi tematik, analisis faktorial, sinonim |
 | Intelektual | Ko-sitasi, rujukan teratas, kopling bibliografis dan peta kopling, historiograf, akar sejarah (RPYS) |
 | Sosial | Jaringan kolaborasi penulis |
+
+Setiap menu membuka halaman sendiri; tidak ada dua menu yang menampilkan isi yang sama.
 
 Grafik jaringan dan historiograf bisa di-zoom dengan roda mouse dan digeser dengan menyeret. Hampir semua
 grafik bisa disimpan sebagai SVG atau PNG lewat tombol di kanan atas panelnya.
@@ -56,6 +59,10 @@ ditambahkan langsung dari OpenAlex; asalnya tercatat sebagai *OpenAlex (rujukan)
 bersama bila tidak jadi dipakai.
 
 ## 5. Mencari celah
+
+**Tema peluang** mengambil tema dari kuadran niche dan baru muncul pada peta tematik, menandainya *Sedang naik*,
+*Menurun*, atau *Niche matang*, lalu mengurutkannya dari yang paling menjanjikan. Dari setiap tema Anda bisa langsung
+menguji gabungannya dengan konsep lain atau membuka dokumennya.
 
 **Gap Explorer** menggabungkan beberapa detektor. Setiap kandidat punya skor (kebaruan, bukti, momentum),
 dokumen bukti, dan pertanyaan riset.
@@ -70,7 +77,8 @@ dokumen bukti, dan pertanyaan riset.
 | Eksplisit | Penulis sendiri menyebut hal yang belum diteliti (*future work*, keterbatasan) |
 | Ide peneliti | Dua konsep yang Anda uji sendiri di **Uji ide celah** |
 
-Tandai setiap kandidat **Diterima**, **Perlu cek**, atau **Ditolak**. Di **Verifikasi**, Celah mencari paper
+Saring jenis lewat menu di atas daftar (misalnya *Kombinasi jarang* untuk matriks gap). Tandai setiap kandidat
+**Diterima**, **Perlu cek**, atau **Ditolak**. Di halaman **Verifikasi**, Celah mencari paper
 terbaru di luar koleksi yang mungkin sudah menjawab celah tersebut. Skor turun bila jawabannya sudah ada.
 
 Kandidat adalah titik awal, bukan kesimpulan. Periksa dokumen buktinya sebelum memakai celah dalam tulisan.
@@ -108,5 +116,5 @@ Periksa angka dan sesuaikan kalimatnya sebelum dipakai.
 | Pencarian OpenAlex atau Semantic Scholar ditolak | Kuota bersama habis; pasang kunci API sendiri |
 | Ko-sitasi, RPYS, atau rujukan teratas kosong | Butuh rujukan teks: impor Scopus/WoS atau cari lewat Crossref |
 | Historiograf atau kopling kosong | Lengkapi rujukan dari OpenAlex di tab Historiograf |
-| Peta negara kosong | Lengkapi afiliasi di Sumber → Afiliasi |
+| Peta negara kosong | Lengkapi afiliasi di Penulis → Afiliasi |
 | Kandidat celah terasa palsu | Satukan sinonim dan nama penulis, lalu hitung ulang |

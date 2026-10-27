@@ -12,10 +12,12 @@ interface Props {
   onOpen: (key: string) => void;
   /** Gap candidates changed (an idea was saved or removed). */
   onChanged: () => void;
+  /** First concept, prefilled when arriving from Tema peluang. */
+  initialA?: string;
 }
 
-export function IdeaView({ onOpen, onChanged }: Props) {
-  const [a, setA] = useState("");
+export function IdeaView({ onOpen, onChanged, initialA = "" }: Props) {
+  const [a, setA] = useState(initialA);
   const [b, setB] = useState("");
   const [saved, setSaved] = useState(false);
   const { idea, check, busy, error, test, verify } = useIdea();

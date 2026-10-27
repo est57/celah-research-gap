@@ -19,7 +19,7 @@ export function CitedEntitiesPanel({ version, kind }: { version: number; kind: "
       </div>
       {list.length ? (
         <div className="pnl-body words-bars">
-          <TopSources items={list.map((c) => ({ label: c.label, count: c.documents }))} plain={kind === "authors"} />
+          <TopSources items={list.map((c) => ({ label: c.label, count: c.documents }))} plain={kind === "authors"} wide />
         </div>
       ) : (
         <p className="muted rpys-empty">Belum ada rujukan dengan format yang bisa dibaca (ekspor Scopus, WoS, atau Crossref).</p>

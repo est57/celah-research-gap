@@ -41,7 +41,7 @@ export function WordsView({ version }: { version: number }) {
             <span className="ph-aside">{`${formatInt(data.words.length)} teratas · angka = jumlah dokumen`}</span>
           </div>
           <div className="pnl-body words-bars">
-            <TopSources plain items={data.words.map((w) => ({ label: w.label, count: w.documents }))} />
+            <TopSources plain wide items={data.words.map((w) => ({ label: w.label, count: w.documents }))} />
           </div>
         </section>
         {data.years.length > 1 ? (

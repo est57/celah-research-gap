@@ -8,9 +8,8 @@ export type ScreenId =
   | "conceptual"
   | "intellectual"
   | "social"
-  | "thematic"
+  | "opportunities"
   | "gaps"
-  | "matrix"
   | "verify"
   | "report"
   | "settings";
@@ -48,9 +47,8 @@ export const NAV: NavSection[] = [
   {
     title: "Pencarian celah",
     items: [
-      { id: "thematic", label: "Peta tematik" },
+      { id: "opportunities", label: "Tema peluang" },
       { id: "gaps", label: "Gap Explorer" },
-      { id: "matrix", label: "Matriks gap" },
       { id: "verify", label: "Verifikasi" },
     ],
   },

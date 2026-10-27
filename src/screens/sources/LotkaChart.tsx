@@ -42,13 +42,18 @@ export function LotkaChart({ rows, totalAuthors, beta }: Props) {
   return (
     <div className="lotka">
       <div className="lotka-plot" style={{ height: PLOT_H }}>
-        {groups.map((g) => (
-          <div key={g.label} className="lotka-col" title={`${g.label} dokumen: ${pct(g.observed)} penulis`}>
-            <span className="num lotka-value">{pct(g.observed)}</span>
-            <div className="lotka-bar" style={{ height: (g.observed / max) * (PLOT_H - 20) }} />
-            <div className="lotka-theory" style={{ bottom: (g.theoretical / max) * (PLOT_H - 20) }} />
-          </div>
-        ))}
+        {groups.map((g) => {
+          const bar = (g.observed / max) * (PLOT_H - 20);
+          const theory = (g.theoretical / max) * (PLOT_H - 20);
+          return (
+            <div key={g.label} className="lotka-col" title={`${g.label} dokumen: ${pct(g.observed)} penulis`}>
+              <div className="lotka-bar" style={{ height: bar }} />
+              <div className="lotka-theory" style={{ bottom: theory }} />
+              {/* Above whichever is higher, the bar or the dashed theory line, so neither covers the number. */}
+              <span className="num lotka-value" style={{ bottom: Math.max(bar, theory) + 4 }}>{pct(g.observed)}</span>
+            </div>
+          );
+        })}
       </div>
       <div className="lotka-axis">
         {groups.map((g) => (

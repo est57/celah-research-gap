@@ -16,9 +16,7 @@ export function BradfordChart({ ranked, zones }: Props) {
   return (
     <div className="bradford">
       <div className="bradford-plot" style={{ height: PLOT_H }}>
-        <div className="bradford-core" style={{ width: `${coreWidth}%` }}>
-          <span>Zona inti</span>
-        </div>
+        <div className="bradford-core" style={{ width: `${coreWidth}%` }} />
         {ranked.map((r) => (
           <div
             key={r.rank}
@@ -28,6 +26,10 @@ export function BradfordChart({ ranked, zones }: Props) {
             title={`${r.rank}. ${r.label}: ${formatInt(r.count)} dokumen`}
           />
         ))}
+        {/* Drawn after the bars and beside the core zone, so the first tall bar never hides it. */}
+        <span className="bradford-core-label" style={coreWidth > 75 ? { left: 6 } : { left: `calc(${coreWidth}% + 6px)` }}>
+          {coreWidth > 75 ? "Zona inti" : "\u2190 Zona inti"}
+        </span>
       </div>
       <div className="axis-row muted">
         <span>peringkat 1</span>

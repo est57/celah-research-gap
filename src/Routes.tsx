@@ -9,7 +9,12 @@ import { OverviewScreen, type OverviewTab } from "./screens/overview/OverviewScr
 import { Placeholder } from "./screens/Placeholder";
 import { ReportScreen, type ReportTab } from "./screens/report/ReportScreen";
 import { SettingsScreen, type SettingsTab } from "./screens/settings/SettingsScreen";
-import { SourcesAuthorsScreen, type SourcesTabId } from "./screens/sources/SourcesAuthorsScreen";
+import { SourcesScreen, type SourcesScreenTab } from "./screens/sources/SourcesScreen";
+import { AuthorsScreen, type AuthorsScreenTab } from "./screens/sources/AuthorsScreen";
+import { CountriesScreen, type CountriesScreenTab } from "./screens/structure/CountriesScreen";
+import { SocialScreen } from "./screens/structure/SocialScreen";
+import { VerifyScreen } from "./screens/gaps/VerifyScreen";
+import { OpportunityScreen } from "./screens/gaps/OpportunityScreen";
 import { StructureScreen, type StructureTab } from "./screens/structure/StructureScreen";
 import { WorkflowScreen } from "./screens/workflow/WorkflowScreen";
 import type { Jump } from "./lib/commands";
@@ -45,22 +50,24 @@ export function Routes({ screen, jump, version, stats, statsError, refresh, sele
     case "collection":
       return <CollectionScreen key={key} initialTab={tab<CollectionTab>("collection")} initialQuery={jump.query} stats={stats} statsError={statsError} onChanged={refresh} />;
     case "sources":
+      return <SourcesScreen key={key} version={version} initialTab={tab<SourcesScreenTab>("overview")} initialQuery={jump.query} />;
     case "authors":
-      return <SourcesAuthorsScreen key={key} version={version} initialTab={tab<SourcesTabId>(screen === "authors" ? "authors" : "overview")}
-        initialQuery={jump.query} onDataChanged={changed} />;
+      return <AuthorsScreen key={key} version={version} initialTab={tab<AuthorsScreenTab>("overview")} initialQuery={jump.query} onDataChanged={changed} />;
+    case "countries":
+      return <CountriesScreen key={key} version={version} initialTab={tab<CountriesScreenTab>("production")} />;
     case "conceptual":
-    case "thematic":
       return <ConceptualScreen key={key} version={version} initialTab={tab<ConceptualTab>("map")} onDataChanged={changed} />;
     case "intellectual":
+      return <StructureScreen key={key} version={version} onDataChanged={changed} initialTab={tab<StructureTab>("references")} />;
     case "social":
-    case "countries":
-      return <StructureScreen key={key} version={version} onDataChanged={changed}
-        initialTab={tab<StructureTab>(screen === "social" ? "authors" : screen === "countries" ? "countries" : "references")} />;
+      return <SocialScreen key={key} version={version} />;
+    case "opportunities":
+      return <OpportunityScreen key={key} version={version} onJump={go} />;
     case "gaps":
-    case "matrix":
+      return <GapsScreen key={key} version={version} initialTab={tab<GapsTab>("explorer")} initialIdea={jump.query}
+        onNavigate={(s, t) => go({ screen: s, tab: t })} />;
     case "verify":
-      return <GapsScreen key={key} version={version} initialKind={screen === "matrix" ? "matrix" : "all"}
-        initialTab={tab<GapsTab>(screen === "verify" ? "verify" : "explorer")} onNavigate={(s, t) => go({ screen: s, tab: t })} />;
+      return <VerifyScreen key={key} version={version} />;
     case "report":
       return <ReportScreen key={key} version={version} onNavigate={select} initialTab={tab<ReportTab>("draft")}
         defaults={{ style: display.settings.reportStyle, language: display.settings.reportLanguage }} />;
