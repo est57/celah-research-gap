@@ -59,10 +59,18 @@ export function ReportScreen({ version, onNavigate, defaults, initialTab = "draf
 
   let body: ReactNode;
   if (error) {
+    // No accepted gap yet is the normal starting state, not an error.
+    const none = error.includes("belum ada celah yang diterima");
     body = (
       <ScreenMessage>
-        <span role="alert">{error}</span>
-        <button type="button" className="btn report-manage" onClick={() => onNavigate("gaps")}>Buka Gap Explorer</button>
+        {none ? <strong>Belum ada celah yang diterima</strong> : null}
+        <span className={none ? "muted" : undefined} role={none ? undefined : "alert"}>
+          {none ? "Draf research gap disusun dari celah yang Anda tandai Diterima di Gap Explorer. Draf metode & hasil bisa disusun sekarang." : error}
+        </span>
+        <div className="report-empty-actions">
+          <button type="button" className="btn btn-primary" onClick={() => onNavigate("gaps")}>Buka Gap Explorer</button>
+          {none ? <button type="button" className="btn" onClick={() => setTab("summary")}>Draf metode &amp; hasil</button> : null}
+        </div>
       </ScreenMessage>
     );
   } else if (!data) body = <ScreenMessage>{loading ? "Menyusun draf dari celah yang diterima..." : ""}</ScreenMessage>;

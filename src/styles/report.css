@@ -78,9 +78,17 @@
   gap: 4px;
 }
 
-.opt-link,
-.report-manage {
+.opt-link {
   align-self: flex-start;
+}
+
+/* Buttons under a centered screen message. */
+.report-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
 }
 
 .opt-export {

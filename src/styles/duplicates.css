@@ -73,7 +73,8 @@
   background: var(--panel-alt);
 }
 
-.dup-rec[data-kept="false"] .dup-actions {
+/* Card footer: the merge warning on the left, buttons on the right. */
+.dup-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -86,5 +87,6 @@
 .dup-confirm {
   flex: 1 1 260px;
   font-size: 12px;
+  line-height: 1.45;
   color: var(--gap-ink);
 }

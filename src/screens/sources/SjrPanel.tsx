@@ -4,6 +4,9 @@ import { clearSjr, importSjr } from "../../lib/apiJournal";
 import { formatInt } from "../../lib/format";
 import type { SjrStatus } from "../../lib/quartileTypes";
 
+/** The full Scimago list has well over 25,000 journals; fewer means a filtered download. */
+const PARTIAL_BELOW = 15_000;
+
 /** Status of the imported Scimago list, with import and remove actions. */
 export function SjrPanel({ status, onChanged }: { status: SjrStatus; onChanged: () => void }) {
   const [busy, setBusy] = useState(false);
@@ -36,7 +39,7 @@ export function SjrPanel({ status, onChanged }: { status: SjrStatus; onChanged: 
       </div>
       <div className="sjr-body">
         <ol className="sjr-steps">
-          <li>Buka <span className="num select">scimagojr.com/journalrank.php</span>, lalu klik <strong>Download data</strong> (gratis).</li>
+          <li>Buka <span className="num select">scimagojr.com/journalrank.php</span> tanpa filter (semua bidang, semua wilayah, semua jenis akses), lalu klik <strong>Download data</strong> (gratis).</li>
           <li>Impor file CSV itu di sini. Kuartil dicocokkan lewat ISSN, lalu lewat judul jurnal.</li>
         </ol>
         <div className="sjr-actions">
@@ -49,7 +52,14 @@ export function SjrPanel({ status, onChanged }: { status: SjrStatus; onChanged: 
           ) : null}
           {msg ? <span className={msg.error ? "refs-error" : "muted"} role="status">{msg.text}</span> : null}
         </div>
-        {!desktop ? <p className="muted sjr-note">Impor data SJR hanya berjalan di aplikasi desktop.</p> : null}
+        {status.journals > 0 && status.journals < PARTIAL_BELOW ? (
+          <p className="notice sjr-note" role="note">
+            {`Data SJR ini hanya berisi ${formatInt(status.journals)} jurnal, sedangkan daftar lengkap Scimago berisi lebih dari 25.000. `}
+            Kemungkinan file diunduh dengan filter aktif (misalnya bidang ilmu, wilayah, atau Open Access), sehingga jurnal seperti
+            IEEE Access tidak ikut. Unduh ulang tanpa filter, lalu klik Ganti data SJR.
+          </p>
+        ) : null}
+        {!desktop ?<p className="muted sjr-note">Impor data SJR hanya berjalan di aplikasi desktop.</p> : null}
         <p className="muted sjr-note">
           Kuartil berlaku untuk jurnal, per bidang ilmu dan per tahun. Celah memakai kuartil terbaik jurnal (SJR Best Quartile)
           pada tahun peringkat yang diimpor. Prosiding dan buku umumnya tidak punya kuartil.
