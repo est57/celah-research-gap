@@ -77,24 +77,6 @@ npm run tauri dev
 
 Linux butuh `libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libdbus-1-dev`.
 
-## Rilis
-
-Workflow `.github/workflows/build.yml` menjalankan pemeriksaan di setiap push dan pull request. Tag `v*`
-juga membuat installer macOS (Apple Silicon dan Intel), Windows, dan Linux sebagai draf rilis. Untuk tanda
-tangan macOS, isi secret `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_SIGNING_IDENTITY`,
-`APPLE_ID`, `APPLE_PASSWORD`, dan `APPLE_TEAM_ID`.
-
-Pembaruan otomatis memakai plugin updater Tauri. Aplikasi membaca `latest.json` dari rilis terbaru di GitHub dan
-memeriksa tanda tangan setiap berkas dengan kunci publik di `src-tauri/tauri.conf.json`. Isi secret
-`TAURI_SIGNING_PRIVATE_KEY` dengan kunci privat pasangannya (tanpa kata sandi) agar rilis memuat berkas updater.
-Kunci privat tidak pernah disimpan di repositori. Rilis harus dipublikasikan (bukan draf) agar terbaca sebagai
-rilis terbaru.
-
-## Aturan kode
-
-Lihat [CLAUDE.md](CLAUDE.md): tanpa emoji, file pendek (di bawah 150 baris), SQL berparameter, validasi
-semua masukan `invoke()`, HTTP hanya ke API riset yang diizinkan, dan tampilan responsif.
-
 ## Lisensi
 
 MIT. Lihat [LICENSE](LICENSE).
