@@ -1,6 +1,6 @@
 [package]
 name = "celah"
-version = "0.1.1"
+version = "0.1.2"
 license = "MIT"
 description = "Bibliometric analysis and research gap finder"
 edition = "2021"
