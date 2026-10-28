@@ -7,3 +7,13 @@ src-tauri/gen/schemas/
 *.sqlite-wal
 *.sqlite-shm
 .claude/
+
+# Secrets and signing material must never be committed.
+.env
+.env.*
+*.pem
+*.p12
+*.p8
+*.key
+*.keystore
+*.mobileprovision
