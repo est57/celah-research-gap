@@ -18,6 +18,7 @@ npm run tauri dev
 | `npm run tauri dev` | Aplikasi desktop lengkap |
 | `npm run check` | Cek tipe TypeScript |
 | `npm test` | Tes logika frontend (Vitest) |
+| `npm run test:ui` | Tes tata letak semua halaman di lebar 1440, 1100, 800 (Playwright) |
 | `cargo test --manifest-path src-tauri/Cargo.toml` | Tes backend |
 | `cargo test --manifest-path src-tauri/Cargo.toml -- --ignored` | Tes dengan API sungguhan dan uji skala |
 | `npm run tauri build` | Installer untuk sistem saat ini |

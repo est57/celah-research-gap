@@ -56,10 +56,3 @@ export const NAV: NavSection[] = [
   { title: "Aplikasi", items: [{ id: "settings", label: "Pengaturan" }] },
 ];
 
-export function screenLabel(id: ScreenId): string {
-  for (const section of NAV) {
-    const item = section.items.find((i) => i.id === id);
-    if (item) return item.label;
-  }
-  return id;
-}

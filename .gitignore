@@ -17,3 +17,5 @@ src-tauri/gen/schemas/
 *.key
 *.keystore
 *.mobileprovision
+test-results/
+playwright-report/

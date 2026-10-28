@@ -22,4 +22,5 @@ Frontend: React + TypeScript + Vite in `src/`. Backend: Rust in `src-tauri/`, SQ
 - `npm run dev` - Vite dev server only (browser preview, backend calls unavailable)
 - `npm run tauri dev` - full desktop app
 - `npm run check` - TypeScript type check
+- `npm run test:ui` - layout test of every screen and tab at 1440, 1100, 800 (Playwright)
 - `cargo check --manifest-path src-tauri/Cargo.toml` - Rust check

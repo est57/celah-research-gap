@@ -6,7 +6,6 @@ import { CollectionScreen, type CollectionTab } from "./screens/collection/Colle
 import { ConceptualScreen, type ConceptualTab } from "./screens/conceptual/ConceptualScreen";
 import { GapsScreen, type GapsTab } from "./screens/gaps/GapsScreen";
 import { OverviewScreen, type OverviewTab } from "./screens/overview/OverviewScreen";
-import { Placeholder } from "./screens/Placeholder";
 import { ReportScreen, type ReportTab } from "./screens/report/ReportScreen";
 import { SettingsScreen, type SettingsTab } from "./screens/settings/SettingsScreen";
 import { SourcesScreen, type SourcesScreenTab } from "./screens/sources/SourcesScreen";
@@ -76,7 +75,5 @@ export function Routes({ screen, jump, version, stats, statsError, refresh, sele
     case "settings":
       return <SettingsScreen key={key} openalex={keys.openalex} semanticScholar={keys.semanticScholar} ncbi={keys.ncbi}
         display={display.settings} onDisplay={display.update} initialTab={tab<SettingsTab>("sources")} />;
-    default:
-      return <Placeholder id={screen} />;
   }
 }

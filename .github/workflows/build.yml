@@ -28,6 +28,9 @@ jobs:
       - run: npm run check
       - run: npm test
       - run: npm run build
+      # Every screen and tab at 1440, 1100 and 800 px: no overflow, no overlapping buttons or labels.
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:ui
       - run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings
       - run: cargo test --manifest-path src-tauri/Cargo.toml
 
