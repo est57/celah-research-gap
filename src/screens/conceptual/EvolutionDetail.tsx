@@ -1,6 +1,7 @@
 import { formatInt } from "../../lib/format";
 import { QUADRANT_LABEL } from "../../lib/conceptualTypes";
 import { QUADRANT_COLOR, periodLabel, type Evolution, type ThemeLink, type ThemeRef } from "../../lib/evolutionTypes";
+import { t, tk } from "../../i18n";
 
 interface Props {
   data: Evolution;
@@ -11,8 +12,8 @@ interface Props {
 function Flow({ title, items }: { title: string; items: { name: string; link: ThemeLink }[] }) {
   return (
     <div className="evo-flow">
-      <span className="opt-label">{title}</span>
-      {items.length === 0 ? <span className="muted">Tidak ada di atas inklusi minimum.</span> : null}
+      <span className="opt-label">{t(title)}</span>
+      {items.length === 0 ? <span className="muted">{t("Tidak ada di atas inklusi minimum.")}</span> : null}
       {items.map(({ name, link }) => (
         <div key={`${link.period}-${link.from}-${link.to}`} className="evo-flow-item">
           <div className="evo-flow-head"><span>{name}</span><span className="num">{`${Math.round(link.inclusion * 100)}%`}</span></div>
@@ -36,14 +37,14 @@ export function EvolutionDetail({ data, links, selected }: Props) {
         <span className="theme-swatch" style={{ background: QUADRANT_COLOR[theme.quadrant] }} />
         <strong>{theme.name}</strong>
       </div>
-      <div className="muted theme-quadrant">{`${periodLabel(period)} · ${QUADRANT_LABEL[theme.quadrant]} · ${formatInt(theme.documents)} dokumen`}</div>
+      <div className="muted theme-quadrant">{t("{period} · {quadrant} · {n} dokumen", { period: periodLabel(period), quadrant: t(QUADRANT_LABEL[theme.quadrant]), n: formatInt(theme.documents) })}</div>
       <ul className="theme-words">
         {theme.words.slice(0, 8).map((w) => (
           <li key={w.label}><span>{w.label}</span><span className="num muted">{formatInt(w.freq)}</span></li>
         ))}
       </ul>
-      {selected.period > 0 ? <Flow title="Berasal dari" items={incoming} /> : null}
-      {selected.period < data.periods.length - 1 ? <Flow title="Berlanjut ke" items={outgoing} /> : null}
+      {selected.period > 0 ? <Flow title={tk("Berasal dari")} items={incoming} /> : null}
+      {selected.period < data.periods.length - 1 ? <Flow title={tk("Berlanjut ke")} items={outgoing} /> : null}
     </div>
   );
 }

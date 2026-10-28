@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "../i18n";
 import { addWorksByDoi } from "../lib/apiEntities";
 import { formatInt } from "../lib/format";
 
@@ -21,14 +22,14 @@ export function useAddWorks(onAdded: () => void) {
         duplicates += r.duplicates;
         missing += r.notFound.length;
       }
-      const parts = [`${formatInt(inserted)} karya ditambahkan`];
-      if (duplicates) parts.push(`${formatInt(duplicates)} ternyata sudah ada`);
-      if (missing) parts.push(`${formatInt(missing)} tidak ditemukan di OpenAlex`);
+      const parts = [t("{n} karya ditambahkan", { n: formatInt(inserted) })];
+      if (duplicates) parts.push(t("{n} ternyata sudah ada", { n: formatInt(duplicates) }));
+      if (missing) parts.push(t("{n} tidak ditemukan di OpenAlex", { n: formatInt(missing) }));
       setMessage({ text: `${parts.join(", ")}.`, error: false });
       if (inserted) onAdded();
     } catch (e) {
-      const done = inserted ? ` ${formatInt(inserted)} karya sempat ditambahkan.` : "";
-      setMessage({ text: `Gagal menambahkan: ${(e instanceof Error ? e.message : String(e)).replace(/\.$/, "")}.${done}`, error: true });
+      const done = inserted ? ` ${t("{n} karya sempat ditambahkan.", { n: formatInt(inserted) })}` : "";
+      setMessage({ text: `${t("Gagal menambahkan: {reason}.", { reason: (e instanceof Error ? e.message : String(e)).replace(/\.$/, "") })}${done}`, error: true });
       if (inserted) onAdded();
     } finally {
       setBusy(false);

@@ -8,6 +8,7 @@ import { useDisplay } from "./hooks/useDisplay";
 import type { Jump } from "./lib/commands";
 import type { ScreenId } from "./nav";
 import { Routes, type JumpState } from "./Routes";
+import { getLang, onLangChange } from "./i18n";
 
 export function App() {
   const [screen, setScreen] = useState<ScreenId>("workflow");
@@ -18,6 +19,9 @@ export function App() {
   const s2Key = useApiKey("semantic_scholar");
   const ncbiKey = useApiKey("ncbi");
   const display = useDisplay();
+  // A language switch remounts the shell so every text is read again; the screen state above stays.
+  const [lang, setLang] = useState(getLang);
+  useEffect(() => onLangChange(setLang), []);
 
   // Bumped on every stats refresh (imports, merges, filter changes) so analyses reload;
   // 0 means no document passes into the analyses.
@@ -34,7 +38,7 @@ export function App() {
   const select = (id: ScreenId) => go({ screen: id });
 
   return (
-    <div className="app">
+    <div className="app" key={lang}>
       <TitleBar
         navOpen={navOpen}
         onToggleNav={() => setNavOpen((v) => !v)}

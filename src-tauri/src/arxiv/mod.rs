@@ -39,10 +39,10 @@ fn search_query(q: &SearchQuery) -> Option<String> {
 pub async fn search(client: &reqwest::Client, q: &SearchQuery) -> AppResult<Vec<NewPaper>> {
     if q.doc_type.is_some_and(|t| t != "preprint") {
         return Err(AppError::Invalid(
-            "arXiv hanya berisi pra-cetak; kosongkan filter jenis atau pilih Pra-cetak".into(),
+            crate::tr!("arXiv hanya berisi pra-cetak; kosongkan filter jenis atau pilih Pra-cetak", "arXiv holds only preprints; clear the type filter or choose Preprint").into(),
         ));
     }
-    let query = search_query(q).ok_or_else(|| AppError::Invalid("kata kunci tidak bisa dipakai untuk arXiv".into()))?;
+    let query = search_query(q).ok_or_else(|| AppError::Invalid(crate::tr!("kata kunci tidak bisa dipakai untuk arXiv", "keywords cannot be used for arXiv").into()))?;
     let mut out = Vec::new();
     let mut start = 0;
     while start < q.max_results {

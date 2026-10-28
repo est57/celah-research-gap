@@ -19,7 +19,7 @@ pub fn merge(conn: &mut Connection, keep: i64, drop: i64) -> AppResult<()> {
         .optional()?;
     let keep_exists = tx.prepare("SELECT 1 FROM papers WHERE id = ?1")?.exists(params![keep])?;
     let (Some((ext_id, doi)), true) = (found, keep_exists) else {
-        return Err(AppError::Invalid("dokumen tidak ditemukan; muat ulang daftar duplikat".into()));
+        return Err(AppError::Invalid(crate::tr!("dokumen tidak ditemukan; muat ulang daftar duplikat", "document not found; reload the duplicate list").into()));
     };
 
     // DOIs are unique, so the duplicate's DOI is released before the kept record takes it.

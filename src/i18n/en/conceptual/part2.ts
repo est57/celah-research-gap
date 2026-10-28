@@ -1,0 +1,81 @@
+// English texts for the conceptual area, part 2: factorial analysis, word analysis, synonyms.
+export const PART2: Record<string, string> = {
+  // Factorial analysis
+  "Menghitung analisis korespondensi berganda...": "Running multiple correspondence analysis...",
+  "Kata kunci terlalu sedikit untuk peta faktorial. Tambahkan dokumen yang punya kata kunci.":
+    "Too few keywords for a factorial map. Add documents that have keywords.",
+  "Pratinjau browser: peta di halaman ini adalah data contoh.": "Browser preview: the map on this page is sample data.",
+  "Peta struktur konseptual": "Conceptual structure map",
+  "MCA · {words} kata · {docs} dokumen · klik klaster untuk menyorot": "MCA · {words} words · {docs} documents · click a cluster to highlight it",
+  "Persentase dimensi memakai koreksi Benzecri. Ukuran titik = jumlah dokumen dengan kata kunci tersebut.":
+    "Dimension percentages use the Benzecri correction. Point size = number of documents with that keyword.",
+  "Dokumen paling berkontribusi": "Most contributing documents",
+  "jarak terjauh dari pusat peta": "farthest from the map center",
+  "t.t.": "n.d.",
+  "Peta konseptual kata kunci hasil MCA": "Conceptual map of keywords from MCA",
+  "{label} ({n} dokumen)": "{label} ({n} documents)",
+  "Parameter dan klaster": "Parameters and clusters",
+  "Jumlah klaster": "Number of clusters",
+  "Metode": "Method",
+  "MCA, klaster Ward": "MCA, Ward clustering",
+  "Klaster": "Clusters",
+  "Kata yang berdekatan sering muncul di dokumen yang sama. Klaster yang berjauhan adalah aliran riset yang jarang bersinggungan; kata kunci di antara dua klaster bisa menjadi jembatan atau celah riset.":
+    "Words close together often appear in the same documents. Distant clusters are research streams that rarely meet; keywords between two clusters may be a bridge or a research gap.",
+
+  // Word analysis
+  "Menghitung frekuensi kata...": "Counting word frequencies...",
+  "Belum ada dokumen dengan {field}. Pilih bidang lain, atau lengkapi metadata di Koleksi.":
+    "No documents with {field} yet. Choose another field, or complete the metadata in Collection.",
+  "{field}: kata paling sering": "{field}: most frequent words",
+  "{field}: frasa paling sering": "{field}: most frequent phrases",
+  "{n} teratas · angka = jumlah dokumen": "top {n} · number = document count",
+  "Dinamika kata": "Word dynamics",
+  "{n} teratas per tahun terbit": "top {n} by publication year",
+  "Tampilan dinamika": "Dynamics view",
+  "Kumulatif": "Cumulative",
+  "Per tahun": "Per year",
+  "Dokumen kumulatif untuk kata teratas": "Cumulative documents for the top words",
+  "Dokumen kumulatif untuk frasa teratas": "Cumulative documents for the top phrases",
+  "Dokumen per tahun untuk kata teratas": "Documents per year for the top words",
+  "Dokumen per tahun untuk frasa teratas": "Documents per year for the top phrases",
+  "Satu kata": "Single words",
+  "Frasa dua kata": "Two-word phrases",
+  "Frasa tiga kata": "Three-word phrases",
+  "Parameter analisis kata": "Word analysis parameters",
+  "Bidang": "Field",
+  "Satuan": "Unit",
+  "Ringkasan": "Overview",
+  "Dokumen dengan bidang ini": "Documents with this field",
+  "{n} dari {total}": "{n} of {total}",
+  "Kata atau frasa unik": "Unique words or phrases",
+  "Kata kunci unik": "Unique keywords",
+  "Kata umum (the, of, yang, dan) dan kata generik seperti study atau results diabaikan. Bentuk jamak dihitung bersama bentuk tunggalnya. Frasa tidak menyeberangi tanda baca.":
+    "Common words (the, of, yang, dan) and generic words such as study or results are ignored. Plurals are counted with their singular form. Phrases do not cross punctuation.",
+  "Satu dokumen dihitung sekali per kata kunci. Sinonim yang aktif sudah digabungkan.":
+    "Each document is counted once per keyword. Active synonyms are already merged.",
+
+  // Keyword synonyms
+  "Mencari kata kunci yang bermakna sama...": "Looking for keywords with the same meaning...",
+  "Pratinjau browser: kata kunci di halaman ini adalah data contoh.": "Browser preview: the keywords on this page are sample data.",
+  "{n} saran": "{n} suggestions",
+  "Kata kunci yang disatukan dihitung sebagai satu istilah di peta tematik, jaringan, evolusi, analisis faktorial, plot tiga bidang, dan pencarian celah, sehingga celah palsu antara dua sinonim hilang. Teks kata kunci asli tidak diubah.":
+    "Merged keywords count as one term in the thematic map, networks, evolution, factorial analysis, three-field plot and gap search, so false gaps between two synonyms disappear. The original keyword text is not changed.",
+  "Tampilkan lebih sedikit": "Show less",
+  "Tampilkan semua ({n})": "Show all ({n})",
+  "Satukan manual": "Merge manually",
+  "Kata kunci": "Keywords",
+  "Kata kunci, misalnya TB": "Keyword, for example TB",
+  "dihitung sebagai": "counted as",
+  "Kata kunci tujuan": "Target keyword",
+  "misalnya tuberculosis": "for example tuberculosis",
+  "Satukan": "Merge",
+  "Sinonim aktif ({n})": "Active synonyms ({n})",
+  "{from} dihitung sebagai {to}": "{from} counted as {to}",
+  "Hapus": "Remove",
+  "Ejaan atau jamak": "Spelling or plural",
+  "Singkatan": "Abbreviation",
+  "{n} dok": "{n} docs",
+  "dipakai": "keep",
+  "Periksa bahwa singkatan ini memang berarti istilah itu di bidang Anda.": "Check that this abbreviation really means that term in your field.",
+  "Bentuk tulisan berbeda dari istilah yang sama.": "Different spellings of the same term.",
+};

@@ -3,6 +3,7 @@
 
 use super::model::{part, slug, Draft, EvidenceRef, Kind, Signal};
 use super::Ctx;
+use crate::tr;
 use crate::analysis::coupling_map::{self, CouplingCluster, CouplingMapParams};
 use crate::error::AppResult;
 use rusqlite::{params, Connection, OptionalExtension};
@@ -46,23 +47,41 @@ fn draft(c: &CouplingCluster, main: &CouplingCluster, a: &str, b: &str, momentum
     Draft {
         key: format!("front:{}:{}", slug(a), slug(b)),
         kind: Kind::Front,
-        title: format!("Front riset {a} berdampak tinggi tetapi terpisah dari front utama"),
-        statement: format!(
-            "{} dokumen tentang ({}) saling merujuk karya yang sama dan disitasi {:.1} kali rata-rata tahun terbitnya, tetapi jarang berbagi rujukan dengan front utama ({}). Pendekatan dari front ini belum banyak dibawa ke arus utama.",
-            c.size, c.keywords.join(", "), c.impact, main.keywords.join(", ")
+        title: tr!(
+            format!("Front riset {a} berdampak tinggi tetapi terpisah dari front utama"),
+            format!("High-impact research front on {a} is separate from the main front")
+        ),
+        statement: tr!(
+            format!(
+                "{} dokumen tentang ({}) saling merujuk karya yang sama dan disitasi {:.1} kali rata-rata tahun terbitnya, tetapi jarang berbagi rujukan dengan front utama ({}). Pendekatan dari front ini belum banyak dibawa ke arus utama.",
+                c.size, c.keywords.join(", "), c.impact, main.keywords.join(", ")
+            ),
+            format!(
+                "{} documents on ({}) cite the same works and are cited {:.1} times the average for their publication years, yet rarely share references with the main front ({}). Approaches from this front have not yet reached the mainstream.",
+                c.size, c.keywords.join(", "), c.impact, main.keywords.join(", ")
+            )
         ),
         terms: vec![a.to_string(), b.to_string()],
-        parts: vec![part("Kebaruan", 1.0 - c.x), part("Bukti", c.size as f64 / 10.0), part("Momentum", momentum)],
+        parts: vec![part(tr!("Kebaruan", "Novelty"), 1.0 - c.x), part(tr!("Bukti", "Evidence"), c.size as f64 / 10.0), part("Momentum", momentum)],
         signals: vec![Signal {
-            analysis: "Peta kopling",
-            finding: format!("kuadran niche berdampak, dampak {:.2}, sentralitas {:.1}", c.impact, c.centrality),
+            analysis: tr!("Peta kopling", "Coupling map"),
+            finding: tr!(
+                format!("kuadran niche berdampak, dampak {:.2}, sentralitas {:.1}", c.impact, c.centrality),
+                format!("high-impact niche quadrant, impact {:.2}, centrality {:.1}", c.impact, c.centrality)
+            ),
             screen: "intellectual",
             tab: Some("coupling"),
         }],
         evidence,
         questions: vec![
-            format!("Apakah pendekatan dari front {a} dapat menjawab masalah di front {b}?"),
-            format!("Mengapa studi {a} jarang merujuk literatur yang sama dengan studi {b}?"),
+            tr!(
+                format!("Apakah pendekatan dari front {a} dapat menjawab masalah di front {b}?"),
+                format!("Can approaches from the {a} front address problems in the {b} front?")
+            ),
+            tr!(
+                format!("Mengapa studi {a} jarang merujuk literatur yang sama dengan studi {b}?"),
+                format!("Why do {a} studies rarely cite the same literature as {b} studies?")
+            ),
         ],
     }
 }

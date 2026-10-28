@@ -31,18 +31,18 @@ impl Field {
             "sources" => Field::Sources,
             "countries" => Field::Countries,
             "references" => Field::References,
-            _ => return Err(AppError::Invalid("bidang plot tidak dikenal".into())),
+            _ => return Err(AppError::Invalid(crate::tr!("bidang plot tidak dikenal", "unknown plot field").into())),
         })
     }
 
     pub fn label(self) -> &'static str {
         match self {
-            Field::Authors => "Penulis",
-            Field::AuthorKeywords => "Kata kunci penulis",
+            Field::Authors => crate::tr!("Penulis", "Authors"),
+            Field::AuthorKeywords => crate::tr!("Kata kunci penulis", "Author keywords"),
             Field::KeywordsPlus => "Keywords Plus",
-            Field::Sources => "Sumber",
-            Field::Countries => "Negara",
-            Field::References => "Referensi tersitasi",
+            Field::Sources => crate::tr!("Sumber", "Sources"),
+            Field::Countries => crate::tr!("Negara", "Countries"),
+            Field::References => crate::tr!("Referensi tersitasi", "Cited references"),
         }
     }
 

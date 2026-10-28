@@ -14,10 +14,10 @@ pub fn query(raw: &str) -> AppResult<String> {
     let q = raw.trim();
     let len = q.chars().count();
     if !(2..=MAX_QUERY).contains(&len) {
-        return Err(AppError::Invalid("kata kunci harus 2 sampai 300 karakter".into()));
+        return Err(AppError::Invalid(crate::tr!("kata kunci harus 2 sampai 300 karakter", "keywords must be 2 to 300 characters").into()));
     }
     if has_control(q) {
-        return Err(AppError::Invalid("kata kunci berisi karakter tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("kata kunci berisi karakter tidak sah", "keywords contain invalid characters").into()));
     }
     Ok(q.to_string())
 }
@@ -25,7 +25,7 @@ pub fn query(raw: &str) -> AppResult<String> {
 pub fn year_range(from: i32, to: i32) -> AppResult<(i32, i32)> {
     let ok = |y: i32| (1900..=2100).contains(&y);
     if !ok(from) || !ok(to) || from > to {
-        return Err(AppError::Invalid("rentang tahun tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("rentang tahun tidak sah", "invalid year range").into()));
     }
     Ok((from, to))
 }
@@ -37,7 +37,7 @@ pub fn doc_type(raw: Option<&str>) -> AppResult<Option<&'static str>> {
             .iter()
             .find(|d| **d == t)
             .map(|d| Some(*d))
-            .ok_or_else(|| AppError::Invalid("jenis dokumen tidak dikenal".into())),
+            .ok_or_else(|| AppError::Invalid(crate::tr!("jenis dokumen tidak dikenal", "unknown document type").into())),
     }
 }
 
@@ -45,7 +45,7 @@ pub fn max_results(n: u32) -> AppResult<u32> {
     if (1..=1000).contains(&n) {
         Ok(n)
     } else {
-        Err(AppError::Invalid("jumlah maksimum harus 1 sampai 1000".into()))
+        Err(AppError::Invalid(crate::tr!("jumlah maksimum harus 1 sampai 1000", "maximum count must be 1 to 1000").into()))
     }
 }
 
@@ -55,14 +55,14 @@ pub fn filter(raw: Option<&str>) -> AppResult<Option<String>> {
         return Ok(None);
     };
     if f.chars().count() > MAX_FILTER || has_control(f) {
-        return Err(AppError::Invalid("teks saringan tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("teks saringan tidak sah", "invalid filter text").into()));
     }
     Ok(Some(f.to_string()))
 }
 
 pub fn page(limit: u32, offset: u32) -> AppResult<(u32, u32)> {
     if !(1..=200).contains(&limit) || offset > 1_000_000 {
-        return Err(AppError::Invalid("parameter halaman tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("parameter halaman tidak sah", "invalid page parameter").into()));
     }
     Ok((limit, offset))
 }
@@ -76,7 +76,7 @@ pub fn sources(list: &[Source]) -> AppResult<Vec<Source>> {
         }
     }
     if out.is_empty() {
-        return Err(AppError::Invalid("pilih minimal satu sumber data".into()));
+        return Err(AppError::Invalid(crate::tr!("pilih minimal satu sumber data", "choose at least one data source").into()));
     }
     Ok(out)
 }
@@ -87,7 +87,7 @@ pub fn api_key(raw: &str) -> AppResult<String> {
     let ok_len = (8..=128).contains(&key.len());
     let ok_chars = key.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_');
     if !ok_len || !ok_chars {
-        return Err(AppError::Invalid("format kunci API tidak dikenali".into()));
+        return Err(AppError::Invalid(crate::tr!("format kunci API tidak dikenali", "unrecognized API key format").into()));
     }
     Ok(key.to_string())
 }

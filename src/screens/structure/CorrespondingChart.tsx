@@ -1,6 +1,7 @@
 import { countryName } from "../../lib/countryNames";
 import { formatInt } from "../../lib/format";
 import type { CountryProd } from "../../lib/countriesTypes";
+import { t } from "../../i18n";
 
 /** Corresponding author countries split into single-country (SCP) and multi-country (MCP) papers. */
 export function CorrespondingChart({ rows }: { rows: CountryProd[] }) {
@@ -8,11 +9,11 @@ export function CorrespondingChart({ rows }: { rows: CountryProd[] }) {
   return (
     <div className="corr">
       <div className="legend-row muted">
-        <span><span className="swatch" style={{ background: "var(--accent)" }} />SCP</span>
-        <span><span className="swatch" style={{ background: "var(--gap)" }} />MCP</span>
+        <span><span className="swatch" style={{ background: "var(--accent)" }} />{t("SCP")}</span>
+        <span><span className="swatch" style={{ background: "var(--gap)" }} />{t("MCP")}</span>
       </div>
       {rows.map((r) => (
-        <div key={r.code} className="corr-row" title={`${countryName(r.code)}: ${formatInt(r.scp)} SCP, ${formatInt(r.mcp)} MCP`}>
+        <div key={r.code} className="corr-row" title={t("{country}: {scp} SCP, {mcp} MCP", { country: countryName(r.code), scp: formatInt(r.scp), mcp: formatInt(r.mcp) })}>
           <span className="corr-name">{countryName(r.code)}</span>
           <span className="corr-bar">
             <span style={{ width: `${(r.scp / max) * 100}%`, background: "var(--accent)" }} />
@@ -22,8 +23,7 @@ export function CorrespondingChart({ rows }: { rows: CountryProd[] }) {
         </div>
       ))}
       <p className="muted bridge-note">
-        SCP = publikasi satu negara, MCP = publikasi multi-negara, menurut negara penulis korespondensi. Untuk sumber
-        yang tidak menandai penulis korespondensi, negara penulis pertama yang dipakai.
+        {t("SCP = publikasi satu negara, MCP = publikasi multi-negara, menurut negara penulis korespondensi. Untuk sumber yang tidak menandai penulis korespondensi, negara penulis pertama yang dipakai.")}
       </p>
     </div>
   );

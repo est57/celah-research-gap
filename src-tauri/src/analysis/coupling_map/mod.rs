@@ -73,7 +73,7 @@ fn quadrant(x: f64, y: f64) -> &'static str {
 }
 
 pub fn compute(conn: &Connection, p: &CouplingMapParams) -> AppResult<CouplingMap> {
-    let top = in_range(p.documents, 50, 500, "jumlah dokumen")? as usize;
+    let top = in_range(p.documents, 50, 500, crate::tr!("jumlah dokumen", "number of documents"))? as usize;
     let (coupled, net) = coupling::compute(conn, Level::Documents, top)?;
     let info = describe::load(conn)?;
 

@@ -62,7 +62,7 @@ pub fn merge(conn: &mut Connection, labels: &[String], target: &str) -> AppResul
     keys.sort();
     keys.dedup();
     if keys.len() < 2 || keys.len() > MAX_KEYS || keys.len() != labels.len() || labels.iter().any(bad) || !keys.contains(&key(target)) {
-        return Err(AppError::Invalid(format!("pilih 2 sampai {MAX_KEYS} kata kunci berbeda, termasuk kata kunci tujuan")));
+        return Err(AppError::Invalid(crate::tr!(format!("pilih 2 sampai {MAX_KEYS} kata kunci berbeda, termasuk kata kunci tujuan"), format!("choose 2 to {MAX_KEYS} different keywords, including the target keyword"))));
     }
     let (to_key, to_label) = (key(target), target.trim().to_string());
     let tx = conn.transaction()?;
@@ -82,7 +82,7 @@ pub fn merge(conn: &mut Connection, labels: &[String], target: &str) -> AppResul
 
 pub fn remove(conn: &Connection, from_key: &str) -> AppResult<()> {
     if conn.execute("DELETE FROM keyword_synonyms WHERE from_key = ?1", params![from_key])? == 0 {
-        return Err(AppError::Invalid("sinonim itu tidak ditemukan".into()));
+        return Err(AppError::Invalid(crate::tr!("sinonim itu tidak ditemukan", "that synonym was not found").into()));
     }
     Ok(())
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { isDesktop } from "../../lib/api";
 import { deletePapers } from "../../lib/apiCollection";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 interface Props {
   selected: Set<number>;
@@ -32,22 +33,22 @@ export function DeleteBar({ selected, onClear, onDeleted }: Props) {
   };
 
   return (
-    <div className="delete-bar" role="region" aria-label="Dokumen terpilih">
+    <div className="delete-bar" role="region" aria-label={t("Dokumen terpilih")}>
       {confirming ? (
-        <span className="delete-warn">{`Hapus ${formatInt(n)} dokumen dari koleksi? Rujukan, penulis, dan institusinya ikut terhapus. Tindakan ini tidak bisa dibatalkan.`}</span>
+        <span className="delete-warn">{t("Hapus {n} dokumen dari koleksi? Rujukan, penulis, dan institusinya ikut terhapus. Tindakan ini tidak bisa dibatalkan.", { n: formatInt(n) })}</span>
       ) : (
-        <span>{`${formatInt(n)} dokumen dipilih`}</span>
+        <span>{t("{n} dokumen dipilih", { n: formatInt(n) })}</span>
       )}
       {error ? <span className="delete-error" role="alert">{error}</span> : null}
       {confirming ? (
         <>
-          <button type="button" className="btn" disabled={busy} onClick={() => setConfirming(false)}>Batal</button>
-          <button type="button" className="btn btn-danger" disabled={busy} onClick={() => void remove()}>{busy ? "Menghapus..." : "Ya, hapus"}</button>
+          <button type="button" className="btn" disabled={busy} onClick={() => setConfirming(false)}>{t("Batal")}</button>
+          <button type="button" className="btn btn-danger" disabled={busy} onClick={() => void remove()}>{busy ? t("Menghapus...") : t("Ya, hapus")}</button>
         </>
       ) : (
         <>
-          <button type="button" className="btn" onClick={onClear}>Batalkan pilihan</button>
-          <button type="button" className="btn btn-danger" onClick={() => setConfirming(true)}>{`Hapus ${formatInt(n)} dokumen`}</button>
+          <button type="button" className="btn" onClick={onClear}>{t("Batalkan pilihan")}</button>
+          <button type="button" className="btn btn-danger" onClick={() => setConfirming(true)}>{t("Hapus {n} dokumen", { n: formatInt(n) })}</button>
         </>
       )}
     </div>

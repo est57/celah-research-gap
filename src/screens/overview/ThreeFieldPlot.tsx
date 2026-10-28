@@ -4,6 +4,7 @@ import { formatInt } from "../../lib/format";
 import { layoutSankey, SANKEY_NODE_W } from "../../lib/sankey";
 import type { ThreeField } from "../../lib/overviewTypes";
 import { countryName } from "../../lib/countryNames";
+import { t } from "../../i18n";
 
 const PALETTE = ["#2456A6", "#2E8B6E", "#7A5BB0", "#B8457A", "#8C7A3E", "#3B8FB5", "#D9A21B", "#6B7480"];
 
@@ -21,7 +22,7 @@ export function ThreeFieldPlot({ data, height = 300 }: { data: ThreeField; heigh
   if (layout.nodes.length === 0) {
     return (
       <div ref={ref} className="chart-empty">
-        {`Belum cukup data ${data.labels.map((l) => l.toLowerCase()).join(", ")} yang saling terhubung untuk plot ini.`}
+        {t("Belum cukup data {fields} yang saling terhubung untuk plot ini.", { fields: data.labels.map((l) => t(l).toLowerCase()).join(", ") })}
       </div>
     );
   }
@@ -29,13 +30,13 @@ export function ThreeFieldPlot({ data, height = 300 }: { data: ThreeField; heigh
   return (
     <div ref={ref} className="three-field">
       <div className="three-field-heads muted">
-        {data.labels.map((l) => <span key={l}>{l}</span>)}
+        {data.labels.map((l) => <span key={l}>{t(l)}</span>)}
       </div>
-      <svg width={width} height={height} role="img" aria-label={`Aliran dokumen: ${data.labels.join(", ")}`}>
+      <svg width={width} height={height} role="img" aria-label={t("Aliran dokumen: {fields}", { fields: data.labels.map((l) => t(l)).join(", ") })}>
         {layout.ribbons.map((r, i) => (
           <path key={i} d={r.d} style={{ fill: r.stage === 0 ? PALETTE[r.source % PALETTE.length] : "var(--neutral-bar)" }}
             fillOpacity={r.stage === 0 ? 0.35 : 0.45}>
-            <title>{formatInt(r.value)} dokumen</title>
+            <title>{t("{n} dokumen", { n: formatInt(r.value) })}</title>
           </path>
         ))}
         {layout.nodes.map((n, i) => {

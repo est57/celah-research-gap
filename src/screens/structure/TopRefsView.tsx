@@ -6,6 +6,7 @@ import { useTopRefs } from "../../hooks/useTopRefs";
 import { formatInt } from "../../lib/format";
 import { CitedEntitiesPanel } from "./CitedEntitiesPanel";
 import { TopRefList } from "./TopRefList";
+import { t } from "../../i18n";
 
 const TOPS = [50, 100, 200, 500];
 
@@ -20,21 +21,21 @@ export function TopRefsView({ version, onDataChanged }: { version: number; onDat
   let main: ReactNode;
   if (show !== "works") main = <div className="conceptual-main"><CitedEntitiesPanel version={version} kind={show} onDataChanged={onDataChanged} /></div>;
   else if (error) main = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
-  else if (!data) main = <ScreenMessage>{loading ? "Menghitung rujukan teratas..." : ""}</ScreenMessage>;
+  else if (!data) main = <ScreenMessage>{loading ? t("Menghitung rujukan teratas...") : ""}</ScreenMessage>;
   else if (data.documents === 0) main = <EmptyCollection />;
-  else if (data.refs.length === 0) main = <NoReferences analysis="Rujukan teratas" onDone={onDataChanged} />;
+  else if (data.refs.length === 0) main = <NoReferences analysis={t("Rujukan teratas")} onDone={onDataChanged} />;
   else {
     main = (
       <div className="conceptual-main">
-        {sample ? <div className="notice">Pratinjau browser: angka di halaman ini adalah data contoh.</div> : null}
+        {sample ? <div className="notice">{t("Pratinjau browser: angka di halaman ini adalah data contoh.")}</div> : null}
         <section className="pnl">
           <div className="ph">
-            Rujukan paling sering dikutip
-            <span className="ph-aside">{`${formatInt(data.refs.length)} teratas · angka = dokumen koleksi yang merujuk`}</span>
+            {t("Rujukan paling sering dikutip")}
+            <span className="ph-aside">{t("{n} teratas · angka = dokumen koleksi yang merujuk", { n: formatInt(data.refs.length) })}</span>
           </div>
           <div className="tr-add">
             <button type="button" className="btn" disabled={adder.busy || addable.length === 0} onClick={() => void adder.add(addable)}>
-              {adder.busy ? "Menambahkan..." : `Tambahkan semua yang belum ada (${formatInt(addable.length)} ber-DOI)`}
+              {adder.busy ? t("Menambahkan...") : t("Tambahkan semua yang belum ada ({n} ber-DOI)", { n: formatInt(addable.length) })}
             </button>
             {adder.message ? <span className={adder.message.error ? "tr-msg tr-msg-error" : "tr-msg"} role="status">{adder.message.text}</span> : null}
           </div>
@@ -47,41 +48,37 @@ export function TopRefsView({ version, onDataChanged }: { version: number; onDat
   return (
     <div className="screen">
       <section className="screen-main">{main}</section>
-      <aside className="inspector" aria-label="Parameter rujukan teratas">
-        <div className="ph">Parameter</div>
+      <aside className="inspector" aria-label={t("Parameter rujukan teratas")}>
+        <div className="ph">{t("Parameter")}</div>
         <div className="params">
           <div className="param-row">
-            <label htmlFor="tr-show">Tampilkan</label>
+            <label htmlFor="tr-show">{t("Tampilkan")}</label>
             <select id="tr-show" className="input" value={show} onChange={(e) => setShow(e.target.value as typeof show)}>
-              <option value="works">Karya</option>
-              <option value="sources">Sumber yang dirujuk</option>
-              <option value="authors">Penulis yang dirujuk</option>
+              <option value="works">{t("Karya")}</option>
+              <option value="sources">{t("Sumber yang dirujuk")}</option>
+              <option value="authors">{t("Penulis yang dirujuk")}</option>
             </select>
           </div>
           <div className="param-row">
-            <label htmlFor="tr-top">Jumlah rujukan</label>
+            <label htmlFor="tr-top">{t("Jumlah rujukan")}</label>
             <select id="tr-top" className="input" value={top} onChange={(e) => setTop(Number(e.target.value))}>
               {TOPS.map((n) => <option key={n} value={n}>{n}</option>)}
             </select>
           </div>
         </div>
-        <div className="ph">Ringkasan</div>
+        <div className="ph">{t("Ringkasan")}</div>
         {data ? (
           <dl className="words-facts">
-            <dt>Dokumen dengan rujukan teks</dt>
-            <dd className="num">{`${formatInt(data.citing)} dari ${formatInt(data.documents)}`}</dd>
-            <dt>Karya berbeda yang dirujuk</dt>
+            <dt>{t("Dokumen dengan rujukan teks")}</dt>
+            <dd className="num">{t("{n} dari {total}", { n: formatInt(data.citing), total: formatInt(data.documents) })}</dd>
+            <dt>{t("Karya berbeda yang dirujuk")}</dt>
             <dd className="num">{formatInt(data.works)}</dd>
-            <dt>Belum ada di koleksi (dari daftar)</dt>
+            <dt>{t("Belum ada di koleksi (dari daftar)")}</dt>
             <dd className="num tr-missing">{formatInt(data.missing)}</dd>
           </dl>
         ) : null}
         <p className="muted words-hint">
-          Karya yang sering dirujuk tetapi belum ada di koleksi biasanya rujukan inti bidang ini: baca dan tambahkan ke
-          koleksi supaya tinjauan pustaka dan analisis celah tidak melewatkannya. Status koleksi dicari di seluruh koleksi,
-          termasuk dokumen yang sedang tersaring. Tombol tambah mengambil data lengkap dari OpenAlex lewat DOI; karya
-          tanpa DOI bisa dicari manual di Koleksi & impor. Karya tambahan diberi asal "OpenAlex (rujukan)", jadi bisa
-          dihapus bersama dari Koleksi bila tidak jadi dipakai.
+          {t("Karya yang sering dirujuk tetapi belum ada di koleksi biasanya rujukan inti bidang ini: baca dan tambahkan ke koleksi supaya tinjauan pustaka dan analisis celah tidak melewatkannya. Status koleksi dicari di seluruh koleksi, termasuk dokumen yang sedang tersaring. Tombol tambah mengambil data lengkap dari OpenAlex lewat DOI; karya tanpa DOI bisa dicari manual di Koleksi & impor. Karya tambahan diberi asal \"OpenAlex (rujukan)\", jadi bisa dihapus bersama dari Koleksi bila tidak jadi dipakai.")}
         </p>
       </aside>
     </div>

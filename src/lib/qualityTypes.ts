@@ -1,3 +1,4 @@
+import { tk } from "../i18n";
 export interface FieldInfo {
   tag: string;
   label: string;
@@ -32,4 +33,4 @@ export function readiness(usable: number, total: number): Readiness {
   return share >= 0.8 ? "ready" : share >= 0.4 ? "limited" : "poor";
 }
 
-export const READINESS_LABEL: Record<Readiness, string> = { ready: "Siap", limited: "Terbatas", poor: "Kurang" };
+export const READINESS_LABEL: Record<Readiness, string> = { ready: tk("Siap"), limited: tk("Terbatas"), poor: tk("Kurang") };

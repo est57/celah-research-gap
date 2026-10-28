@@ -10,7 +10,7 @@ pub const MAX_CUTS: usize = 3;
 pub fn validate(cuts: &[i32]) -> AppResult<()> {
     let sorted = cuts.windows(2).all(|w| w[0] < w[1]);
     if cuts.len() > MAX_CUTS || !sorted || cuts.iter().any(|y| !(1900..=2100).contains(y)) {
-        return Err(AppError::Invalid("tahun potong harus 1 sampai 3 tahun berurutan antara 1900 dan 2100".into()));
+        return Err(AppError::Invalid(crate::tr!("tahun potong harus 1 sampai 3 tahun berurutan antara 1900 dan 2100", "cut years must be 1 to 3 ascending years between 1900 and 2100").into()));
     }
     Ok(())
 }

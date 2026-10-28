@@ -1,6 +1,7 @@
 import { useWidth } from "../../hooks/useWidth";
 import { formatInt } from "../../lib/format";
 import type { Rpys } from "../../lib/rpysTypes";
+import { t } from "../../i18n";
 
 const H = 300;
 const PAD = { left: 40, right: 12, top: 14, bottom: 24 };
@@ -29,7 +30,7 @@ export function RpysChart({ data, selected, onSelect }: Props) {
 
   return (
     <div ref={ref}>
-      <svg width={width} height={H} role="img" aria-label="Sitasi per tahun terbit rujukan dan selisihnya dari median lima tahun">
+      <svg width={width} height={H} role="img" aria-label={t("Sitasi per tahun terbit rujukan dan selisihnya dari median lima tahun")}>
         {[0.5, 1].map((f) => (
           <g key={f}>
             <line x1={PAD.left} x2={width - PAD.right} y1={y(top * f)} y2={y(top * f)} className="chart-grid" />
@@ -40,22 +41,22 @@ export function RpysChart({ data, selected, onSelect }: Props) {
           <rect key={yr} className="rpys-bar" data-selected={yr === selected} data-peak={peaks.has(yr)}
             x={x(i) - bar / 2} y={y(citations[i])} width={bar} height={Math.max(0, y(0) - y(citations[i]))}
             onClick={() => onSelect(yr)}>
-            <title>{`${yr}: ${formatInt(citations[i])} sitasi, selisih ${deviation[i] > 0 ? "+" : ""}${formatInt(deviation[i])}`}</title>
+            <title>{t("{year}: {n} sitasi, selisih {dev}", { year: yr, n: formatInt(citations[i]), dev: `${deviation[i] > 0 ? "+" : ""}${formatInt(deviation[i])}` })}</title>
           </rect>
         ))}
         <line x1={PAD.left} x2={width - PAD.right} y1={y(0)} y2={y(0)} className="chart-baseline" />
         <path d={line} className="rpys-line" />
         {years.map((yr, i) => (peaks.has(yr) ? (
           <circle key={yr} cx={x(i)} cy={y(deviation[i])} r={yr === selected ? 5 : 3.5} className="rpys-peak" onClick={() => onSelect(yr)}>
-            <title>{`Puncak ${yr}: selisih +${formatInt(deviation[i])}`}</title>
+            <title>{t("Puncak {year}: selisih +{dev}", { year: yr, dev: formatInt(deviation[i]) })}</title>
           </circle>
         ) : null))}
         {years.map((yr, i) => (i % every === 0 ? <text key={yr} x={x(i)} y={H - 6} textAnchor="middle" className="chart-axis">{yr}</text> : null))}
       </svg>
       <div className="dyn-legend">
-        <span><span className="dyn-swatch rpys-swatch-bar" />Sitasi per tahun terbit rujukan</span>
-        <span><span className="dyn-swatch rpys-swatch-line" />Selisih dari median 5 tahun</span>
-        <span><span className="dyn-swatch rpys-swatch-peak" />Puncak</span>
+        <span><span className="dyn-swatch rpys-swatch-bar" />{t("Sitasi per tahun terbit rujukan")}</span>
+        <span><span className="dyn-swatch rpys-swatch-line" />{t("Selisih dari median 5 tahun")}</span>
+        <span><span className="dyn-swatch rpys-swatch-peak" />{t("Puncak")}</span>
       </div>
     </div>
   );

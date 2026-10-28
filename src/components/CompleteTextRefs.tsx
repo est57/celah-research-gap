@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { isDesktop } from "../lib/api";
 import { completeTextReferences, textReferencesPending, type EnrichReport } from "../lib/apiCollection";
 import { formatInt } from "../lib/format";
+import { t } from "../i18n";
 
 /** Fetches reference lists from Crossref by DOI for documents that have none, then reloads the analyses. */
 export function CompleteTextRefs({ onDone }: { onDone: () => void }) {
@@ -14,7 +15,7 @@ export function CompleteTextRefs({ onDone }: { onDone: () => void }) {
     if (isDesktop()) textReferencesPending().then(setPending).catch(() => setPending(null));
   }, []);
 
-  if (!isDesktop()) return <p className="muted refs-help">Melengkapi rujukan dari Crossref hanya berjalan di aplikasi desktop.</p>;
+  if (!isDesktop()) return <p className="muted refs-help">{t("Melengkapi rujukan dari Crossref hanya berjalan di aplikasi desktop.")}</p>;
 
   const run = async () => {
     setRunning(true);
@@ -34,20 +35,20 @@ export function CompleteTextRefs({ onDone }: { onDone: () => void }) {
   return (
     <div className="text-refs">
       <span className="refs-help">
-        {pending === null ? "Memeriksa dokumen ber-DOI tanpa rujukan..."
-          : pending === 0 ? "Semua dokumen ber-DOI sudah dicek ke Crossref."
-          : `${formatInt(pending)} dokumen punya DOI tetapi belum punya rujukan. Crossref menyimpan daftar rujukan untuk banyak penerbit.`}
+        {pending === null ? t("Memeriksa dokumen ber-DOI tanpa rujukan...")
+          : pending === 0 ? t("Semua dokumen ber-DOI sudah dicek ke Crossref.")
+          : t("{n} dokumen punya DOI tetapi belum punya rujukan. Crossref menyimpan daftar rujukan untuk banyak penerbit.", { n: formatInt(pending) })}
       </span>
       {pending ? (
         <button type="button" className="btn btn-primary" disabled={running} onClick={() => void run()}>
-          {running ? "Mengambil rujukan..." : "Lengkapi rujukan dari Crossref"}
+          {running ? t("Mengambil rujukan...") : t("Lengkapi rujukan dari Crossref")}
         </button>
       ) : null}
-      {running ? <span className="muted refs-help">Sekitar 15 detik per 600 dokumen. Bisa dijalankan lagi untuk sisanya.</span> : null}
+      {running ? <span className="muted refs-help">{t("Sekitar 15 detik per 600 dokumen. Bisa dijalankan lagi untuk sisanya.")}</span> : null}
       {report ? (
         <span className="refs-help" role="status">
-          {`${formatInt(report.checked)} dokumen dicek, ${formatInt(report.gained)} kini punya daftar rujukan.`}
-          {report.remaining ? ` ${formatInt(report.remaining)} lagi menunggu; jalankan sekali lagi.` : ""}
+          {t("{n} dokumen dicek, {gained} kini punya daftar rujukan.", { n: formatInt(report.checked), gained: formatInt(report.gained) })}
+          {report.remaining ? ` ${t("{n} lagi menunggu; jalankan sekali lagi.", { n: formatInt(report.remaining) })}` : ""}
         </span>
       ) : null}
       {report?.error || error ? <span className="refs-error" role="alert">{report?.error ?? error}</span> : null}

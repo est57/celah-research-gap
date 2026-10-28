@@ -1,5 +1,6 @@
 import { formatDecimal, formatInt } from "../../lib/format";
 import type { Timeline } from "../../lib/sourcesTypes";
+import { t } from "../../i18n";
 
 /** Light to dark accent, by citations per year relative to the busiest cell. */
 function shade(t: number): string {
@@ -9,7 +10,7 @@ function shade(t: number): string {
 
 export function AuthorTimeline({ rows, currentYear }: { rows: Timeline[]; currentYear: number }) {
   const years = rows.flatMap((r) => r.years.map((c) => c.year));
-  if (years.length === 0) return <div className="chart-empty">Belum ada data tahun untuk penulis teratas.</div>;
+  if (years.length === 0) return <div className="chart-empty">{t("Belum ada data tahun untuk penulis teratas.")}</div>;
   const start = Math.min(...years);
   const end = Math.max(Math.max(...years), Math.min(currentYear, start + 1));
   const span = Math.max(end - start, 1);
@@ -26,7 +27,7 @@ export function AuthorTimeline({ rows, currentYear }: { rows: Timeline[]; curren
         const last = Math.max(...ys);
         return (
           <div key={r.label} className="timeline-row">
-            <span className="timeline-name" title={`${r.label}: ${formatInt(r.documents)} dokumen`}>{r.label}</span>
+            <span className="timeline-name" title={t("{name}: {n} dokumen", { name: r.label, n: formatInt(r.documents) })}>{r.label}</span>
             <div className="timeline-track">
               <div className="timeline-line" style={{ left: pos(first), width: `calc(${pos(last)} - ${pos(first)})` }} />
               {r.years.map((c) => {
@@ -36,7 +37,7 @@ export function AuthorTimeline({ rows, currentYear }: { rows: Timeline[]; curren
                     key={c.year}
                     className="timeline-dot"
                     style={{ left: pos(c.year), width: size, height: size, background: shade(c.tcPerYear / maxTc) }}
-                    title={`${r.label}, ${c.year}: ${formatInt(c.documents)} dokumen, ${formatDecimal(c.tcPerYear)} sitasi per tahun`}
+                    title={t("{name}, {year}: {n} dokumen, {tc} sitasi per tahun", { name: r.label, year: c.year, n: formatInt(c.documents), tc: formatDecimal(c.tcPerYear) })}
                   />
                 );
               })}

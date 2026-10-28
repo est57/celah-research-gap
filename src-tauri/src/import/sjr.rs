@@ -24,7 +24,7 @@ pub fn title_key(title: &str) -> String {
 
 /// (journals, year of the ranking). Fails when the file is not an SJR export.
 pub fn parse(text: &str) -> AppResult<(Vec<Journal>, Option<i32>)> {
-    let not_sjr = || AppError::Invalid("file ini bukan unduhan data SJR dari scimagojr.com".into());
+    let not_sjr = || AppError::Invalid(crate::tr!("file ini bukan unduhan data SJR dari scimagojr.com", "this file is not an SJR data download from scimagojr.com").into());
     let mut rdr = csv::ReaderBuilder::new().delimiter(b';').flexible(true).from_reader(text.trim_start_matches('\u{feff}').as_bytes());
     let headers = rdr.headers().map_err(|_| not_sjr())?.clone();
     let col = |name: &str| headers.iter().position(|h| h.trim().eq_ignore_ascii_case(name));

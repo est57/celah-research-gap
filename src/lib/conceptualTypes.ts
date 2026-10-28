@@ -1,3 +1,4 @@
+import { tk } from "../i18n";
 export type FieldChoice = "auto" | "author" | "plus";
 export type Quadrant = "motor" | "niche" | "emerging" | "basic";
 
@@ -53,10 +54,10 @@ export interface Conceptual {
 }
 
 export const QUADRANT_LABEL: Record<Quadrant, string> = {
-  motor: "Tema motor",
-  niche: "Tema niche",
-  emerging: "Tema baru muncul atau menurun",
-  basic: "Tema dasar",
+  motor: tk("Tema motor"),
+  niche: tk("Tema niche"),
+  emerging: tk("Tema baru muncul atau menurun"),
+  basic: tk("Tema dasar"),
 };
 
 /** A theme in the emerging/declining quadrant that is growing faster than the collection. */

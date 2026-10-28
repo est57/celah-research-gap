@@ -43,9 +43,9 @@ pub struct Cited {
 }
 
 pub fn compute(conn: &Connection, p: &CitedParams) -> AppResult<Cited> {
-    let limit = in_range(p.limit, 10, 200, "jumlah dokumen")? as usize;
+    let limit = in_range(p.limit, 10, 200, crate::tr!("jumlah dokumen", "number of documents"))? as usize;
     if !["global", "local", "normalized"].contains(&p.sort.as_str()) {
-        return Err(AppError::Invalid("urutan tidak dikenal".into()));
+        return Err(AppError::Invalid(crate::tr!("urutan tidak dikenal", "unknown sort order").into()));
     }
     let found = links::find(conn)?;
     let mut local: HashMap<i64, i64> = HashMap::new();

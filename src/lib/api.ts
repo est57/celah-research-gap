@@ -22,6 +22,7 @@ import type { Historiograph } from "./histTypes";
 import type { Cited, CitedSort } from "./citedTypes";
 import type { ThreeField, ThreeFieldParams } from "./overviewTypes";
 import type { AuthorRow, SourcesDetail } from "./entityTypes";
+import { t } from "../i18n";
 
 export function isDesktop(): boolean {
   return typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
@@ -29,13 +30,13 @@ export function isDesktop(): boolean {
 
 export async function call<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
   if (!isDesktop()) {
-    throw new Error("Backend desktop tidak tersedia. Jalankan dengan npm run tauri dev.");
+    throw new Error(t("Backend desktop tidak tersedia. Jalankan dengan npm run tauri dev."));
   }
   try {
     return await invoke<T>(cmd, args);
   } catch (err) {
     // The backend serializes errors as safe, user-facing strings.
-    throw new Error(typeof err === "string" ? err : "Terjadi kesalahan yang tidak dikenal.");
+    throw new Error(typeof err === "string" ? err : t("Terjadi kesalahan yang tidak dikenal."));
   }
 }
 

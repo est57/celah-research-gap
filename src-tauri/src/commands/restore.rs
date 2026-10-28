@@ -17,13 +17,13 @@ pub struct Restored {
 /// in the backend (the frontend never holds the path). None when cancelled.
 #[tauri::command(async)]
 pub fn choose_backup(app: AppHandle, state: State<'_, AppState>) -> AppResult<Option<BackupInfo>> {
-    let picked = app.dialog().file().set_title("Pilih file cadangan Celah").add_filter("Database SQLite", &["sqlite", "db"]).blocking_pick_file();
+    let picked = app.dialog().file().set_title(crate::tr!("Pilih file cadangan Celah", "Choose a Celah backup file")).add_filter(crate::tr!("Database SQLite", "SQLite database"), &["sqlite", "db"]).blocking_pick_file();
     let Some(picked) = picked else { return Ok(None) };
-    let path = picked.into_path().map_err(|_| AppError::Invalid("lokasi file tidak didukung".into()))?;
+    let path = picked.into_path().map_err(|_| AppError::Invalid(crate::tr!("lokasi file tidak didukung", "unsupported file location").into()))?;
     let live = state.db_path.lock().map_err(|_| AppError::Internal)?.clone();
     let same = std::fs::canonicalize(&path).ok() == std::fs::canonicalize(&live).ok();
     if same {
-        return Err(AppError::Invalid("file itu adalah database yang sedang dipakai".into()));
+        return Err(AppError::Invalid(crate::tr!("file itu adalah database yang sedang dipakai", "that file is the database currently in use").into()));
     }
     let info = export::restore::inspect(&path)?;
     *state.pending_restore.lock().map_err(|_| AppError::Internal)? = Some(path);
@@ -41,7 +41,7 @@ pub fn cancel_restore(state: State<'_, AppState>) -> AppResult<()> {
 #[tauri::command(async)]
 pub fn restore_backup(app: AppHandle, state: State<'_, AppState>) -> AppResult<Restored> {
     let from = state.pending_restore.lock().map_err(|_| AppError::Internal)?.take()
-        .ok_or_else(|| AppError::Invalid("pilih file cadangan dulu".into()))?;
+        .ok_or_else(|| AppError::Invalid(crate::tr!("pilih file cadangan dulu", "choose a backup file first").into()))?;
     let dir = app.path().app_data_dir().map_err(|_| AppError::Internal)?.join("cadangan-otomatis");
     std::fs::create_dir_all(&dir).map_err(|_| AppError::Internal)?;
     let mut conn = state.db.lock().map_err(|_| AppError::Internal)?;

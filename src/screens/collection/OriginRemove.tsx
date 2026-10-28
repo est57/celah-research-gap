@@ -3,6 +3,7 @@ import { isDesktop } from "../../lib/api";
 import { deleteOrigin } from "../../lib/apiCollection";
 import { formatInt } from "../../lib/format";
 import type { OriginCount } from "../../lib/types";
+import { t } from "../../i18n";
 
 /** Collapsed by default: removes every document of one import source after confirming. */
 export function OriginRemove({ origins, onDeleted }: { origins: OriginCount[]; onDeleted: (removed: number) => void }) {
@@ -27,20 +28,20 @@ export function OriginRemove({ origins, onDeleted }: { origins: OriginCount[]; o
 
   return (
     <details className="origin-remove">
-      <summary>Hapus dokumen per sumber impor</summary>
+      <summary>{t("Hapus dokumen per sumber impor")}</summary>
       <ul>
         {origins.map((o) => (
           <li key={o.origin}>
             <span>{o.origin}</span>
-            <span className="num muted">{`${formatInt(o.count)} dokumen`}</span>
+            <span className="num muted">{t("{n} dokumen", { n: formatInt(o.count) })}</span>
             {pending === o.origin ? (
               <>
-                <span className="delete-warn">Hapus semuanya?</span>
-                <button type="button" className="btn" disabled={busy} onClick={() => setPending(null)}>Batal</button>
-                <button type="button" className="btn btn-danger" disabled={busy} onClick={() => void remove(o.origin, o.count)}>Ya, hapus</button>
+                <span className="delete-warn">{t("Hapus semuanya?")}</span>
+                <button type="button" className="btn" disabled={busy} onClick={() => setPending(null)}>{t("Batal")}</button>
+                <button type="button" className="btn btn-danger" disabled={busy} onClick={() => void remove(o.origin, o.count)}>{t("Ya, hapus")}</button>
               </>
             ) : (
-              <button type="button" className="btn" onClick={() => setPending(o.origin)}>Hapus semua</button>
+              <button type="button" className="btn" onClick={() => setPending(o.origin)}>{t("Hapus semua")}</button>
             )}
           </li>
         ))}

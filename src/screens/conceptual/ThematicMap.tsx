@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useHideOverlaps } from "../../hooks/useHideOverlaps";
 import { formatInt } from "../../lib/format";
 import { isEmergingSignal, QUADRANT_LABEL, type Theme } from "../../lib/conceptualTypes";
+import { t } from "../../i18n";
 
 const COLORS = ["#2456A6", "#2E8B6E", "#8C7A3E", "#7A5BB0", "#B8457A", "#D9622B", "#3B8FB5", "#6B7480", "#4F6D2E", "#9C4F2E"];
 
@@ -23,36 +24,36 @@ export function ThematicMap({ themes, selected, collectionShare, onSelect }: Pro
   useHideOverlaps(plot, ".tmap-q, .tmap-label", [themes, selected]);
   return (
     <div className="tmap">
-      <div className="tmap-ylabel muted">Densitas (tingkat perkembangan)</div>
+      <div className="tmap-ylabel muted">{t("Densitas (tingkat perkembangan)")}</div>
       <div className="tmap-plot" ref={plot}>
         <div className="tmap-mid-x" />
         <div className="tmap-mid-y" />
-        <span className="tmap-q" data-priority={1e9} style={{ left: 10, top: 8 }}>{QUADRANT_LABEL.niche}</span>
-        <span className="tmap-q" data-priority={1e9} style={{ right: 10, top: 8 }}>{QUADRANT_LABEL.motor}</span>
-        <span className="tmap-q tmap-q-gap" data-priority={1e9} style={{ left: 10, bottom: 8 }}>{QUADRANT_LABEL.emerging}</span>
-        <span className="tmap-q" data-priority={1e9} style={{ right: 10, bottom: 8 }}>{QUADRANT_LABEL.basic}</span>
+        <span className="tmap-q" data-priority={1e9} style={{ left: 10, top: 8 }}>{t(QUADRANT_LABEL.niche)}</span>
+        <span className="tmap-q" data-priority={1e9} style={{ right: 10, top: 8 }}>{t(QUADRANT_LABEL.motor)}</span>
+        <span className="tmap-q tmap-q-gap" data-priority={1e9} style={{ left: 10, bottom: 8 }}>{t(QUADRANT_LABEL.emerging)}</span>
+        <span className="tmap-q" data-priority={1e9} style={{ right: 10, bottom: 8 }}>{t(QUADRANT_LABEL.basic)}</span>
         <div className="tmap-area">
-          {themes.map((t) => {
-            const size = 16 + 44 * Math.sqrt(t.frequency / maxFreq);
-            const on = t.id === selected;
-            const style = { left: `${t.x * 100}%`, top: `${(1 - t.y) * 100}%` };
+          {themes.map((th) => {
+            const size = 16 + 44 * Math.sqrt(th.frequency / maxFreq);
+            const on = th.id === selected;
+            const style = { left: `${th.x * 100}%`, top: `${(1 - th.y) * 100}%` };
             return (
-              <div key={t.id} className="tmap-item" style={style}>
+              <div key={th.id} className="tmap-item" style={style}>
                 <button
                   type="button"
                   className="tmap-bubble"
                   data-on={on}
-                  data-signal={isEmergingSignal(t, collectionShare)}
+                  data-signal={isEmergingSignal(th, collectionShare)}
                   aria-pressed={on}
-                  aria-label={`${t.name}, ${QUADRANT_LABEL[t.quadrant]}, ${formatInt(t.documents)} dokumen`}
-                  style={{ width: size, height: size, background: themeColor(t.id), color: themeColor(t.id) }}
-                  onClick={() => onSelect(t.id)}
+                  aria-label={t("{name}, {quadrant}, {n} dokumen", { name: th.name, quadrant: t(QUADRANT_LABEL[th.quadrant]), n: formatInt(th.documents) })}
+                  style={{ width: size, height: size, background: themeColor(th.id), color: themeColor(th.id) }}
+                  onClick={() => onSelect(th.id)}
                 />
-                <div className="tmap-label" style={{ top: size / 2 + 4 }} data-priority={on ? 1e8 : t.frequency}>
-                  {t.words.slice(0, 1).map((w) => (
+                <div className="tmap-label" style={{ top: size / 2 + 4 }} data-priority={on ? 1e8 : th.frequency}>
+                  {th.words.slice(0, 1).map((w) => (
                     <strong key={w.label}>{w.label}</strong>
                   ))}
-                  <span className="muted">{t.words.slice(1, 3).map((w) => w.label).join(" · ")}</span>
+                  <span className="muted">{th.words.slice(1, 3).map((w) => w.label).join(" · ")}</span>
                 </div>
               </div>
             );
@@ -60,7 +61,7 @@ export function ThematicMap({ themes, selected, collectionShare, onSelect }: Pro
         </div>
       </div>
       <span />
-      <div className="tmap-xlabel muted">Sentralitas (tingkat relevansi)</div>
+      <div className="tmap-xlabel muted">{t("Sentralitas (tingkat relevansi)")}</div>
     </div>
   );
 }

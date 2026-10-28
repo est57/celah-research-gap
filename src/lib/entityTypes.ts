@@ -31,8 +31,6 @@ export interface AuthorRow {
   lastYear: number | null;
 }
 
-export type EntitySort = "h" | "documents" | "citations" | "fractional";
-
 export interface AffiliationRow {
   label: string;
   /** ISO alpha-2, when known. */

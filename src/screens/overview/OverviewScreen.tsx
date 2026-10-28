@@ -12,16 +12,17 @@ import { AnnualView } from "./AnnualView";
 import { CitationsView } from "./CitationsView";
 import { ThreeFieldView } from "./ThreeFieldView";
 import { ChartExport } from "../../components/ChartExport";
+import { t, tk } from "../../i18n";
 
 export type OverviewTab = "main" | "annual" | "citations" | "threefield" | "cited";
 type TabId = OverviewTab;
 
 const TABS: TabDef<TabId>[] = [
-  { id: "main", label: "Informasi utama" },
-  { id: "annual", label: "Produksi tahunan" },
-  { id: "citations", label: "Sitasi per tahun" },
-  { id: "threefield", label: "Plot tiga bidang" },
-  { id: "cited", label: "Dokumen paling disitasi" },
+  { id: "main", label: tk("Informasi utama") },
+  { id: "annual", label: tk("Produksi tahunan") },
+  { id: "citations", label: tk("Sitasi per tahun") },
+  { id: "threefield", label: tk("Plot tiga bidang") },
+  { id: "cited", label: tk("Dokumen paling disitasi") },
 ];
 
 /** `version` changes whenever the collection changes, which triggers a reload. */
@@ -37,7 +38,7 @@ export function OverviewScreen({ version, initialTab = "main" }: { version: numb
   } else if (error) {
     body = <Message><span role="alert">{error}</span></Message>;
   } else if (!data) {
-    body = <Message>{loading ? "Menghitung ringkasan..." : ""}</Message>;
+    body = <Message>{loading ? t("Menghitung ringkasan...") : ""}</Message>;
   } else if (data.info.documents === 0) {
     body = <EmptyCollection />;
   } else if (tab === "annual" || tab === "citations") {
@@ -47,21 +48,21 @@ export function OverviewScreen({ version, initialTab = "main" }: { version: numb
       <div className="overview">
         <MainInfoPanel info={data.info} />
         <div className="overview-charts">
-          {sample ? <div className="notice">Pratinjau browser: angka di halaman ini adalah data contoh.</div> : null}
+          {sample ? <div className="notice">{t("Pratinjau browser: angka di halaman ini adalah data contoh.")}</div> : null}
           <div className="overview-row">
             <section className="pnl pnl-grow">
               <div className="ph">
-                Produksi ilmiah tahunan
+                {t("Produksi ilmiah tahunan")}
                 {data.info.growthRate !== null ? (
                   <span className="ph-aside">
-                    Laju pertumbuhan tahunan <b className="num">{formatDecimal(data.info.growthRate)}%</b>
+                    {t("Laju pertumbuhan tahunan")} <b className="num">{formatDecimal(data.info.growthRate)}%</b>
                   </span>
                 ) : null}
               </div>
               <AnnualChart points={data.annual} />
             </section>
             <section className="pnl pnl-side">
-              <div className="ph">Rata-rata sitasi per tahun<ChartExport name="Rata-rata sitasi per tahun" /></div>
+              <div className="ph">{t("Rata-rata sitasi per tahun")}<ChartExport name={t("Rata-rata sitasi per tahun")} /></div>
               <div className="pnl-body">
                 <CitationChart points={data.annual} />
               </div>
@@ -69,9 +70,9 @@ export function OverviewScreen({ version, initialTab = "main" }: { version: numb
           </div>
           <section className="pnl">
             <div className="ph">
-              Plot tiga bidang
-              <span className="ph-aside">penulis, kata kunci, dan sumber teratas</span>
-              <ChartExport name="Plot tiga bidang" />
+              {t("Plot tiga bidang")}
+              <span className="ph-aside">{t("penulis, kata kunci, dan sumber teratas")}</span>
+              <ChartExport name={t("Plot tiga bidang")} />
             </div>
             <div className="pnl-body">
               <ThreeFieldPlot data={data.threeField} />
@@ -84,7 +85,7 @@ export function OverviewScreen({ version, initialTab = "main" }: { version: numb
 
   return (
     <>
-      <Tabs label="Ringkasan" tabs={TABS} active={tab} onChange={setTab} />
+      <Tabs label={t("Ringkasan")} tabs={TABS.map((x) => ({ ...x, label: t(x.label) }))} active={tab} onChange={setTab} />
       {body}
     </>
   );

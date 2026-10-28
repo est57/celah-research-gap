@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { isDesktop } from "../../lib/api";
 import { checkUpdate, installUpdate, type UpdateInfo } from "../../lib/apiApp";
+import { t } from "../../i18n";
 
 type State =
   | { kind: "idle" | "checking" | "current" | "installing" }
@@ -35,26 +36,25 @@ export function UpdatePanel() {
 
   return (
     <section className="pnl key-panel">
-      <div className="ph">Pembaruan aplikasi</div>
+      <div className="ph">{t("Pembaruan aplikasi")}</div>
       <div className="about-body">
         <p className="muted">
-          Celah mengambil versi baru dari halaman rilis resminya di GitHub. Setiap berkas diperiksa tanda tangannya sebelum
-          dipasang, dan koleksi Anda tidak ikut berubah.
+          {t("Celah mengambil versi baru dari halaman rilis resminya di GitHub. Setiap berkas diperiksa tanda tangannya sebelum dipasang, dan koleksi Anda tidak ikut berubah.")}
         </p>
-        {!desktop ? <div className="notice">Pemeriksaan pembaruan hanya tersedia di aplikasi desktop.</div> : null}
+        {!desktop ? <div className="notice">{t("Pemeriksaan pembaruan hanya tersedia di aplikasi desktop.")}</div> : null}
         <div className="about-actions">
           {state.kind === "available" ? (
             <button type="button" className="btn btn-primary" onClick={() => void install()}>
-              {`Pasang versi ${state.info.version} dan mulai ulang`}
+              {t("Pasang versi {version} dan mulai ulang", { version: state.info.version })}
             </button>
           ) : (
             <button type="button" className="btn" disabled={busy || !desktop} onClick={() => void check()}>
-              {state.kind === "checking" ? "Memeriksa..." : state.kind === "installing" ? "Mengunduh dan memasang..." : "Periksa pembaruan"}
+              {state.kind === "checking" ? t("Memeriksa...") : state.kind === "installing" ? t("Mengunduh dan memasang...") : t("Periksa pembaruan")}
             </button>
           )}
-          {state.kind === "current" ? <span className="muted" role="status">Anda sudah memakai versi terbaru.</span> : null}
+          {state.kind === "current" ? <span className="muted" role="status">{t("Anda sudah memakai versi terbaru.")}</span> : null}
           {state.kind === "available" ? (
-            <span className="muted" role="status">{`Versi ${state.info.version} tersedia (sekarang ${state.info.current}).`}</span>
+            <span className="muted" role="status">{t("Versi {version} tersedia (sekarang {current}).", { version: state.info.version, current: state.info.current })}</span>
           ) : null}
           {state.kind === "error" ? <span className="refs-error" role="alert">{state.text}</span> : null}
         </div>

@@ -1,18 +1,19 @@
 import type { CitedDoc, CitedSort } from "../../lib/citedTypes";
 import { formatDecimal, formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 export function CitedTable({ docs, sort }: { docs: CitedDoc[]; sort: CitedSort }) {
   const value = (d: CitedDoc) => (sort === "local" ? d.local : sort === "normalized" ? d.normalized : d.global);
   const max = Math.max(...docs.map(value), 1e-9);
   return (
-    <div className="cited-table" role="table" aria-label="Dokumen paling disitasi">
+    <div className="cited-table" role="table" aria-label={t("Dokumen paling disitasi")}>
       <div className="cited-row cited-head" role="row">
         <span role="columnheader">#</span>
-        <span role="columnheader">Dokumen</span>
-        <span role="columnheader" className="cell-right" data-on={sort === "global"}>Global</span>
-        <span role="columnheader" className="cell-right" data-on={sort === "local"}>Lokal</span>
-        <span role="columnheader" className="cell-right cited-wide">Per tahun</span>
-        <span role="columnheader" className="cell-right" data-on={sort === "normalized"}>Norm.</span>
+        <span role="columnheader">{t("Dokumen")}</span>
+        <span role="columnheader" className="cell-right" data-on={sort === "global"}>{t("Global")}</span>
+        <span role="columnheader" className="cell-right" data-on={sort === "local"}>{t("Lokal")}</span>
+        <span role="columnheader" className="cell-right cited-wide">{t("Per tahun")}</span>
+        <span role="columnheader" className="cell-right" data-on={sort === "normalized"}>{t("Norm.")}</span>
       </div>
       {docs.map((d, i) => (
         <div key={d.id} className="cited-row" role="row">

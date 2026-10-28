@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { NameSuggestion } from "../../lib/entityTypes";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 interface Props {
   s: NameSuggestion;
@@ -10,11 +11,11 @@ interface Props {
 
 function evidence(s: NameSuggestion): string {
   const parts = [
-    s.reordered ? "nama sama, urutan berbeda" : null,
-    s.sharedCoauthors ? `${formatInt(s.sharedCoauthors)} rekan penulis sama` : null,
-    s.sharedSources ? `${formatInt(s.sharedSources)} sumber sama` : null,
+    s.reordered ? t("nama sama, urutan berbeda") : null,
+    s.sharedCoauthors ? t("{n} rekan penulis sama", { n: formatInt(s.sharedCoauthors) }) : null,
+    s.sharedSources ? t("{n} sumber sama", { n: formatInt(s.sharedSources) }) : null,
   ].filter(Boolean);
-  return parts.length ? parts.join(" · ") : "Belum ada bukti: periksa dulu sebelum menyatukan";
+  return parts.length ? parts.join(" · ") : t("Belum ada bukti: periksa dulu sebelum menyatukan");
 }
 
 /** One group of possibly identical names: tick the ones that are one person and pick the name to keep. */
@@ -37,18 +38,18 @@ export function NameSuggestionCard({ s, busy, onMerge }: Props) {
             <label className="name-pick">
               <input type="checkbox" checked={picked.has(v.key)} onChange={() => toggle(v.key)} />
               <span>{v.name}</span>
-              <span className="num muted">{`${formatInt(v.documents)} dok`}</span>
+              <span className="num muted">{t("{n} dok", { n: formatInt(v.documents) })}</span>
             </label>
             <label className="name-target">
               <input type="radio" name={`target-${s.variants[0].key}`} checked={target === v.key} onChange={() => setTarget(v.key)} />
-              <span className="muted">jadi nama utama</span>
+              <span className="muted">{t("jadi nama utama")}</span>
             </label>
           </li>
         ))}
       </ul>
       <div className="name-foot">
         <span className={strong ? "name-evidence" : "name-evidence name-weak"}>{evidence(s)}</span>
-        <button type="button" className="btn" disabled={busy || !ok} onClick={() => onMerge([...picked], target)}>Satukan</button>
+        <button type="button" className="btn" disabled={busy || !ok} onClick={() => onMerge([...picked], target)}>{t("Satukan")}</button>
       </div>
     </li>
   );

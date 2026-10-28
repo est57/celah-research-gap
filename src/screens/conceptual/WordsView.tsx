@@ -7,6 +7,7 @@ import { DEFAULT_WORDS, type WordParams, type Words } from "../../lib/wordTypes"
 import { DynamicsChart } from "../sources/DynamicsChart";
 import { TopSources } from "../sources/TopSources";
 import { WordsSide } from "./WordsSide";
+import { t } from "../../i18n";
 
 type Mode = "cumulative" | "annual";
 
@@ -26,19 +27,19 @@ export function WordsView({ version }: { version: number }) {
 
   let main: ReactNode;
   if (error) main = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
-  else if (!data) main = <ScreenMessage>{loading ? "Menghitung frekuensi kata..." : ""}</ScreenMessage>;
+  else if (!data) main = <ScreenMessage>{loading ? t("Menghitung frekuensi kata...") : ""}</ScreenMessage>;
   else if (data.documents === 0) main = <EmptyCollection />;
   else if (data.words.length === 0) {
-    main = <ScreenMessage>Belum ada dokumen dengan {data.field.toLowerCase()}. Pilih bidang lain, atau lengkapi metadata di Koleksi.</ScreenMessage>;
+    main = <ScreenMessage>{t("Belum ada dokumen dengan {field}. Pilih bidang lain, atau lengkapi metadata di Koleksi.", { field: data.field.toLowerCase() })}</ScreenMessage>;
   } else {
-    const unit = data.ngram > 1 ? "frasa" : "kata";
+    const plural = data.ngram > 1;
     main = (
       <div className="conceptual-main">
-        {sample ? <div className="notice">Pratinjau browser: angka di halaman ini adalah data contoh.</div> : null}
+        {sample ? <div className="notice">{t("Pratinjau browser: angka di halaman ini adalah data contoh.")}</div> : null}
         <section className="pnl">
           <div className="ph">
-            {`${data.field}: ${unit} paling sering`}
-            <span className="ph-aside">{`${formatInt(data.words.length)} teratas · angka = jumlah dokumen`}</span>
+            {plural ? t("{field}: frasa paling sering", { field: data.field }) : t("{field}: kata paling sering", { field: data.field })}
+            <span className="ph-aside">{t("{n} teratas · angka = jumlah dokumen", { n: formatInt(data.words.length) })}</span>
           </div>
           <div className="pnl-body words-bars">
             <TopSources plain wide items={data.words.map((w) => ({ label: w.label, count: w.documents }))} />
@@ -47,17 +48,19 @@ export function WordsView({ version }: { version: number }) {
         {data.years.length > 1 ? (
           <section className="pnl">
             <div className="ph">
-              Dinamika kata
-              <span className="ph-aside">{`${data.series.length} teratas per tahun terbit`}</span>
-              <div className="words-mode" role="group" aria-label="Tampilan dinamika">
-                <button type="button" aria-pressed={mode === "cumulative"} onClick={() => setMode("cumulative")}>Kumulatif</button>
-                <button type="button" aria-pressed={mode === "annual"} onClick={() => setMode("annual")}>Per tahun</button>
+              {t("Dinamika kata")}
+              <span className="ph-aside">{t("{n} teratas per tahun terbit", { n: data.series.length })}</span>
+              <div className="words-mode" role="group" aria-label={t("Tampilan dinamika")}>
+                <button type="button" aria-pressed={mode === "cumulative"} onClick={() => setMode("cumulative")}>{t("Kumulatif")}</button>
+                <button type="button" aria-pressed={mode === "annual"} onClick={() => setMode("annual")}>{t("Per tahun")}</button>
               </div>
-              <ChartExport name="Dinamika kata" />
+              <ChartExport name={t("Dinamika kata")} />
             </div>
             <div className="pnl-body">
               <DynamicsChart data={lines(data, mode)}
-                aria={`Dokumen ${mode === "cumulative" ? "kumulatif" : "per tahun"} untuk ${unit} teratas`} />
+                aria={mode === "cumulative"
+                  ? (plural ? t("Dokumen kumulatif untuk frasa teratas") : t("Dokumen kumulatif untuk kata teratas"))
+                  : (plural ? t("Dokumen per tahun untuk frasa teratas") : t("Dokumen per tahun untuk kata teratas"))} />
             </div>
           </section>
         ) : null}

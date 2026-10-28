@@ -32,7 +32,7 @@ pub fn list(conn: &Connection) -> AppResult<Vec<SavedIdea>> {
 /// Removes a saved idea; its review, if any, stays in the review history.
 pub fn remove(conn: &Connection, key: &str) -> AppResult<()> {
     if conn.execute("DELETE FROM gap_ideas WHERE gap_key = ?1", params![key])? == 0 {
-        return Err(AppError::Invalid("ide itu tidak ditemukan".into()));
+        return Err(AppError::Invalid(crate::tr!("ide itu tidak ditemukan", "that idea was not found").into()));
     }
     Ok(())
 }

@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useQuickSearch } from "../../hooks/useQuickSearch";
 import type { Jump } from "../../lib/commands";
+import { t } from "../../i18n";
 
 const MAC = typeof navigator !== "undefined" && /mac/i.test(navigator.userAgent);
 
@@ -55,17 +56,17 @@ export function CommandSearch({ onJump }: { onJump: (j: Jump) => void }) {
           <circle cx="11" cy="11" r="7" />
           <path d="M20 20l-3.5-3.5" />
         </svg>
-        <span className="sr-only">Cari layar, dokumen, penulis, atau sumber</span>
+        <span className="sr-only">{t("Cari layar, dokumen, penulis, atau sumber")}</span>
         <input id="cmd-input" ref={input} type="search" role="combobox" aria-expanded={shown} aria-controls="cmd-list"
           aria-activedescendant={shown && items[active] ? `cmd-${active}` : undefined} autoComplete="off"
-          placeholder="Cari perintah, dokumen, penulis" maxLength={100} value={query}
+          placeholder={t("Cari perintah, dokumen, penulis")} maxLength={100} value={query}
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)}
           onBlur={() => setOpen(false)} onKeyDown={onKeyDown} />
         <kbd className="cmd-key">{MAC ? "Cmd K" : "Ctrl K"}</kbd>
       </label>
       {shown ? (
-        <ul id="cmd-list" className="cmd-list" role="listbox" aria-label="Hasil pencarian">
-          {items.length === 0 ? <li className="cmd-empty muted">{query.trim().length < 2 ? "Ketik minimal 2 huruf" : "Tidak ada yang cocok"}</li> : null}
+        <ul id="cmd-list" className="cmd-list" role="listbox" aria-label={t("Hasil pencarian")}>
+          {items.length === 0 ? <li className="cmd-empty muted">{query.trim().length < 2 ? t("Ketik minimal 2 huruf") : t("Tidak ada yang cocok")}</li> : null}
           {items.map((it, i) => (
             <Fragment key={it.key}>
               {i === 0 || items[i - 1].group !== it.group ? <li role="presentation" className="cmd-group">{it.group}</li> : null}

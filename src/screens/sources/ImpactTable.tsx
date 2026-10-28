@@ -1,5 +1,6 @@
 import { formatDecimal, formatInt } from "../../lib/format";
 import type { Impact } from "../../lib/sourcesTypes";
+import { t } from "../../i18n";
 
 export function ImpactTable({ rows }: { rows: Impact[] }) {
   return (
@@ -7,13 +8,13 @@ export function ImpactTable({ rows }: { rows: Impact[] }) {
       <table className="impact">
         <thead>
           <tr>
-            <th scope="col">Penulis</th>
-            <th scope="col" title="Indeks h">h</th>
-            <th scope="col" title="Indeks g">g</th>
-            <th scope="col" title="Indeks m: h dibagi tahun sejak publikasi pertama">m</th>
-            <th scope="col" title="Total sitasi">TC</th>
-            <th scope="col" title="Jumlah dokumen di koleksi">NP</th>
-            <th scope="col" title="Tahun publikasi pertama">Mulai</th>
+            <th scope="col">{t("Penulis")}</th>
+            <th scope="col" title={t("Indeks h")}>h</th>
+            <th scope="col" title={t("Indeks g")}>g</th>
+            <th scope="col" title={t("Indeks m: h dibagi tahun sejak publikasi pertama")}>m</th>
+            <th scope="col" title={t("Total sitasi")}>TC</th>
+            <th scope="col" title={t("Jumlah dokumen di koleksi")}>{"NP"}</th>
+            <th scope="col" title={t("Tahun publikasi pertama")}>{t("Mulai")}</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +31,7 @@ export function ImpactTable({ rows }: { rows: Impact[] }) {
           ))}
         </tbody>
       </table>
-      <p className="muted chart-note">TC = total sitasi, NP = jumlah dokumen dalam koleksi.</p>
+      <p className="muted chart-note">{t("TC = total sitasi, NP = jumlah dokumen dalam koleksi.")}</p>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { DEFAULT_PARAMS, type ConceptualParams, type FieldChoice } from "../../lib/conceptualTypes";
+import { t, tk } from "../../i18n";
 
 interface Props {
   applied: ConceptualParams;
@@ -27,7 +28,7 @@ export function ParamsForm({ applied, busy, onApply }: Props) {
 
   const num = (id: string, label: string, k: "words" | "minClusterFreq" | "labels" | "trendMinFreq", min: number, max: number) => (
     <div className="param-row">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>{t(label)}</label>
       <input id={id} className="input num" type="number" min={min} max={max} value={draft[k]}
         onChange={(e) => set(k, Number(e.target.value))} />
     </div>
@@ -36,24 +37,24 @@ export function ParamsForm({ applied, busy, onApply }: Props) {
   return (
     <form className="params" onSubmit={submit}>
       <div className="param-row">
-        <label htmlFor="p-field">Field</label>
+        <label htmlFor="p-field">{t("Field")}</label>
         <select id="p-field" className="input" value={draft.field} onChange={(e) => set("field", e.target.value as FieldChoice)}>
-          <option value="auto">Otomatis</option>
-          <option value="author">Kata kunci penulis</option>
-          <option value="plus">Keywords Plus</option>
+          <option value="auto">{t("Otomatis")}</option>
+          <option value="author">{t("Kata kunci penulis")}</option>
+          <option value="plus">{t("Keywords Plus")}</option>
         </select>
       </div>
-      {num("p-words", "Jumlah kata", "words", 20, 1000)}
-      {num("p-min", "Frek. min. tema (per 1.000 dok)", "minClusterFreq", 0, 100)}
-      {num("p-labels", "Label per tema", "labels", 1, 5)}
-      {num("p-trend", "Frek. min. tren", "trendMinFreq", 1, 100)}
+      {num("p-words", tk("Jumlah kata"), "words", 20, 1000)}
+      {num("p-min", tk("Frek. min. tema (per 1.000 dok)"), "minClusterFreq", 0, 100)}
+      {num("p-labels", tk("Label per tema"), "labels", 1, 5)}
+      {num("p-trend", tk("Frek. min. tren"), "trendMinFreq", 1, 100)}
       <div className="param-row">
-        <span>Algoritma</span>
-        <span className="muted">Louvain</span>
+        <span>{t("Algoritma")}</span>
+        <span className="muted">{t("Louvain")}</span>
       </div>
       <div className="param-actions">
-        <button type="button" className="btn" onClick={() => setDraft(DEFAULT_PARAMS)}>Atur ulang</button>
-        <button type="submit" className="btn btn-primary" disabled={busy}>Terapkan</button>
+        <button type="button" className="btn" onClick={() => setDraft(DEFAULT_PARAMS)}>{t("Atur ulang")}</button>
+        <button type="submit" className="btn btn-primary" disabled={busy}>{t("Terapkan")}</button>
       </div>
     </form>
   );

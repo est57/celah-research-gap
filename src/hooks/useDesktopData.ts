@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { t } from "../i18n";
 import { isDesktop } from "../lib/api";
 
 /**
@@ -18,7 +19,7 @@ export function useDesktopData<T>(fetcher: () => Promise<T>, sample: (() => Prom
     const run = async (): Promise<T> => {
       if (desktop) return fetcher();
       if (sample) return sample();
-      throw new Error("Analisis dihitung dari database lokal dan hanya tersedia di aplikasi desktop.");
+      throw new Error(t("Analisis dihitung dari database lokal dan hanya tersedia di aplikasi desktop."));
     };
     setLoading(true);
     run()

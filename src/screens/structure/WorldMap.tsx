@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { countryName } from "../../lib/countryNames";
 import type { CountryCount, CountryPair } from "../../lib/countriesTypes";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 interface World {
   width: number;
@@ -24,7 +25,7 @@ export function WorldMap({ production, pairs }: Props) {
     void import("../../data/world.json").then((m) => { if (alive) setWorld(m.default); });
     return () => { alive = false; };
   }, []);
-  if (!world) return <div className="wmap-loading muted">Memuat peta...</div>;
+  if (!world) return <div className="wmap-loading muted">{t("Memuat peta...")}</div>;
 
   const count = new Map(production.map((c) => [c.code, c.count]));
   const max = Math.max(1, ...production.map((c) => c.count));
@@ -33,13 +34,13 @@ export function WorldMap({ production, pairs }: Props) {
 
   return (
     <svg className="wmap" viewBox={`0 0 ${world.width} ${world.height}`} role="img"
-      aria-label="Peta produksi ilmiah negara dan kolaborasi terkuat">
+      aria-label={t("Peta produksi ilmiah negara dan kolaborasi terkuat")}>
       {world.countries.map((c, i) => {
         const n = count.get(c.code);
         return (
           <path key={`${c.code}-${i}`} d={c.d} className="wmap-land" data-has={n !== undefined}
             style={n !== undefined ? { fillOpacity: 0.25 + 0.75 * share(c.code) } : undefined}>
-            <title>{c.code ? `${countryName(c.code)}${n !== undefined ? `: ${formatInt(n)} dokumen` : ""}` : ""}</title>
+            <title>{!c.code ? "" : n !== undefined ? t("{country}: {n} dokumen", { country: countryName(c.code), n: formatInt(n) }) : countryName(c.code)}</title>
           </path>
         );
       })}
@@ -51,7 +52,7 @@ export function WorldMap({ production, pairs }: Props) {
         return (
           <path key={`${p.a}-${p.b}`} d={`M${a[0]} ${a[1]} Q${mx} ${my} ${b[0]} ${b[1]}`} className="wmap-arc"
             style={{ strokeWidth: 0.8 + 3 * (p.count / maxPair) }}>
-            <title>{`${countryName(p.a)} dan ${countryName(p.b)}: ${formatInt(p.count)} dokumen bersama`}</title>
+            <title>{t("{a} dan {b}: {n} dokumen bersama", { a: countryName(p.a), b: countryName(p.b), n: formatInt(p.count) })}</title>
           </path>
         );
       })}

@@ -2,6 +2,7 @@ import { EmptyCollection, ScreenMessage } from "../../components/ScreenMessage";
 import { useDuplicates } from "../../hooks/useDuplicates";
 import { formatInt } from "../../lib/format";
 import { DupPairCard } from "./DupPairCard";
+import { t } from "../../i18n";
 
 interface Props {
   version: number;
@@ -11,19 +12,19 @@ interface Props {
 export function DuplicatesView({ version, onMerged }: Props) {
   const { data, sample, error, loading, pairs, busy, actionError, merge, dismiss, pairKey } = useDuplicates(version, onMerged);
   if (error) return <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
-  if (!data) return <ScreenMessage>{loading ? "Mencari dokumen yang mirip..." : ""}</ScreenMessage>;
+  if (!data) return <ScreenMessage>{loading ? t("Mencari dokumen yang mirip...") : ""}</ScreenMessage>;
   if (data.documents === 0) return <EmptyCollection />;
 
   return (
     <div className="dup-page">
-      {sample ? <div className="notice">Pratinjau browser: pasangan di halaman ini adalah data contoh.</div> : null}
+      {sample ? <div className="notice">{t("Pratinjau browser: pasangan di halaman ini adalah data contoh.")}</div> : null}
       <div className="dup-summary">
-        <strong>{pairs.length ? `${formatInt(pairs.length)} pasangan kandidat duplikat` : "Tidak ada kandidat duplikat"}</strong>
+        <strong>{pairs.length ? t("{n} pasangan kandidat duplikat", { n: formatInt(pairs.length) }) : t("Tidak ada kandidat duplikat")}</strong>
         <span className="muted">
-          {`dari ${formatInt(data.documents)} dokumen. Duplikat persis (ID, DOI, judul dan tahun sama) sudah dilewati saat impor; `}
-          di sini tersisa versi preprint dan judul yang hampir sama.
+          {t("dari {n} dokumen. Duplikat persis (ID, DOI, judul dan tahun sama) sudah dilewati saat impor; di sini tersisa versi preprint dan judul yang hampir sama.",
+            { n: formatInt(data.documents) })}
         </span>
-        {data.truncated ? <span className="muted">Hanya 300 pasangan teratas yang ditampilkan.</span> : null}
+        {data.truncated ? <span className="muted">{t("Hanya 300 pasangan teratas yang ditampilkan.")}</span> : null}
       </div>
       {actionError ? <div className="notice" role="alert">{actionError}</div> : null}
       {pairs.length ? (

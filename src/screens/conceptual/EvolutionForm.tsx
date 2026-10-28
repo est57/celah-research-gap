@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { DEFAULT_EVOLUTION, type EvolutionParams } from "../../lib/evolutionTypes";
+import { t } from "../../i18n";
 
 interface Props {
   applied: EvolutionParams;
@@ -32,7 +33,7 @@ export function EvolutionForm({ applied, usedCuts, busy, minInclusion, onMinIncl
     e.preventDefault();
     const parsed = parseCuts(cuts);
     if (!parsed) {
-      setError("Isi 1 sampai 3 tahun berurutan, misalnya 2019, 2022. Kosongkan untuk otomatis.");
+      setError(t("Isi 1 sampai 3 tahun berurutan, misalnya 2019, 2022. Kosongkan untuk otomatis."));
       return;
     }
     setError(null);
@@ -42,31 +43,31 @@ export function EvolutionForm({ applied, usedCuts, busy, minInclusion, onMinIncl
   return (
     <form className="params" onSubmit={submit}>
       <div className="param-row">
-        <label htmlFor="evo-cuts">Tahun potong</label>
-        <input id="evo-cuts" className="input" maxLength={20} value={cuts} placeholder={usedCuts.join(", ") || "otomatis"}
+        <label htmlFor="evo-cuts">{t("Tahun potong")}</label>
+        <input id="evo-cuts" className="input" maxLength={20} value={cuts} placeholder={usedCuts.join(", ") || t("otomatis")}
           onChange={(e) => setCuts(e.target.value)} />
       </div>
       <p className="muted evo-hint">
-        {applied.cuts.length ? "Tahun potong ikut periode sebelumnya." : `Otomatis: ${usedCuts.join(", ") || "satu periode"}, agar jumlah dokumen tiap periode seimbang.`}
+        {applied.cuts.length ? t("Tahun potong ikut periode sebelumnya.") : t("Otomatis: {cuts}, agar jumlah dokumen tiap periode seimbang.", { cuts: usedCuts.join(", ") || t("satu periode") })}
       </p>
       {error ? <p className="evo-error" role="alert">{error}</p> : null}
       <div className="param-row">
-        <label htmlFor="evo-words">Kata per periode</label>
+        <label htmlFor="evo-words">{t("Kata per periode")}</label>
         <input id="evo-words" className="input num" type="number" min={20} max={1000} value={words} onChange={(e) => setWords(Number(e.target.value))} />
       </div>
       <div className="param-row">
-        <label htmlFor="evo-labels">Label per tema</label>
+        <label htmlFor="evo-labels">{t("Label per tema")}</label>
         <input id="evo-labels" className="input num" type="number" min={1} max={5} value={labels} onChange={(e) => setLabels(Number(e.target.value))} />
       </div>
       <div className="param-row">
-        <label htmlFor="evo-inc">Inklusi minimum</label>
+        <label htmlFor="evo-inc">{t("Inklusi minimum")}</label>
         <select id="evo-inc" className="input" value={minInclusion} onChange={(e) => onMinInclusion(Number(e.target.value))}>
           {INCLUSION.map((v) => <option key={v} value={v}>{`${Math.round(v * 100)}%`}</option>)}
         </select>
       </div>
       <div className="param-actions">
-        <button type="button" className="btn" onClick={() => { setCuts(""); setWords(DEFAULT_EVOLUTION.words); setLabels(DEFAULT_EVOLUTION.labels); }}>Atur ulang</button>
-        <button type="submit" className="btn btn-primary" disabled={busy}>Terapkan</button>
+        <button type="button" className="btn" onClick={() => { setCuts(""); setWords(DEFAULT_EVOLUTION.words); setLabels(DEFAULT_EVOLUTION.labels); }}>{t("Atur ulang")}</button>
+        <button type="submit" className="btn btn-primary" disabled={busy}>{t("Terapkan")}</button>
       </div>
     </form>
   );

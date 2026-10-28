@@ -57,11 +57,11 @@ pub struct Words {
 /// (fixed SQL, label, is free text). The SQL never contains caller input.
 fn field(raw: &str) -> AppResult<(&'static str, &'static str, bool)> {
     Ok(match raw {
-        "author_keywords" => ("SELECT year, keywords FROM papers WHERE COALESCE(keywords, '') <> ''", "Kata kunci penulis", false),
+        "author_keywords" => ("SELECT year, keywords FROM papers WHERE COALESCE(keywords, '') <> ''", crate::tr!("Kata kunci penulis", "Author keywords"), false),
         "keywords_plus" => ("SELECT year, keywords_plus FROM papers WHERE COALESCE(keywords_plus, '') <> ''", "Keywords Plus", false),
-        "title" => ("SELECT year, title FROM papers WHERE COALESCE(title, '') <> ''", "Kata judul", true),
-        "abstract" => ("SELECT year, abstract FROM papers WHERE COALESCE(abstract, '') <> ''", "Kata abstrak", true),
-        _ => return Err(AppError::Invalid("bidang kata tidak dikenal".into())),
+        "title" => ("SELECT year, title FROM papers WHERE COALESCE(title, '') <> ''", crate::tr!("Kata judul", "Title words"), true),
+        "abstract" => ("SELECT year, abstract FROM papers WHERE COALESCE(abstract, '') <> ''", crate::tr!("Kata abstrak", "Abstract words"), true),
+        _ => return Err(AppError::Invalid(crate::tr!("bidang kata tidak dikenal", "unknown word field").into())),
     })
 }
 
@@ -73,9 +73,9 @@ struct Tally {
 }
 
 pub fn compute(conn: &Connection, p: &WordParams) -> AppResult<Words> {
-    let top = in_range(p.top, 10, 100, "jumlah kata")? as usize;
+    let top = in_range(p.top, 10, 100, crate::tr!("jumlah kata", "number of words"))? as usize;
     let (sql, label, free_text) = field(&p.field)?;
-    let ngram = if free_text { in_range(p.ngram, 1, 3, "panjang frasa")? as usize } else { 1 };
+    let ngram = if free_text { in_range(p.ngram, 1, 3, crate::tr!("panjang frasa", "phrase length"))? as usize } else { 1 };
     let documents: i64 = conn.query_row("SELECT COUNT(*) FROM papers", [], |r| r.get(0))?;
 
     // Each document as (year, distinct keys), plus a tally per key.

@@ -36,17 +36,17 @@ impl Format {
 
 /// Reads a user-chosen file with a hard size cap. Invalid UTF-8 is replaced, not rejected.
 pub fn read_text(path: &Path) -> AppResult<String> {
-    let file = std::fs::File::open(path).map_err(|_| AppError::Invalid("file tidak bisa dibuka".into()))?;
+    let file = std::fs::File::open(path).map_err(|_| AppError::Invalid(crate::tr!("file tidak bisa dibuka", "the file cannot be opened").into()))?;
     let len = file.metadata().map(|m| m.len()).unwrap_or(0);
     if len > limits::MAX_FILE_BYTES {
-        return Err(AppError::Invalid("ukuran file melebihi 50 MB".into()));
+        return Err(AppError::Invalid(crate::tr!("ukuran file melebihi 50 MB", "the file is larger than 50 MB").into()));
     }
     let mut bytes = Vec::with_capacity(len as usize);
     file.take(limits::MAX_FILE_BYTES + 1)
         .read_to_end(&mut bytes)
-        .map_err(|_| AppError::Invalid("file tidak bisa dibaca".into()))?;
+        .map_err(|_| AppError::Invalid(crate::tr!("file tidak bisa dibaca", "the file cannot be read").into()))?;
     if bytes.len() as u64 > limits::MAX_FILE_BYTES {
-        return Err(AppError::Invalid("ukuran file melebihi 50 MB".into()));
+        return Err(AppError::Invalid(crate::tr!("ukuran file melebihi 50 MB", "the file is larger than 50 MB").into()));
     }
     let text = String::from_utf8_lossy(&bytes);
     Ok(text.trim_start_matches('\u{feff}').to_string())
@@ -65,11 +65,11 @@ pub fn detect(path: &Path, text: &str) -> AppResult<Format> {
         "txt" | "ris" if ris => Ok(Format::Ris),
         "csv" => Ok(Format::ScopusCsv),
         "bib" if head.contains('@') => Ok(Format::ScopusBib),
-        "ris" | "nbib" => Err(AppError::Invalid(format!("isi file .{ext} tidak sesuai formatnya"))),
+        "ris" | "nbib" => Err(AppError::Invalid(crate::tr!(format!("isi file .{ext} tidak sesuai formatnya"), format!("the contents of the .{ext} file do not match its format")))),
         "txt" => Err(AppError::Invalid(
-            "file .txt bukan ekspor Web of Science (Plain text), PubMed, atau RIS".into(),
+            crate::tr!("file .txt bukan ekspor Web of Science (Plain text), PubMed, atau RIS", "the .txt file is not a Web of Science (Plain text), PubMed, or RIS export").into(),
         )),
-        _ => Err(AppError::Invalid("format file tidak dikenali; gunakan .bib, .csv, .ris, .nbib, atau .txt".into())),
+        _ => Err(AppError::Invalid(crate::tr!("format file tidak dikenali; gunakan .bib, .csv, .ris, .nbib, atau .txt", "unrecognized file format; use .bib, .csv, .ris, .nbib, or .txt").into())),
     }
 }
 

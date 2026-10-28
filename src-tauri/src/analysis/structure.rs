@@ -74,7 +74,7 @@ fn keywords(conn: &Connection) -> AppResult<(&'static str, Docs)> {
 
 pub fn compute(conn: &Connection, p: &StructureParams) -> AppResult<Structure> {
     if !(10..=150).contains(&p.nodes) {
-        return Err(AppError::Invalid("jumlah node harus 10 sampai 150".into()));
+        return Err(AppError::Invalid(crate::tr!("jumlah node harus 10 sampai 150", "number of nodes must be 10 to 150").into()));
     }
     let coupling = match p.unit.as_str() {
         "coupling_documents" => Some(Level::Documents),
@@ -87,10 +87,10 @@ pub fn compute(conn: &Connection, p: &StructureParams) -> AppResult<Structure> {
         return Ok(Structure { unit: level.label(), documents, network });
     }
     let (unit, (docs, labels)) = match p.unit.as_str() {
-        "references" => ("Referensi tersitasi", references(conn)?),
-        "authors" => ("Penulis", authors(conn)?),
+        "references" => (crate::tr!("Referensi tersitasi", "Cited references"), references(conn)?),
+        "authors" => (crate::tr!("Penulis", "Authors"), authors(conn)?),
         "keywords" => keywords(conn)?,
-        _ => return Err(AppError::Invalid("unit analisis tidak dikenal".into())),
+        _ => return Err(AppError::Invalid(crate::tr!("unit analisis tidak dikenal", "unknown unit of analysis").into())),
     };
     Ok(Structure { unit, documents: docs.len(), network: network::build(&docs, &labels, p.nodes as usize) })
 }

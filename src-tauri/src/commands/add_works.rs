@@ -26,7 +26,7 @@ pub struct AddReport {
 pub async fn add_works_by_doi(state: State<'_, AppState>, dois: Vec<String>) -> AppResult<AddReport> {
     let mut wanted: Vec<String> = Vec::new();
     for raw in dois.iter().take(MAX_DOIS + 1) {
-        let doi = normalize_doi(raw).ok_or_else(|| AppError::Invalid("DOI tidak valid".into()))?;
+        let doi = normalize_doi(raw).ok_or_else(|| AppError::Invalid(crate::tr!("DOI tidak valid", "invalid DOI").into()))?;
         if !wanted.contains(&doi) {
             wanted.push(doi);
         }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { isDesktop } from "../../lib/api";
 import { cancelRestore, chooseBackup, restoreBackup, type BackupInfo } from "../../lib/apiCollection";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 interface Props {
   current: number;
@@ -38,28 +39,30 @@ export function RestorePanel({ current, onRestored }: Props) {
   const restore = () => step(async () => {
     const r = await restoreBackup();
     setInfo(null);
-    setMessage(`Koleksi dipulihkan: ${formatInt(r.documents)} dokumen. Data sebelumnya disimpan otomatis sebagai ${r.safetyFile} di folder cadangan-otomatis.`);
+    setMessage(t("Koleksi dipulihkan: {n} dokumen. Data sebelumnya disimpan otomatis sebagai {file} di folder cadangan-otomatis.",
+      { n: formatInt(r.documents), file: r.safetyFile }));
     onRestored();
   });
 
   return (
     <section className="pnl">
-      <div className="ph">Pulihkan dari cadangan</div>
+      <div className="ph">{t("Pulihkan dari cadangan")}</div>
       <div className="exp-backup">
         {info ? (
           <p className="delete-warn">
-            {`File cadangan berisi ${formatInt(info.documents)} dokumen dan ${formatInt(info.reviews)} review celah. Data saat ini (${formatInt(current)} dokumen) akan diganti seluruhnya. Sebelum itu, data saat ini disimpan otomatis ke folder cadangan-otomatis.`}
+            {t("File cadangan berisi {n} dokumen dan {reviews} review celah. Data saat ini ({current} dokumen) akan diganti seluruhnya. Sebelum itu, data saat ini disimpan otomatis ke folder cadangan-otomatis.",
+              { n: formatInt(info.documents), reviews: formatInt(info.reviews), current: formatInt(current) })}
           </p>
         ) : (
-          <p className="muted">Ganti koleksi, review, dan verifikasi dengan isi file cadangan. File diperiksa dulu, lalu Anda diminta mengonfirmasi.</p>
+          <p className="muted">{t("Ganti koleksi, review, dan verifikasi dengan isi file cadangan. File diperiksa dulu, lalu Anda diminta mengonfirmasi.")}</p>
         )}
         {info ? (
           <div className="exp-actions">
-            <button type="button" className="btn" disabled={busy} onClick={() => void cancel()}>Batal</button>
-            <button type="button" className="btn btn-danger" disabled={busy} onClick={() => void restore()}>{busy ? "Memulihkan..." : "Ya, pulihkan"}</button>
+            <button type="button" className="btn" disabled={busy} onClick={() => void cancel()}>{t("Batal")}</button>
+            <button type="button" className="btn btn-danger" disabled={busy} onClick={() => void restore()}>{busy ? t("Memulihkan...") : t("Ya, pulihkan")}</button>
           </div>
         ) : (
-          <button type="button" className="btn" disabled={!desktop || busy} onClick={() => void choose()}>{busy ? "Memeriksa..." : "Pilih file cadangan"}</button>
+          <button type="button" className="btn" disabled={!desktop || busy} onClick={() => void choose()}>{busy ? t("Memeriksa...") : t("Pilih file cadangan")}</button>
         )}
       </div>
       {message ? <p className="exp-msg" role="status">{message}</p> : null}

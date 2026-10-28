@@ -37,15 +37,15 @@ impl CollectionFilter {
             _ => true,
         };
         if !year_ok(self.year_from) || !year_ok(self.year_to) || !order_ok {
-            return Err(AppError::Invalid("rentang tahun filter tidak sah".into()));
+            return Err(AppError::Invalid(crate::tr!("rentang tahun filter tidak sah", "invalid filter year range").into()));
         }
         if self.quartiles.iter().any(|q| !matches!(q.as_str(), "Q1" | "Q2" | "Q3" | "Q4" | "none")) || self.quartiles.len() > 5 {
-            return Err(AppError::Invalid("pilihan kuartil tidak dikenal".into()));
+            return Err(AppError::Invalid(crate::tr!("pilihan kuartil tidak dikenal", "unknown quartile option").into()));
         }
         for list in [&self.doc_types, &self.origins, &self.sources] {
             let bad = |v: &String| v.chars().count() > MAX_TEXT || v.chars().any(char::is_control);
             if list.len() > MAX_ITEMS || list.iter().any(bad) {
-                return Err(AppError::Invalid("pilihan filter terlalu banyak atau berisi karakter tidak sah".into()));
+                return Err(AppError::Invalid(crate::tr!("pilihan filter terlalu banyak atau berisi karakter tidak sah", "too many filter options or invalid characters").into()));
             }
         }
         Ok(())

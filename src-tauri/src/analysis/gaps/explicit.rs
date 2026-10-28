@@ -2,6 +2,7 @@
 
 use super::model::{part, slug, Draft, EvidenceRef, Kind, Signal};
 use super::Ctx;
+use crate::tr;
 use crate::error::AppResult;
 use rusqlite::Connection;
 use std::collections::{BTreeMap, HashMap};
@@ -62,15 +63,21 @@ pub fn detect(conn: &Connection, ctx: &Ctx) -> AppResult<Vec<Draft>> {
                 key: format!("explicit:{}", slug(kw)),
                 kind: Kind::Explicit,
                 terms: vec![kw.clone()],
-                title: format!("Penulis menyebut {kw} masih perlu diteliti lebih lanjut"),
-                statement: format!(
-                    "{} dokumen tentang \"{kw}\" menyatakan sendiri di abstraknya bahwa ada hal yang belum terjawab atau perlu riset lanjutan.",
-                    quotes.len()
+                title: tr!(format!("Penulis menyebut {kw} masih perlu diteliti lebih lanjut"), format!("Authors say {kw} needs further study")),
+                statement: tr!(
+                    format!(
+                        "{} dokumen tentang \"{kw}\" menyatakan sendiri di abstraknya bahwa ada hal yang belum terjawab atau perlu riset lanjutan.",
+                        quotes.len()
+                    ),
+                    format!("{} documents on \"{kw}\" state in their abstracts that open questions remain or further research is needed.", quotes.len())
                 ),
-                parts: vec![part("Kebaruan", 1.0 - net.freq[w] as f64 / max_freq), part("Bukti", quotes.len() as f64 / 5.0), part("Momentum", ctx.momentum(&docs))],
+                parts: vec![part(tr!("Kebaruan", "Novelty"), 1.0 - net.freq[w] as f64 / max_freq), part(tr!("Bukti", "Evidence"), quotes.len() as f64 / 5.0), part("Momentum", ctx.momentum(&docs))],
                 signals: vec![Signal {
-                    analysis: "Kalimat celah di abstrak",
-                    finding: format!("{} kalimat seperti \"future research\" atau \"remains unclear\"", quotes.len()),
+                    analysis: tr!("Kalimat celah di abstrak", "Gap sentences in abstracts"),
+                    finding: tr!(
+                        format!("{} kalimat seperti \"future research\" atau \"remains unclear\"", quotes.len()),
+                        format!("{} sentences such as \"future research\" or \"remains unclear\"", quotes.len())
+                    ),
                     screen: "collection",
                     tab: None,
                 }],
@@ -79,7 +86,10 @@ pub fn detect(conn: &Connection, ctx: &Ctx) -> AppResult<Vec<Draft>> {
                     .take(4)
                     .map(|(d, q)| EvidenceRef { paper_id: net.paper_ids[*d], role: "mendukung", quote: Some(q.clone()) })
                     .collect(),
-                questions: vec![format!("Pertanyaan apa tentang {kw} yang disebut belum terjawab oleh studi-studi ini, dan bagaimana mengujinya?")],
+                questions: vec![tr!(
+                    format!("Pertanyaan apa tentang {kw} yang disebut belum terjawab oleh studi-studi ini, dan bagaimana mengujinya?"),
+                    format!("Which questions about {kw} do these studies leave open, and how could they be tested?")
+                )],
             }
         })
         .collect();

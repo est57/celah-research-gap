@@ -1,6 +1,8 @@
 import { docTypeLabel, formatInt } from "../../lib/format";
 import { PAGE_SIZE } from "../../hooks/usePapers";
 import type { PaperPage } from "../../lib/types";
+import { NumText } from "./NumText";
+import { t } from "../../i18n";
 
 interface Props {
   data: PaperPage;
@@ -20,32 +22,32 @@ export function DocumentTable({ data, page, loading, error, onPage, selected, on
 
   return (
     <>
-      <div className="doc-table" role="table" aria-label="Dokumen dalam koleksi" aria-busy={loading}>
+      <div className="doc-table" role="table" aria-label={t("Dokumen dalam koleksi")} aria-busy={loading}>
         <div className="doc-row doc-head" role="row">
           <label role="columnheader" className="doc-pick num">
             <input type="checkbox" checked={allPicked} disabled={pageIds.length === 0}
-              aria-label="Pilih semua dokumen di halaman ini" onChange={(e) => onSelect(pageIds, e.target.checked)} />
+              aria-label={t("Pilih semua dokumen di halaman ini")} onChange={(e) => onSelect(pageIds, e.target.checked)} />
             #
           </label>
-          <span role="columnheader">Judul</span>
-          <span role="columnheader" className="col-authors">Penulis</span>
-          <span role="columnheader">Tahun</span>
-          <span role="columnheader" className="col-source">Sumber</span>
-          <span role="columnheader" className="col-type">Jenis</span>
+          <span role="columnheader">{t("Judul")}</span>
+          <span role="columnheader" className="col-authors">{t("Penulis")}</span>
+          <span role="columnheader">{t("Tahun")}</span>
+          <span role="columnheader" className="col-source">{t("Sumber")}</span>
+          <span role="columnheader" className="col-type">{t("Jenis")}</span>
           <span role="columnheader" className="cell-right">TC</span>
-          <span role="columnheader" className="col-origin">Asal data</span>
+          <span role="columnheader" className="col-origin">{t("Asal data")}</span>
         </div>
         {error ? <div className="empty" role="alert">{error}</div> : null}
         {!error && data.items.length === 0 ? (
           <div className="empty">
-            <strong>Belum ada dokumen</strong>
-            <span>Cari di OpenAlex di atas untuk mulai mengisi koleksi.</span>
+            <strong>{t("Belum ada dokumen")}</strong>
+            <span>{t("Cari di OpenAlex di atas untuk mulai mengisi koleksi.")}</span>
           </div>
         ) : null}
         {data.items.map((p, i) => (
           <div className="doc-row" role="row" key={p.id} data-picked={selected.has(p.id)}>
             <label className="doc-pick num muted">
-              <input type="checkbox" checked={selected.has(p.id)} aria-label={`Pilih ${p.title}`}
+              <input type="checkbox" checked={selected.has(p.id)} aria-label={t("Pilih {title}", { title: p.title })}
                 onChange={(e) => onSelect([p.id], e.target.checked)} />
               {start + i + 1}
             </label>
@@ -61,14 +63,14 @@ export function DocumentTable({ data, page, loading, error, onPage, selected, on
       </div>
       <div className="pager">
         <span className="muted">
-          Halaman <span className="num">{page + 1}</span> dari <span className="num">{pages}</span>
+          <NumText text={t("Halaman {page} dari {pages}")} vars={{ page: page + 1, pages }} />
         </span>
         <button type="button" className="btn" style={{ marginLeft: "auto" }}
           disabled={page === 0 || loading} onClick={() => onPage(page - 1)}>
-          Sebelumnya
+          {t("Sebelumnya")}
         </button>
         <button type="button" className="btn" disabled={page + 1 >= pages || loading} onClick={() => onPage(page + 1)}>
-          Berikutnya
+          {t("Berikutnya")}
         </button>
       </div>
     </>

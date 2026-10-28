@@ -53,7 +53,7 @@ pub fn parse(raw: &str) -> AppResult<Vec<String>> {
     let forms: Vec<String> = raw.split(',').map(|f| f.trim().to_lowercase()).filter(|f| !f.is_empty()).collect();
     let ok = |f: &String| (2..=80).contains(&f.chars().count()) && !f.chars().any(char::is_control) && !tokens(f).is_empty();
     if forms.is_empty() || forms.len() > MAX_ALTERNATIVES || !forms.iter().all(ok) {
-        return Err(AppError::Invalid(format!("isi tiap konsep dengan 1 sampai {MAX_ALTERNATIVES} sebutan, dipisah koma, masing-masing 2 sampai 80 karakter")));
+        return Err(AppError::Invalid(crate::tr!(format!("isi tiap konsep dengan 1 sampai {MAX_ALTERNATIVES} sebutan, dipisah koma, masing-masing 2 sampai 80 karakter"), format!("give each concept 1 to {MAX_ALTERNATIVES} forms, separated by commas, each 2 to 80 characters"))));
     }
     Ok(forms)
 }

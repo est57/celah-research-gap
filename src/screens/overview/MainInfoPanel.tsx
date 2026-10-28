@@ -1,5 +1,6 @@
 import { docTypeLabel, formatDecimal, formatInt } from "../../lib/format";
 import type { MainInfo } from "../../lib/overviewTypes";
+import { t } from "../../i18n";
 
 type Row = [label: string, value: string, strong?: boolean];
 
@@ -7,33 +8,33 @@ function groups(i: MainInfo): [string, Row[]][] {
   const opt = (v: number | null, f: (n: number) => string) => (v === null ? "-" : f(v));
   const span = i.yearMin !== null && i.yearMax !== null ? `${i.yearMin} - ${i.yearMax}` : "-";
   return [
-    ["Deskripsi", [
-      ["Rentang waktu", span],
-      ["Sumber (jurnal, prosiding)", formatInt(i.sources)],
-      ["Dokumen", formatInt(i.documents), true],
-      ["Laju pertumbuhan tahunan", opt(i.growthRate, (g) => `${formatDecimal(g)}%`), true],
-      ["Rata-rata usia dokumen", opt(i.avgAge, (a) => `${formatDecimal(a)} th`)],
-      ["Rata-rata sitasi per dokumen", formatDecimal(i.avgCitations)],
-      ["Referensi unik", formatInt(i.references)],
+    [t("Deskripsi"), [
+      [t("Rentang waktu"), span],
+      [t("Sumber (jurnal, prosiding)"), formatInt(i.sources)],
+      [t("Dokumen"), formatInt(i.documents), true],
+      [t("Laju pertumbuhan tahunan"), opt(i.growthRate, (g) => `${formatDecimal(g)}%`), true],
+      [t("Rata-rata usia dokumen"), opt(i.avgAge, (a) => t("{n} th", { n: formatDecimal(a) }))],
+      [t("Rata-rata sitasi per dokumen"), formatDecimal(i.avgCitations)],
+      [t("Referensi unik"), formatInt(i.references)],
     ]],
-    ["Isi dokumen", [
+    [t("Isi dokumen"), [
       ["Keywords Plus (ID)", formatInt(i.keywordsPlus)],
-      ["Kata kunci penulis (DE)", formatInt(i.authorKeywords)],
+      [t("Kata kunci penulis (DE)"), formatInt(i.authorKeywords)],
     ]],
-    ["Penulis", [
-      ["Penulis", formatInt(i.authors)],
-      ["Penulis dokumen tunggal", formatInt(i.authorsOfSingle)],
-      ["Dokumen penulis tunggal", formatInt(i.singleAuthorDocs)],
-      ["Ko-penulis per dokumen", opt(i.coauthorsPerDoc, (c) => formatDecimal(c))],
-      ["Ko-penulisan internasional", opt(i.internationalCoauthorship, (s) => `${formatDecimal(s * 100)}%`), true],
+    [t("Penulis"), [
+      [t("Penulis"), formatInt(i.authors)],
+      [t("Penulis dokumen tunggal"), formatInt(i.authorsOfSingle)],
+      [t("Dokumen penulis tunggal"), formatInt(i.singleAuthorDocs)],
+      [t("Ko-penulis per dokumen"), opt(i.coauthorsPerDoc, (c) => formatDecimal(c))],
+      [t("Ko-penulisan internasional"), opt(i.internationalCoauthorship, (s) => `${formatDecimal(s * 100)}%`), true],
     ]],
-    ["Jenis dokumen", i.docTypes.map((t): Row => [t.docType === "lainnya" ? "Lainnya" : docTypeLabel(t.docType), formatInt(t.count)])],
+    [t("Jenis dokumen"), i.docTypes.map((d): Row => [d.docType === "lainnya" ? t("Lainnya") : t(docTypeLabel(d.docType)), formatInt(d.count)])],
   ];
 }
 
 export function MainInfoPanel({ info }: { info: MainInfo }) {
   return (
-    <aside className="main-info" aria-label="Informasi utama">
+    <aside className="main-info" aria-label={t("Informasi utama")}>
       {groups(info).map(([title, rows]) => (
         <section key={title}>
           <h3>{title}</h3>
@@ -48,8 +49,7 @@ export function MainInfoPanel({ info }: { info: MainInfo }) {
         </section>
       ))}
       <p className="muted main-info-note">
-        Jumlah penulis dan ko-penulisan internasional dihitung dari dokumen yang punya daftar penulis dan negara
-        afiliasi. Dokumen yang diimpor sebelum fitur itu ada belum ikut terhitung.
+        {t("Jumlah penulis dan ko-penulisan internasional dihitung dari dokumen yang punya daftar penulis dan negara afiliasi. Dokumen yang diimpor sebelum fitur itu ada belum ikut terhitung.")}
       </p>
     </aside>
   );

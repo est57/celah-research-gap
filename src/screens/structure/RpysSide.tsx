@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { formatInt } from "../../lib/format";
 import { DEFAULT_RPYS, type Rpys, type RpysParams } from "../../lib/rpysTypes";
+import { t } from "../../i18n";
 
 interface Props {
   params: RpysParams;
@@ -29,7 +30,7 @@ export function RpysSide({ params, data, busy, onParams }: Props) {
     e.preventDefault();
     const [a, b] = [year(from), year(to)];
     if (a === null || b === null || (a && b && a > b)) {
-      setError("Isi tahun 1800 sampai 2100, tahun awal tidak setelah tahun akhir. Kosongkan untuk otomatis.");
+      setError(t("Isi tahun 1800 sampai 2100, tahun awal tidak setelah tahun akhir. Kosongkan untuk otomatis."));
       return;
     }
     setError(null);
@@ -37,40 +38,38 @@ export function RpysSide({ params, data, busy, onParams }: Props) {
   };
 
   return (
-    <aside className="inspector" aria-label="Parameter RPYS">
-      <div className="ph">Parameter</div>
+    <aside className="inspector" aria-label={t("Parameter RPYS")}>
+      <div className="ph">{t("Parameter")}</div>
       <form className="params" onSubmit={submit}>
         <div className="param-row">
-          <label htmlFor="rp-from">Dari tahun</label>
+          <label htmlFor="rp-from">{t("Dari tahun")}</label>
           <input id="rp-from" className="input num" inputMode="numeric" maxLength={4} value={from}
-            placeholder={data ? String(data.from) : "otomatis"} onChange={(e) => setFrom(e.target.value)} />
+            placeholder={data ? String(data.from) : t("otomatis")} onChange={(e) => setFrom(e.target.value)} />
         </div>
         <div className="param-row">
-          <label htmlFor="rp-to">Sampai tahun</label>
+          <label htmlFor="rp-to">{t("Sampai tahun")}</label>
           <input id="rp-to" className="input num" inputMode="numeric" maxLength={4} value={to}
-            placeholder={data ? String(data.to) : "otomatis"} onChange={(e) => setTo(e.target.value)} />
+            placeholder={data ? String(data.to) : t("otomatis")} onChange={(e) => setTo(e.target.value)} />
         </div>
         {error ? <p className="evo-error" role="alert">{error}</p> : null}
         <div className="param-actions">
-          <button type="button" className="btn" onClick={() => onParams(DEFAULT_RPYS)}>Atur ulang</button>
-          <button type="submit" className="btn btn-primary" disabled={busy}>Terapkan</button>
+          <button type="button" className="btn" onClick={() => onParams(DEFAULT_RPYS)}>{t("Atur ulang")}</button>
+          <button type="submit" className="btn btn-primary" disabled={busy}>{t("Terapkan")}</button>
         </div>
       </form>
-      <div className="ph">Ringkasan</div>
+      <div className="ph">{t("Ringkasan")}</div>
       {data ? (
         <dl className="words-facts">
-          <dt>Dokumen dengan rujukan teks</dt>
-          <dd className="num">{`${formatInt(data.citing)} dari ${formatInt(data.documents)}`}</dd>
-          <dt>Sitasi bertahun</dt>
+          <dt>{t("Dokumen dengan rujukan teks")}</dt>
+          <dd className="num">{t("{n} dari {total}", { n: formatInt(data.citing), total: formatInt(data.documents) })}</dd>
+          <dt>{t("Sitasi bertahun")}</dt>
           <dd className="num">{formatInt(data.dated)}</dd>
-          <dt>Rujukan tanpa tahun</dt>
+          <dt>{t("Rujukan tanpa tahun")}</dt>
           <dd className="num">{formatInt(data.undated)}</dd>
         </dl>
       ) : null}
       <p className="muted words-hint">
-        Tahun yang jauh di atas median lima tahun di sekitarnya menandai karya yang sering dirujuk bersama: akar sejarah
-        bidang ini. Bandingkan dengan koleksi Anda: karya klasik yang belum dibaca layak masuk tinjauan pustaka. Rujukan
-        dengan DOI dihitung sebagai satu karya walau ditulis dengan format berbeda.
+        {t("Tahun yang jauh di atas median lima tahun di sekitarnya menandai karya yang sering dirujuk bersama: akar sejarah bidang ini. Bandingkan dengan koleksi Anda: karya klasik yang belum dibaca layak masuk tinjauan pustaka. Rujukan dengan DOI dihitung sebagai satu karya walau ditulis dengan format berbeda.")}
       </p>
     </aside>
   );

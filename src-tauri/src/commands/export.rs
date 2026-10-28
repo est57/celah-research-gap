@@ -17,7 +17,7 @@ pub struct Saved {
 fn ask_path(app: &AppHandle, title: &str, name: String, label: &str, ext: &str) -> AppResult<Option<PathBuf>> {
     let picked = app.dialog().file().set_title(title).set_file_name(name).add_filter(label, &[ext]).blocking_save_file();
     let Some(picked) = picked else { return Ok(None) };
-    let mut path = picked.into_path().map_err(|_| AppError::Invalid("lokasi file tidak didukung".into()))?;
+    let mut path = picked.into_path().map_err(|_| AppError::Invalid(crate::tr!("lokasi file tidak didukung", "unsupported file location").into()))?;
     if path.extension().and_then(|e| e.to_str()) != Some(ext) {
         path.set_extension(ext);
     }
@@ -38,11 +38,11 @@ pub fn export_collection(app: AppHandle, state: State<'_, AppState>, format: Str
             export::build(&conn, &format)?
         }
         "filtered" => with_analysis(&state, |conn| export::build(conn, &format))?,
-        _ => return Err(AppError::Invalid("cakupan ekspor tidak dikenal".into())),
+        _ => return Err(AppError::Invalid(crate::tr!("cakupan ekspor tidak dikenal", "unknown export scope").into())),
     };
     let label = match ext { "csv" => "CSV", "bib" => "BibTeX", _ => "RIS" };
-    let Some(path) = ask_path(&app, "Ekspor koleksi", format!("celah-koleksi.{ext}"), label, ext)? else { return Ok(None) };
-    std::fs::write(&path, bytes).map_err(|_| AppError::Invalid("file tidak bisa disimpan di lokasi itu".into()))?;
+    let Some(path) = ask_path(&app, crate::tr!("Ekspor koleksi", "Export collection"), crate::tr!(format!("celah-koleksi.{ext}"), format!("celah-collection.{ext}")), label, ext)? else { return Ok(None) };
+    std::fs::write(&path, bytes).map_err(|_| AppError::Invalid(crate::tr!("file tidak bisa disimpan di lokasi itu", "the file cannot be saved in that location").into()))?;
     Ok(Some(Saved { file: file_name(&path), count }))
 }
 
@@ -53,7 +53,7 @@ pub fn backup_database(app: AppHandle, state: State<'_, AppState>) -> AppResult<
         let conn = state.db.lock().map_err(|_| AppError::Internal)?;
         conn.query_row("SELECT date('now', 'localtime')", [], |r| r.get(0))?
     };
-    let Some(path) = ask_path(&app, "Cadangkan database", format!("celah-cadangan-{date}.sqlite"), "Database SQLite", "sqlite")? else {
+    let Some(path) = ask_path(&app, crate::tr!("Cadangkan database", "Back up database"), crate::tr!(format!("celah-cadangan-{date}.sqlite"), format!("celah-backup-{date}.sqlite")), crate::tr!("Database SQLite", "SQLite database"), "sqlite")? else {
         return Ok(None);
     };
     let conn = state.db.lock().map_err(|_| AppError::Internal)?;
@@ -66,9 +66,9 @@ pub fn backup_database(app: AppHandle, state: State<'_, AppState>) -> AppResult<
 #[tauri::command(async)]
 pub fn save_image(app: AppHandle, kind: String, data: Vec<u8>, name: String) -> AppResult<Option<String>> {
     let ext = export::image::check(&kind, &data)?;
-    let label = if ext == "png" { "Gambar PNG" } else { "Gambar SVG" };
+    let label = if ext == "png" { crate::tr!("Gambar PNG", "PNG image") } else { crate::tr!("Gambar SVG", "SVG image") };
     let stem = export::image::file_stem(&name);
-    let Some(path) = ask_path(&app, "Simpan grafik", format!("{stem}.{ext}"), label, ext)? else { return Ok(None) };
-    std::fs::write(&path, data).map_err(|_| AppError::Invalid("gambar tidak bisa disimpan di lokasi itu".into()))?;
+    let Some(path) = ask_path(&app, crate::tr!("Simpan grafik", "Save chart"), format!("{stem}.{ext}"), label, ext)? else { return Ok(None) };
+    std::fs::write(&path, data).map_err(|_| AppError::Invalid(crate::tr!("gambar tidak bisa disimpan di lokasi itu", "the image cannot be saved in that location").into()))?;
     Ok(Some(file_name(&path)))
 }

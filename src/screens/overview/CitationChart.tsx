@@ -1,3 +1,4 @@
+import { t } from "../../i18n";
 import { useWidth } from "../../hooks/useWidth";
 import { formatDecimal } from "../../lib/format";
 import type { YearPoint } from "../../lib/overviewTypes";
@@ -15,7 +16,7 @@ interface Props {
 export function CitationChart({ points, metric = "perYear", height = 170 }: Props) {
   const H = height;
   const val = (p: YearPoint) => (metric === "perArticle" ? p.meanTc : p.meanTcPerYear);
-  const unit = metric === "perArticle" ? "sitasi per artikel" : "sitasi per tahun";
+  const unit = metric === "perArticle" ? t("sitasi per artikel") : t("sitasi per tahun");
   const { ref, width } = useWidth<HTMLDivElement>(340);
   const max = Math.max(...points.map((p) => val(p)), 0);
   const top = max > 0 ? Math.ceil(max) : 1;
@@ -31,11 +32,11 @@ export function CitationChart({ points, metric = "perYear", height = 170 }: Prop
 
   return (
     <div ref={ref}>
-      <svg width={width} height={H} role="img" aria-label={`Rata-rata ${unit}`}>
-        {ticks.map((t) => (
-          <g key={t}>
-            <line x1={PAD.left} x2={width - PAD.right} y1={y(t)} y2={y(t)} className="chart-grid" />
-            <text x={PAD.left - 6} y={y(t)} dy="0.35em" textAnchor="end" className="chart-axis">{formatDecimal(t)}</text>
+      <svg width={width} height={H} role="img" aria-label={t("Rata-rata {unit}", { unit })}>
+        {ticks.map((v) => (
+          <g key={v}>
+            <line x1={PAD.left} x2={width - PAD.right} y1={y(v)} y2={y(v)} className="chart-grid" />
+            <text x={PAD.left - 6} y={y(v)} dy="0.35em" textAnchor="end" className="chart-axis">{formatDecimal(v)}</text>
           </g>
         ))}
         <line x1={PAD.left} x2={width - PAD.right} y1={y(0)} y2={y(0)} className="chart-baseline" />
@@ -54,8 +55,7 @@ export function CitationChart({ points, metric = "perYear", height = 170 }: Prop
       </svg>
       {peak && val(peak) > 0 ? (
         <div className="muted chart-note">
-          Puncak {peak.year} ({formatDecimal(val(peak))}). Dokumen terbaru wajar masih rendah karena
-          belum banyak waktu untuk disitasi.
+          {t("Puncak {year} ({value}). Dokumen terbaru wajar masih rendah karena belum banyak waktu untuk disitasi.", { year: peak.year, value: formatDecimal(val(peak)) })}
         </div>
       ) : null}
     </div>

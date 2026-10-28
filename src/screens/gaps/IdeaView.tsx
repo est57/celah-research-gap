@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { t } from "../../i18n";
 import { isDesktop } from "../../lib/api";
 import { useIdea } from "../../hooks/useIdea";
 import { CheckResult } from "./CheckResult";
@@ -32,18 +33,17 @@ export function IdeaView({ onOpen, onChanged, initialA = "" }: Props) {
   return (
     <div className="year-page">
       <section className="pnl">
-        <div className="ph">Uji ide celah</div>
+        <div className="ph">{t("Uji ide celah")}</div>
         <form className="idea-form" onSubmit={submit}>
           <p className="muted">
-            Tulis dua konsep yang ingin Anda gabungkan. Pisahkan sebutan lain dengan koma, misalnya
-            "vision transformer, ViT". Filter analisis dan sinonim kata kunci ikut berlaku.
+            {t("Tulis dua konsep yang ingin Anda gabungkan. Pisahkan sebutan lain dengan koma, misalnya \"vision transformer, ViT\". Filter analisis dan sinonim kata kunci ikut berlaku.")}
           </p>
           <div className="idea-inputs">
-            <label htmlFor="idea-a">Konsep A</label>
-            <input id="idea-a" className="input" maxLength={300} placeholder="vision transformer, ViT" value={a} onChange={(e) => setA(e.target.value)} />
-            <label htmlFor="idea-b">Konsep B</label>
-            <input id="idea-b" className="input" maxLength={300} placeholder="sputum smear" value={b} onChange={(e) => setB(e.target.value)} />
-            <button type="submit" className="btn btn-primary" disabled={busy !== null || !a.trim() || !b.trim()}>{busy === "test" ? "Menghitung..." : "Uji"}</button>
+            <label htmlFor="idea-a">{t("Konsep A")}</label>
+            <input id="idea-a" className="input" maxLength={300} placeholder={"vision transformer, ViT"} value={a} onChange={(e) => setA(e.target.value)} />
+            <label htmlFor="idea-b">{t("Konsep B")}</label>
+            <input id="idea-b" className="input" maxLength={300} placeholder={"sputum smear"} value={b} onChange={(e) => setB(e.target.value)} />
+            <button type="submit" className="btn btn-primary" disabled={busy !== null || !a.trim() || !b.trim()}>{busy === "test" ? t("Menghitung...") : t("Uji")}</button>
           </div>
         </form>
         {error ? <p className="delete-error ent-note" role="alert">{error}</p> : null}
@@ -51,10 +51,10 @@ export function IdeaView({ onOpen, onChanged, initialA = "" }: Props) {
       {idea ? <IdeaResult idea={idea} /> : null}
       {idea && idea.verdict !== "kurang-data" ? (
         <div className="idea-save">
-          <span className="muted">Simpan agar ide ini tampil di Gap Explorer, bisa direview, diverifikasi, dan masuk ke laporan.</span>
+          <span className="muted">{t("Simpan agar ide ini tampil di Gap Explorer, bisa direview, diverifikasi, dan masuk ke laporan.")}</span>
           <button type="button" className="btn btn-primary" disabled={saved || !isDesktop()}
             onClick={() => void store.save(a, b).then((ok) => setSaved(ok))}>
-            {saved ? "Tersimpan di Gap Explorer" : "Simpan ke Gap Explorer"}
+            {saved ? t("Tersimpan di Gap Explorer") : t("Simpan ke Gap Explorer")}
           </button>
         </div>
       ) : null}
@@ -62,17 +62,17 @@ export function IdeaView({ onOpen, onChanged, initialA = "" }: Props) {
       {idea ? (
         <section className="pnl">
           <div className="ph">
-            Literatur terbaru di luar koleksi
-            <span className="ph-aside">OpenAlex, 2 tahun terakhir</span>
+            {t("Literatur terbaru di luar koleksi")}
+            <span className="ph-aside">{t("OpenAlex, 2 tahun terakhir")}</span>
           </div>
           <div className="pnl-body">
             {check ? (
               <CheckResult check={{ ...check, checkedAt: now }} limit={8} />
             ) : (
               <div className="idea-check">
-                <span className="muted">Pastikan celah ini belum dijawab oleh paper yang belum ada di koleksi Anda.</span>
+                <span className="muted">{t("Pastikan celah ini belum dijawab oleh paper yang belum ada di koleksi Anda.")}</span>
                 <button type="button" className="btn" disabled={busy !== null || !isDesktop()} onClick={() => void verify(a, b)}>
-                  {busy === "check" ? "Mencari..." : "Cek literatur terbaru"}
+                  {busy === "check" ? t("Mencari...") : t("Cek literatur terbaru")}
                 </button>
               </div>
             )}

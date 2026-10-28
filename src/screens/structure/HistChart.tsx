@@ -4,6 +4,7 @@ import { useZoomPan } from "../../hooks/useZoomPan";
 import { placeAbove } from "../../lib/labelPlace";
 import { clusterColor } from "../../lib/structureTypes";
 import type { Historiograph } from "../../lib/histTypes";
+import { t } from "../../i18n";
 
 const PAD_X = 46;
 const PAD_TOP = 30;
@@ -55,13 +56,13 @@ export function HistChart({ data, selected, onSelect }: Props) {
 
   return (
     <div ref={ref} className="hist-chart netgraph">
-      <div className="net-zoom" role="group" aria-label="Perbesar historiograf">
-        <span className="muted">Roda mouse untuk zoom, seret untuk menggeser</span>
-        <button type="button" className="btn" aria-label="Perbesar" onClick={zoom.zoomIn}>+</button>
-        <button type="button" className="btn" aria-label="Perkecil" disabled={k <= 1} onClick={zoom.zoomOut}>-</button>
-        <button type="button" className="btn" disabled={k === 1} onClick={zoom.reset}>Atur ulang</button>
+      <div className="net-zoom" role="group" aria-label={t("Perbesar historiograf")}>
+        <span className="muted">{t("Roda mouse untuk zoom, seret untuk menggeser")}</span>
+        <button type="button" className="btn" aria-label={t("Perbesar")} onClick={zoom.zoomIn}>+</button>
+        <button type="button" className="btn" aria-label={t("Perkecil")} disabled={k <= 1} onClick={zoom.zoomOut}>-</button>
+        <button type="button" className="btn" disabled={k === 1} onClick={zoom.reset}>{t("Atur ulang")}</button>
       </div>
-      <svg ref={zoom.ref} width={width} height={layout.height} role="img" aria-label="Historiograf sitasi langsung menurut tahun"
+      <svg ref={zoom.ref} width={width} height={layout.height} role="img" aria-label={t("Historiograf sitasi langsung menurut tahun")}
         {...zoom.handlers} onClick={() => { if (!zoom.wasDrag()) onSelect(null); }}>
         <defs>
           <marker id="hist-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -95,14 +96,14 @@ export function HistChart({ data, selected, onSelect }: Props) {
           const dim = selected !== null && i !== selected && !near.has(i);
           return (
             <g key={n.id} className="hist-node" opacity={dim ? 0.3 : 1} tabIndex={0} role="button" aria-pressed={i === selected}
-              aria-label={`${n.label}, ${n.lcs} sitasi lokal`}
+              aria-label={t("{label}, {n} sitasi lokal", { label: n.label, n: n.lcs })}
               onClick={(ev) => { ev.stopPropagation(); if (!zoom.wasDrag()) onSelect(i); }}
               onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); onSelect(i); } }}>
               <circle cx={p.x} cy={p.y} r={radius(n.lcs)} fill={clusterColor(n.cluster)} style={{ stroke: i === selected ? "var(--ink)" : "var(--panel)" }} strokeWidth={1.5} />
               {labelled.has(i) ? (
                 <text x={p.x} y={p.y - radius(n.lcs) - 4} textAnchor="middle" className="hist-label">{text(n.label)}</text>
               ) : null}
-              <title>{`${n.title} (${n.lcs} sitasi lokal)`}</title>
+              <title>{t("{title} ({n} sitasi lokal)", { title: n.title, n: n.lcs })}</title>
             </g>
           );
         })}

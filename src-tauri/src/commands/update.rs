@@ -21,7 +21,7 @@ pub struct UpdateInfo {
 
 fn failed(err: tauri_plugin_updater::Error) -> AppError {
     eprintln!("[update] {err}");
-    AppError::Http("server pembaruan tidak bisa dihubungi atau berkasnya tidak valid".into())
+    AppError::Http(crate::tr!("server pembaruan tidak bisa dihubungi atau berkasnya tidak valid", "the update server cannot be reached or its file is invalid").into())
 }
 
 async fn latest(app: &AppHandle) -> AppResult<Option<Update>> {
@@ -41,7 +41,7 @@ pub async fn check_update(app: AppHandle) -> AppResult<Option<UpdateInfo>> {
 /// Downloads, verifies and installs the newer version, then restarts the app.
 #[tauri::command]
 pub async fn install_update(app: AppHandle) -> AppResult<()> {
-    let update = latest(&app).await?.ok_or_else(|| AppError::Invalid("tidak ada versi baru".into()))?;
+    let update = latest(&app).await?.ok_or_else(|| AppError::Invalid(crate::tr!("tidak ada versi baru", "no new version").into()))?;
     update.download_and_install(|_, _| {}, || {}).await.map_err(failed)?;
     app.restart()
 }

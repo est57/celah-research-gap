@@ -34,7 +34,7 @@ pub fn validate(raw: &str) -> AppResult<String> {
     let q = raw.trim();
     let n = q.chars().count();
     if !(2..=100).contains(&n) || q.chars().any(char::is_control) {
-        return Err(AppError::Invalid("teks pencarian harus 2 sampai 100 karakter".into()));
+        return Err(AppError::Invalid(crate::tr!("teks pencarian harus 2 sampai 100 karakter", "search text must be 2 to 100 characters").into()));
     }
     Ok(q.to_string())
 }

@@ -61,8 +61,8 @@ pub struct Factorial {
 
 pub fn compute(conn: &Connection, p: &FactorialParams) -> AppResult<Factorial> {
     // The eigen problem has 2 x words rows; 100 keeps it well under a second.
-    let words = in_range(p.words, 10, 100, "jumlah kata")? as usize;
-    let k = in_range(p.clusters, 0, MAX_CLUSTERS as u32, "jumlah klaster")? as usize;
+    let words = in_range(p.words, 10, 100, crate::tr!("jumlah kata", "number of words"))? as usize;
+    let k = in_range(p.clusters, 0, MAX_CLUSTERS as u32, crate::tr!("jumlah klaster", "number of clusters"))? as usize;
     let field = field_choice(conn, &p.field)?;
     let net = cooccur::build(conn, field, words)?;
     let mut doc_terms: HashMap<usize, Vec<usize>> = HashMap::new();

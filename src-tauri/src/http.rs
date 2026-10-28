@@ -24,13 +24,13 @@ pub fn check(res: &Response, service: &'static str) -> AppResult<()> {
         // arXiv signals throttling with 503 instead of 429.
         StatusCode::TOO_MANY_REQUESTS | StatusCode::SERVICE_UNAVAILABLE => Err(AppError::RateLimited(service)),
         StatusCode::UNAUTHORIZED | StatusCode::FORBIDDEN => Err(AppError::Unauthorized(service)),
-        s => Err(AppError::Http(format!("{service} membalas status {}", s.as_u16()))),
+        s => Err(AppError::Http(crate::tr!(format!("{service} membalas status {}", s.as_u16()), format!("{service} returned status {}", s.as_u16())))),
     }
 }
 
 /// Header value for an API key, flagged sensitive so it is redacted from debug output.
 pub fn secret_header(key: &str) -> AppResult<HeaderValue> {
-    let mut value = HeaderValue::from_str(key).map_err(|_| AppError::Invalid("kunci API berisi karakter tidak sah".into()))?;
+    let mut value = HeaderValue::from_str(key).map_err(|_| AppError::Invalid(crate::tr!("kunci API berisi karakter tidak sah", "the API key has invalid characters").into()))?;
     value.set_sensitive(true);
     Ok(value)
 }
@@ -41,7 +41,7 @@ pub async fn body_limited(mut res: Response, max: usize, service: &'static str) 
     let mut body = Vec::new();
     while let Some(chunk) = res.chunk().await? {
         if body.len() + chunk.len() > max {
-            return Err(AppError::Http(format!("respons {service} terlalu besar")));
+            return Err(AppError::Http(crate::tr!(format!("respons {service} terlalu besar"), format!("the {service} response is too large"))));
         }
         body.extend_from_slice(&chunk);
     }

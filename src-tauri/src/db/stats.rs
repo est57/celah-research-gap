@@ -62,11 +62,39 @@ pub fn collection(conn: &Connection) -> AppResult<CollectionStats> {
         FIELDS
             .iter()
             .enumerate()
-            .map(|(i, (tag, label, _))| Ok(FieldStat { tag, label, missing: r.get(i)? }))
+            .map(|(i, (tag, label_id, _))| Ok(FieldStat { tag, label: label(label_id), missing: r.get(i)? }))
             .collect::<Result<Vec<_>, _>>()
     })?;
 
     let active = super::filter::load(conn)?;
     let analyzed = if active.is_active() { super::filter::matching(conn, &active)? } else { total };
     Ok(CollectionStats { total, filtered: active.is_active(), analyzed, origins, fields })
+}
+
+/// English name of a field or analysis label above, when the interface is in English.
+pub fn label(id: &'static str) -> &'static str {
+    if !crate::lang::english() {
+        return id;
+    }
+    match id {
+        "Penulis" => "Authors",
+        "Judul" => "Title",
+        "Tahun terbit" => "Publication year",
+        "Sumber" => "Source",
+        "Jumlah sitasi" => "Citation count",
+        "Abstrak" => "Abstract",
+        "Afiliasi" => "Affiliations",
+        "Kata kunci penulis" => "Author keywords",
+        "Referensi" => "References",
+        "Institusi" => "Institutions",
+        "Negara afiliasi" => "Affiliation countries",
+        "Peta tematik & tren topik" => "Thematic map & topic trends",
+        "Ko-sitasi & struktur intelektual" => "Co-citation & intellectual structure",
+        "Historiograf (sitasi langsung)" => "Historiograph (direct citations)",
+        "Jaringan kolaborasi penulis" => "Author collaboration network",
+        "Kolaborasi negara (SCP/MCP)" => "Country collaboration (SCP/MCP)",
+        "Kalimat celah di abstrak" => "Gap sentences in abstracts",
+        "Produksi tahunan & momentum" => "Annual production & momentum",
+        other => other,
+    }
 }

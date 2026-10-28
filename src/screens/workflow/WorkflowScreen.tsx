@@ -6,27 +6,28 @@ import { workflowStatus } from "../../lib/apiEntities";
 import type { Jump } from "../../lib/commands";
 import { STATE_LABEL, steps } from "../../lib/workflow";
 import { Welcome } from "./Welcome";
+import { t, tk } from "../../i18n";
 
 // The DEV check sits on the import itself so production builds drop the sample module entirely.
 const sample = import.meta.env.DEV ? () => import("../../dev/sampleWorkflow").then((m) => m.SAMPLE_WORKFLOW) : null;
 
-const TABS: TabDef<"steps">[] = [{ id: "steps", label: "Langkah penelitian" }];
+const TABS: TabDef<"steps">[] = [{ id: "steps", label: tk("Langkah penelitian") }];
 
 /** Home screen: the research workflow, where the project stands, and where to go next. */
 export function WorkflowScreen({ version, onJump }: { version: number; onJump: (j: Jump) => void }) {
   const { data, sample: isSample, error, loading } = useDesktopData(workflowStatus, sample, version);
   let body: ReactNode;
   if (error) body = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
-  else if (!data) body = <ScreenMessage>{loading ? "Memeriksa kemajuan proyek..." : ""}</ScreenMessage>;
+  else if (!data) body = <ScreenMessage>{loading ? t("Memeriksa kemajuan proyek...") : ""}</ScreenMessage>;
   else {
     const list = steps(data);
     const next = list.findIndex((s) => s.state === "todo" || s.state === "attention");
     body = (
       <div className="year-page">
-        {isSample ? <div className="notice">Pratinjau browser: angka di halaman ini adalah data contoh.</div> : null}
+        {isSample ? <div className="notice">{t("Pratinjau browser: angka di halaman ini adalah data contoh.")}</div> : null}
         <div className="wf-head">
-          <h1>Alur kerja penelitian</h1>
-          <p className="muted">{next >= 0 ? `Langkah berikutnya: ${list[next].title.toLowerCase()}.` : "Semua langkah sudah berjalan. Perbarui laporan bila ada celah baru yang diterima."}</p>
+          <h1>{t("Alur kerja penelitian")}</h1>
+          <p className="muted">{next >= 0 ? t("Langkah berikutnya: {step}.", { step: list[next].title.toLowerCase() }) : t("Semua langkah sudah berjalan. Perbarui laporan bila ada celah baru yang diterima.")}</p>
         </div>
         {data.documents === 0 ? <Welcome onJump={onJump} /> : null}
         <ol className="wf-steps">
@@ -36,7 +37,7 @@ export function WorkflowScreen({ version, onJump }: { version: number; onJump: (
               <div className="wf-body">
                 <div className="wf-title">
                   <strong>{s.title}</strong>
-                  <span className="wf-chip" data-state={s.state}>{STATE_LABEL[s.state]}</span>
+                  <span className="wf-chip" data-state={s.state}>{t(STATE_LABEL[s.state])}</span>
                 </div>
                 <p className="muted">{s.text}</p>
                 {s.facts.length ? <p className="wf-facts">{s.facts.join(" · ")}</p> : null}
@@ -52,7 +53,7 @@ export function WorkflowScreen({ version, onJump }: { version: number; onJump: (
   }
   return (
     <>
-      <Tabs label="Alur kerja" tabs={TABS} active="steps" onChange={() => undefined} />
+      <Tabs label={t("Alur kerja")} tabs={TABS} active="steps" onChange={() => undefined} />
       {body}
     </>
   );

@@ -36,7 +36,7 @@ pub fn in_range(value: u32, min: u32, max: u32, what: &str) -> AppResult<u32> {
     if (min..=max).contains(&value) {
         Ok(value)
     } else {
-        Err(AppError::Invalid(format!("{what} harus {min} sampai {max}")))
+        Err(AppError::Invalid(crate::tr!(format!("{what} harus {min} sampai {max}"), format!("{what} must be {min} to {max}"))))
     }
 }
 
@@ -46,15 +46,15 @@ pub fn field_choice(conn: &Connection, raw: &str) -> AppResult<Field> {
         "auto" => cooccur::best_field(conn),
         "author" => Ok(Field::AuthorKeywords),
         "plus" => Ok(Field::KeywordsPlus),
-        _ => Err(AppError::Invalid("field kata kunci tidak dikenal".into())),
+        _ => Err(AppError::Invalid(crate::tr!("field kata kunci tidak dikenal", "unknown keyword field").into())),
     }
 }
 
 pub fn compute(conn: &Connection, p: &ConceptualParams) -> AppResult<Conceptual> {
-    let words = in_range(p.words, 20, 1000, "jumlah kata")? as usize;
-    let min_freq = in_range(p.min_cluster_freq, 0, 100, "frekuensi minimum tema")?;
-    let labels = in_range(p.labels, 1, 5, "label per tema")? as usize;
-    let trend_min = in_range(p.trend_min_freq, 1, 100, "frekuensi minimum tren")? as usize;
+    let words = in_range(p.words, 20, 1000, crate::tr!("jumlah kata", "number of words"))? as usize;
+    let min_freq = in_range(p.min_cluster_freq, 0, 100, crate::tr!("frekuensi minimum tema", "minimum theme frequency"))?;
+    let labels = in_range(p.labels, 1, 5, crate::tr!("label per tema", "labels per theme"))? as usize;
+    let trend_min = in_range(p.trend_min_freq, 1, 100, crate::tr!("frekuensi minimum tren", "minimum trend frequency"))? as usize;
     let field = field_choice(conn, &p.field)?;
     let year = current_year(conn)?;
     let net = cooccur::build(conn, field, words)?;

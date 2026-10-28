@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { importFile } from "../../lib/api";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 type Msg = { kind: "ok" | "error" | "info"; text: string } | null;
 
@@ -10,17 +11,20 @@ export function FileImport({ onImported }: { onImported: () => void }) {
 
   const run = async () => {
     setBusy(true);
-    setMsg({ kind: "info", text: "Memilih dan membaca file..." });
+    setMsg({ kind: "info", text: t("Memilih dan membaca file...") });
     try {
       const r = await importFile();
       if (!r) {
         setMsg(null);
         return;
       }
+      const vars = { origin: r.origin, fetched: formatInt(r.fetched), inserted: formatInt(r.inserted),
+        duplicates: formatInt(r.duplicates), completed: formatInt(r.completed) };
       setMsg({
         kind: "ok",
-        text: `${r.origin}: ${formatInt(r.fetched)} rekaman dibaca, ${formatInt(r.inserted)} baru, ${formatInt(r.duplicates)} sudah ada`
-          + (r.completed ? ` (${formatInt(r.completed)} di antaranya dilengkapi, misalnya dengan daftar rujukan).` : "."),
+        text: r.completed
+          ? t("{origin}: {fetched} rekaman dibaca, {inserted} baru, {duplicates} sudah ada ({completed} di antaranya dilengkapi, misalnya dengan daftar rujukan).", vars)
+          : t("{origin}: {fetched} rekaman dibaca, {inserted} baru, {duplicates} sudah ada.", vars),
       });
       onImported();
     } catch (err) {
@@ -34,9 +38,9 @@ export function FileImport({ onImported }: { onImported: () => void }) {
     <div className="file-import">
       <div className="file-import-row">
         <button type="button" className="btn" disabled={busy} onClick={() => void run()}>
-          {busy ? "Mengimpor..." : "Impor file ekspor"}
+          {busy ? t("Mengimpor...") : t("Impor file ekspor")}
         </button>
-        <span className="muted">Scopus: .csv, .bib, atau .ris. Web of Science: .txt (Plain text, Full record and cited references). PubMed: .nbib atau .txt (PubMed format). Zotero, Mendeley, EndNote: .ris.</span>
+        <span className="muted">{t("Scopus: .csv, .bib, atau .ris. Web of Science: .txt (Plain text, Full record and cited references). PubMed: .nbib atau .txt (PubMed format). Zotero, Mendeley, EndNote: .ris.")}</span>
       </div>
       {msg ? (
         <span className="message" data-kind={msg.kind} role="status">

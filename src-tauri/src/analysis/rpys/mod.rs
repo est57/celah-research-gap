@@ -62,15 +62,15 @@ fn bound(v: u32, what: &str) -> AppResult<Option<u16>> {
     match v {
         0 => Ok(None),
         1800..=2100 => Ok(Some(v as u16)),
-        _ => Err(AppError::Invalid(format!("{what} harus 1800 sampai 2100, atau 0 untuk otomatis"))),
+        _ => Err(AppError::Invalid(crate::tr!(format!("{what} harus 1800 sampai 2100, atau 0 untuk otomatis"), format!("{what} must be 1800 to 2100, or 0 for automatic")))),
     }
 }
 
 pub fn compute(conn: &Connection, p: &RpysParams) -> AppResult<Rpys> {
-    let (from, to) = (bound(p.from, "tahun awal")?, bound(p.to, "tahun akhir")?);
+    let (from, to) = (bound(p.from, crate::tr!("tahun awal", "start year"))?, bound(p.to, crate::tr!("tahun akhir", "end year"))?);
     if let (Some(a), Some(b)) = (from, to) {
         if a > b {
-            return Err(AppError::Invalid("tahun awal tidak boleh setelah tahun akhir".into()));
+            return Err(AppError::Invalid(crate::tr!("tahun awal tidak boleh setelah tahun akhir", "start year cannot be after end year").into()));
         }
     }
     let documents: i64 = conn.query_row("SELECT COUNT(*) FROM papers", [], |r| r.get(0))?;

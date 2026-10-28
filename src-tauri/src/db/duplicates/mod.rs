@@ -68,7 +68,7 @@ fn ordered(a: i64, b: i64) -> (i64, i64) {
 
 pub fn check_ids(a: i64, b: i64) -> AppResult<()> {
     if a <= 0 || b <= 0 || a == b {
-        return Err(AppError::Invalid("pasangan dokumen tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("pasangan dokumen tidak sah", "invalid document pair").into()));
     }
     Ok(())
 }
@@ -83,7 +83,7 @@ pub fn dismiss(conn: &Connection, a: i64, b: i64) -> AppResult<()> {
         params![x, y],
     )?;
     if changed == 0 && !conn.prepare("SELECT 1 FROM dup_dismissed WHERE a = ?1 AND b = ?2")?.exists(params![x, y])? {
-        return Err(AppError::Invalid("dokumen tidak ditemukan".into()));
+        return Err(AppError::Invalid(crate::tr!("dokumen tidak ditemukan", "document not found").into()));
     }
     Ok(())
 }

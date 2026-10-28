@@ -1,5 +1,6 @@
 import { formatInt } from "../../lib/format";
 import type { OriginCount } from "../../lib/types";
+import { t } from "../../i18n";
 
 const COLORS: Record<string, string> = {
   OpenAlex: "#2E8B6E",
@@ -20,11 +21,11 @@ interface Props {
 
 export function OriginSummary({ origins, total }: Props) {
   if (total === 0) {
-    return <div className="muted" style={{ fontSize: 12 }}>Belum ada dokumen di koleksi.</div>;
+    return <div className="muted" style={{ fontSize: 12 }}>{t("Belum ada dokumen di koleksi.")}</div>;
   }
   return (
     <>
-      <div className="origin-bar" role="img" aria-label="Proporsi dokumen per sumber impor">
+      <div className="origin-bar" role="img" aria-label={t("Proporsi dokumen per sumber impor")}>
         {origins.map((o) => (
           <div
             key={o.origin}

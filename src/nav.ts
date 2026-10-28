@@ -1,3 +1,5 @@
+import { tk } from "./i18n";
+
 export type ScreenId =
   | "workflow"
   | "collection"
@@ -26,33 +28,33 @@ export interface NavSection {
 }
 
 export const NAV: NavSection[] = [
-  { title: "Data", items: [{ id: "workflow", label: "Alur kerja" }, { id: "collection", label: "Koleksi & impor", showsTotal: true }] },
+  { title: tk("Data"), items: [{ id: "workflow", label: tk("Alur kerja") }, { id: "collection", label: tk("Koleksi & impor"), showsTotal: true }] },
   {
-    title: "Analisis deskriptif",
+    title: tk("Analisis deskriptif"),
     items: [
-      { id: "overview", label: "Ringkasan" },
-      { id: "sources", label: "Sumber" },
-      { id: "authors", label: "Penulis" },
-      { id: "countries", label: "Negara & kolaborasi" },
+      { id: "overview", label: tk("Ringkasan") },
+      { id: "sources", label: tk("Sumber") },
+      { id: "authors", label: tk("Penulis") },
+      { id: "countries", label: tk("Negara & kolaborasi") },
     ],
   },
   {
-    title: "Struktur pengetahuan",
+    title: tk("Struktur pengetahuan"),
     items: [
-      { id: "conceptual", label: "Konseptual" },
-      { id: "intellectual", label: "Intelektual" },
-      { id: "social", label: "Sosial" },
+      { id: "conceptual", label: tk("Konseptual") },
+      { id: "intellectual", label: tk("Intelektual") },
+      { id: "social", label: tk("Sosial") },
     ],
   },
   {
-    title: "Pencarian celah",
+    title: tk("Pencarian celah"),
     items: [
-      { id: "opportunities", label: "Tema peluang" },
-      { id: "gaps", label: "Gap Explorer" },
-      { id: "verify", label: "Verifikasi" },
+      { id: "opportunities", label: tk("Tema peluang") },
+      { id: "gaps", label: tk("Gap Explorer") },
+      { id: "verify", label: tk("Verifikasi") },
     ],
   },
-  { title: "Keluaran", items: [{ id: "report", label: "Laporan & ekspor" }] },
-  { title: "Aplikasi", items: [{ id: "settings", label: "Pengaturan" }] },
+  { title: tk("Keluaran"), items: [{ id: "report", label: tk("Laporan & ekspor") }] },
+  { title: tk("Aplikasi"), items: [{ id: "settings", label: tk("Pengaturan") }] },
 ];
 

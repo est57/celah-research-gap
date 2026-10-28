@@ -1,3 +1,5 @@
+import { t, tk } from "../i18n";
+
 // "id-ID" writes 1.234,5; "en-US" writes 1,234.5. Changed from the display settings.
 let locale = "id-ID";
 let intFmt = new Intl.NumberFormat(locale);
@@ -28,25 +30,26 @@ export interface Quality {
 
 // Thresholds follow the bibliometrix missing-data convention.
 export function quality(missing: number, total: number): Quality {
-  if (total === 0) return { label: "Tidak ada data", color: "#8a929c" };
+  if (total === 0) return { label: t("Tidak ada data"), color: "#8a929c" };
   const pct = (missing / total) * 100;
-  if (pct === 0) return { label: "Sangat baik", color: "var(--ok)" };
-  if (pct < 10) return { label: "Baik", color: "var(--ok-2)" };
-  if (pct < 20) return { label: "Cukup", color: "var(--warn)" };
-  if (pct < 50) return { label: "Buruk", color: "var(--bad)" };
-  if (pct < 100) return { label: "Kritis", color: "var(--bad)" };
-  return { label: "Tidak ada", color: "#8a929c" };
+  if (pct === 0) return { label: t("Sangat baik"), color: "var(--ok)" };
+  if (pct < 10) return { label: t("Baik"), color: "var(--ok-2)" };
+  if (pct < 20) return { label: t("Cukup"), color: "var(--warn)" };
+  if (pct < 50) return { label: t("Buruk"), color: "var(--bad)" };
+  if (pct < 100) return { label: t("Kritis"), color: "var(--bad)" };
+  return { label: t("Tidak ada"), color: "#8a929c" };
 }
 
 const docTypeLabels: Record<string, string> = {
-  article: "Artikel",
-  review: "Review",
-  preprint: "Pra-cetak",
-  proceedings: "Prosiding",
-  "book-chapter": "Bab buku",
+  article: tk("Artikel"),
+  review: tk("Review"),
+  preprint: tk("Pra-cetak"),
+  proceedings: tk("Prosiding"),
+  "book-chapter": tk("Bab buku"),
 };
 
 export function docTypeLabel(type: string | null): string {
   if (!type) return "-";
-  return docTypeLabels[type] ?? type;
+  const label = docTypeLabels[type];
+  return label ? t(label) : type;
 }

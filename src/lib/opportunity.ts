@@ -1,11 +1,12 @@
+import { tk } from "../i18n";
 import type { Theme } from "./conceptualTypes";
 
 export type OpportunityStatus = "rising" | "declining" | "niche";
 
 export const STATUS_LABEL: Record<OpportunityStatus, string> = {
-  rising: "Sedang naik",
-  declining: "Menurun",
-  niche: "Niche matang",
+  rising: tk("Sedang naik"),
+  declining: tk("Menurun"),
+  niche: tk("Niche matang"),
 };
 
 export interface Opportunity {

@@ -9,6 +9,7 @@ mod export;
 mod geo;
 mod http;
 mod import;
+mod lang;
 #[cfg(test)]
 mod live_authors;
 #[cfg(test)]

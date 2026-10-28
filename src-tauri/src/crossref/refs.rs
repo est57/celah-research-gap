@@ -15,7 +15,7 @@ pub const BATCH: usize = 20;
 /// come back with an empty list. `dois` must be normalized and filter-safe.
 pub async fn by_doi(client: &reqwest::Client, dois: &[String]) -> AppResult<Vec<(String, Vec<String>)>> {
     if dois.is_empty() || dois.len() > BATCH || !dois.iter().all(|d| filter_safe_doi(d)) {
-        return Err(AppError::Invalid(format!("isi 1 sampai {BATCH} DOI yang valid")));
+        return Err(AppError::Invalid(crate::tr!(format!("isi 1 sampai {BATCH} DOI yang valid"), format!("give 1 to {BATCH} valid DOIs"))));
     }
     let filter = dois.iter().map(|d| format!("doi:{d}")).collect::<Vec<_>>().join(",");
     let rows = dois.len().to_string();

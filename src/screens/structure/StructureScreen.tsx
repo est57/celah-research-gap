@@ -5,15 +5,16 @@ import { NetworkView } from "./NetworkView";
 import { HistoriographView } from "./HistoriographView";
 import { RpysView } from "./RpysView";
 import { TopRefsView } from "./TopRefsView";
+import { t, tk } from "../../i18n";
 
 export type StructureTab = "references" | "toprefs" | "coupling" | "historiograph" | "rpys";
 
 const TABS: TabDef<StructureTab>[] = [
-  { id: "references", label: "Ko-sitasi" },
-  { id: "toprefs", label: "Rujukan teratas" },
-  { id: "coupling", label: "Kopling bibliografis" },
-  { id: "historiograph", label: "Historiograf" },
-  { id: "rpys", label: "Akar sejarah" },
+  { id: "references", label: tk("Ko-sitasi") },
+  { id: "toprefs", label: tk("Rujukan teratas") },
+  { id: "coupling", label: tk("Kopling bibliografis") },
+  { id: "historiograph", label: tk("Historiograf") },
+  { id: "rpys", label: tk("Akar sejarah") },
 ];
 
 interface Props {
@@ -28,7 +29,7 @@ export function StructureScreen({ version, initialTab, onDataChanged }: Props) {
   const [tab, setTab] = useState<StructureTab>(initialTab);
   return (
     <>
-      <Tabs label="Struktur intelektual" tabs={TABS} active={tab} onChange={setTab} />
+      <Tabs label={t("Struktur intelektual")} tabs={TABS.map((x) => ({ ...x, label: t(x.label) }))} active={tab} onChange={setTab} />
       {tab === "coupling" ? (
         <CouplingView version={version} />
       ) : tab === "references" ? (

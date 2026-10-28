@@ -40,7 +40,7 @@ pub fn delete_project(state: State<'_, AppState>, id: String) -> AppResult<Vec<P
 pub fn switch_project(state: State<'_, AppState>, id: String) -> AppResult<Vec<ProjectInfo>> {
     let mut r = projects::load(&state.data_dir);
     if !r.names.contains_key(&id) {
-        return Err(AppError::Invalid("proyek tidak dikenal".into()));
+        return Err(AppError::Invalid(crate::tr!("proyek tidak dikenal", "unknown project").into()));
     }
     let path = projects::path_of(&state.data_dir, &id)?;
     let conn = db::open(&path)?;

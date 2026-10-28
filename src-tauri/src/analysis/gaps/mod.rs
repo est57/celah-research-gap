@@ -6,6 +6,7 @@ mod explicit;
 mod fronts;
 mod ideas;
 pub mod model;
+mod pair_text;
 mod pairs;
 mod structural;
 mod themes;
@@ -86,7 +87,7 @@ pub fn compute(conn: &Connection) -> AppResult<GapList> {
             // Recent papers that already cover every term lower the score, by up to half.
             if let Some(c) = &check {
                 let unanswered = 1.0 - (c.matching as f64 / ANSWERED_AT as f64).min(1.0);
-                d.parts.push(model::part("Belum dijawab", unanswered));
+                d.parts.push(model::part(crate::tr!("Belum dijawab", "Unanswered"), unanswered));
                 s *= 0.5 + 0.5 * unanswered;
             }
             let s = (s * 100.0).round() / 100.0;

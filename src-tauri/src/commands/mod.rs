@@ -110,6 +110,7 @@ pub fn handler() -> impl Fn(tauri::ipc::Invoke) -> bool + Send + Sync + 'static 
         settings::clear_api_key,
         settings::app_info,
         update::check_update,
-        update::install_update
+        update::install_update,
+        crate::lang::set_language
     ]
 }

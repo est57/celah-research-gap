@@ -24,9 +24,9 @@ pub enum Level {
 impl Level {
     pub fn label(self) -> &'static str {
         match self {
-            Level::Documents => "Dokumen",
-            Level::Sources => "Sumber",
-            Level::Authors => "Penulis",
+            Level::Documents => crate::tr!("Dokumen", "Documents"),
+            Level::Sources => crate::tr!("Sumber", "Sources"),
+            Level::Authors => crate::tr!("Penulis", "Authors"),
         }
     }
 }

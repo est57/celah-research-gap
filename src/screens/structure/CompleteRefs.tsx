@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { isDesktop } from "../../lib/api";
 import { completeReferences, referencesPending, type EnrichReport } from "../../lib/apiCollection";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 /** Fetches cited works and institutions from OpenAlex for documents missing them, then reloads the analyses. */
 export function CompleteRefs({ version, onDone }: { version: number; onDone: () => void }) {
@@ -33,7 +34,7 @@ export function CompleteRefs({ version, onDone }: { version: number; onDone: () 
   if (!isDesktop()) {
     return (
       <div className="refs-box">
-        <p className="muted refs-note">Melengkapi rujukan hanya berjalan di aplikasi desktop.</p>
+        <p className="muted refs-note">{t("Melengkapi rujukan hanya berjalan di aplikasi desktop.")}</p>
       </div>
     );
   }
@@ -41,19 +42,19 @@ export function CompleteRefs({ version, onDone }: { version: number; onDone: () 
   return (
     <div className="refs-box">
       <p className="refs-note">
-        {pending === null ? "Memeriksa dokumen tanpa daftar rujukan..."
-          : `${formatInt(pending)} dokumen punya ID OpenAlex atau DOI tetapi belum punya daftar rujukan atau institusi.`}
+        {pending === null ? t("Memeriksa dokumen tanpa daftar rujukan...")
+          : t("{n} dokumen punya ID OpenAlex atau DOI tetapi belum punya daftar rujukan atau institusi.", { n: formatInt(pending) })}
       </p>
       {pending ? (
         <button type="button" className="btn btn-primary" disabled={running} onClick={() => void run()}>
-          {running ? "Mengambil data..." : "Lengkapi rujukan & institusi dari OpenAlex"}
+          {running ? t("Mengambil data...") : t("Lengkapi rujukan & institusi dari OpenAlex")}
         </button>
       ) : null}
-      {running ? <p className="muted refs-note">Sekitar 1 detik per 50 dokumen, paling banyak 2.000 sekali jalan.</p> : null}
+      {running ? <p className="muted refs-note">{t("Sekitar 1 detik per 50 dokumen, paling banyak 2.000 sekali jalan.")}</p> : null}
       {report ? (
         <p className="refs-note" role="status">
-          {`${formatInt(report.checked)} dokumen diperiksa, ${formatInt(report.gained)} kini punya rujukan baru.`}
-          {report.remaining ? ` ${formatInt(report.remaining)} lagi menunggu; jalankan sekali lagi.` : ""}
+          {t("{checked} dokumen diperiksa, {gained} kini punya rujukan baru.", { checked: formatInt(report.checked), gained: formatInt(report.gained) })}
+          {report.remaining ? ` ${t("{n} lagi menunggu; jalankan sekali lagi.", { n: formatInt(report.remaining) })}` : ""}
         </p>
       ) : null}
       {report?.error || error ? <p className="refs-error" role="alert">{report?.error ?? error}</p> : null}

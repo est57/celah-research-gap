@@ -1,8 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
 import { findLayoutProblems } from "./layoutChecks";
 
-// The widths the design must hold (CLAUDE.md), from wide desktop to the minimum window.
+// The widths the design must hold (CLAUDE.md), from wide desktop to the minimum window,
+// in both interface languages: English labels are often longer than Indonesian ones.
 const WIDTHS = [1440, 1100, 800];
+const LANGUAGES = ["id", "en"] as const;
 
 const settle = (page: Page) => page.waitForTimeout(600);
 
@@ -19,9 +21,10 @@ async function clickByText(page: Page, selector: string, text: string) {
   await settle(page);
 }
 
-for (const width of WIDTHS) {
-  test(`setiap halaman dan tab rapi di lebar ${width}px`, async ({ page }) => {
+for (const language of LANGUAGES) for (const width of WIDTHS) {
+  test(`setiap halaman dan tab rapi di lebar ${width}px (${language})`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
+    await page.addInitScript((lang) => localStorage.setItem("celah.display", JSON.stringify({ language: lang })), language);
     await page.goto("/");
     await settle(page);
     const screens = await page.$$eval(".nav-item", (items) => items.map((i) => (i.firstChild?.textContent ?? i.textContent ?? "").trim()));

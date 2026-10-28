@@ -1,3 +1,4 @@
+import { tk } from "../i18n";
 import type { CheckPaper } from "./gapTypes";
 
 export interface DocRef {
@@ -40,8 +41,8 @@ export interface IdeaCheck {
 }
 
 export const IDEA_VERDICT: Record<IdeaVerdict, { title: string; text: string }> = {
-  celah: { title: "Kemungkinan celah", text: "Kedua konsep sama-sama diteliti, tetapi jauh lebih jarang digabungkan dari yang diharapkan." },
-  jarang: { title: "Agak jarang digabungkan", text: "Kombinasi ini sudah ada, tetapi di bawah perkiraan. Celahnya mungkin pada aspek yang lebih spesifik." },
-  banyak: { title: "Sudah banyak diteliti", text: "Kombinasi ini muncul sesering atau lebih sering dari perkiraan. Cari sudut yang lebih sempit." },
-  "kurang-data": { title: "Data belum cukup", text: "Salah satu konsep muncul di kurang dari 3 dokumen. Perluas koleksi atau tambah sebutan lain untuk konsep itu." },
+  celah: { title: tk("Kemungkinan celah"), text: tk("Kedua konsep sama-sama diteliti, tetapi jauh lebih jarang digabungkan dari yang diharapkan.") },
+  jarang: { title: tk("Agak jarang digabungkan"), text: tk("Kombinasi ini sudah ada, tetapi di bawah perkiraan. Celahnya mungkin pada aspek yang lebih spesifik.") },
+  banyak: { title: tk("Sudah banyak diteliti"), text: tk("Kombinasi ini muncul sesering atau lebih sering dari perkiraan. Cari sudut yang lebih sempit.") },
+  "kurang-data": { title: tk("Data belum cukup"), text: tk("Salah satu konsep muncul di kurang dari 3 dokumen. Perluas koleksi atau tambah sebutan lain untuk konsep itu.") },
 };

@@ -1,3 +1,4 @@
+import { t } from "../i18n";
 // Chart images: the on-screen SVG cloned with its computed styles inlined, always in
 // the light theme on a white background, as standalone SVG or a 2x PNG.
 
@@ -52,17 +53,17 @@ export async function svgToPng(image: SvgImage, scale = 2): Promise<Uint8Array> 
   const img = new Image();
   await new Promise<void>((resolve, reject) => {
     img.onload = () => resolve();
-    img.onerror = () => reject(new Error("Grafik tidak bisa diubah menjadi PNG."));
+    img.onerror = () => reject(new Error(t("Grafik tidak bisa diubah menjadi PNG.")));
     img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(image.text)}`;
   });
   const canvas = document.createElement("canvas");
   canvas.width = image.width * scale;
   canvas.height = image.height * scale;
   const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Kanvas tidak tersedia.");
+  if (!ctx) throw new Error(t("Kanvas tidak tersedia."));
   ctx.scale(scale, scale);
   ctx.drawImage(img, 0, 0);
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
-  if (!blob) throw new Error("PNG tidak bisa dibuat.");
+  if (!blob) throw new Error(t("PNG tidak bisa dibuat."));
   return new Uint8Array(await blob.arrayBuffer());
 }

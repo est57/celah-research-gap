@@ -2,6 +2,7 @@ import { formatInt } from "../../lib/format";
 import type { Jump } from "../../lib/commands";
 import { CommandSearch } from "./CommandSearch";
 import { ProjectSwitcher } from "./ProjectSwitcher";
+import { t } from "../../i18n";
 
 interface Props {
   onToggleNav: () => void;
@@ -32,7 +33,7 @@ export function TitleBar({ onToggleNav, navOpen, onRefresh, busy, onExport, filt
       <button
         type="button"
         className="menu-btn"
-        aria-label="Buka menu analisis"
+        aria-label={t("Buka menu analisis")}
         aria-expanded={navOpen}
         aria-controls="nav"
         onClick={onToggleNav}
@@ -49,16 +50,16 @@ export function TitleBar({ onToggleNav, navOpen, onRefresh, busy, onExport, filt
       <ProjectSwitcher onSwitched={onProjectSwitched} />
       <CommandSearch onJump={onJump} />
       {filter ? (
-        <button type="button" className="btn filter-chip" onClick={onFilter} title="Analisis memakai koleksi yang difilter. Klik untuk mengubah.">
-          Filter aktif
+        <button type="button" className="btn filter-chip" onClick={onFilter} title={t("Analisis memakai koleksi yang difilter. Klik untuk mengubah.")}>
+          {t("Filter aktif")}
           <span className="num">{`${formatInt(filter.analyzed)}/${formatInt(filter.total)}`}</span>
         </button>
       ) : null}
       <button type="button" className="btn" onClick={onRefresh} disabled={busy}>
-        Perbarui data
+        {t("Perbarui data")}
       </button>
       <button type="button" className="btn btn-primary" onClick={onExport}>
-        Ekspor laporan
+        {t("Ekspor laporan")}
       </button>
     </header>
   );

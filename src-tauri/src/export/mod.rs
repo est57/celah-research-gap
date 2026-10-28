@@ -39,7 +39,7 @@ pub fn build(conn: &Connection, format: &str) -> AppResult<(Vec<u8>, &'static st
             let text = if format == "bibtex" { bibtex::bibtex(&list) } else { bibtex::ris(&list) };
             (text.into_bytes(), if format == "bibtex" { "bib" } else { "ris" }, list.len())
         }
-        _ => return Err(AppError::Invalid("format ekspor tidak dikenal".into())),
+        _ => return Err(AppError::Invalid(crate::tr!("format ekspor tidak dikenal", "unknown export format").into())),
     })
 }
 
@@ -48,10 +48,10 @@ pub fn build(conn: &Connection, format: &str) -> AppResult<(Vec<u8>, &'static st
 pub fn backup(conn: &Connection, target: &Path) -> AppResult<()> {
     let tmp = target.with_extension("celah-tmp");
     let _ = std::fs::remove_file(&tmp);
-    let tmp_text = tmp.to_str().ok_or_else(|| AppError::Invalid("lokasi file tidak didukung".into()))?;
+    let tmp_text = tmp.to_str().ok_or_else(|| AppError::Invalid(crate::tr!("lokasi file tidak didukung", "unsupported file location").into()))?;
     conn.execute("VACUUM main INTO ?1", params![tmp_text])?;
     std::fs::rename(&tmp, target).map_err(|_| {
         let _ = std::fs::remove_file(&tmp);
-        AppError::Invalid("cadangan tidak bisa disimpan di lokasi itu".into())
+        AppError::Invalid(crate::tr!("cadangan tidak bisa disimpan di lokasi itu", "the backup cannot be saved in that location").into())
     })
 }

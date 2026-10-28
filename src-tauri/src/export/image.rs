@@ -11,20 +11,20 @@ const FORBIDDEN: [&str; 6] = ["<script", "foreignobject", "javascript:", "<ifram
 /// Returns the file extension for a valid image.
 pub fn check(kind: &str, data: &[u8]) -> AppResult<&'static str> {
     if data.is_empty() || data.len() > MAX_BYTES {
-        return Err(AppError::Invalid("ukuran gambar tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("ukuran gambar tidak sah", "invalid image size").into()));
     }
     match kind {
         "png" if data.starts_with(&PNG_SIGNATURE) => Ok("png"),
         "svg" => {
-            let text = std::str::from_utf8(data).map_err(|_| AppError::Invalid("SVG harus berupa teks UTF-8".into()))?;
+            let text = std::str::from_utf8(data).map_err(|_| AppError::Invalid(crate::tr!("SVG harus berupa teks UTF-8", "SVG must be UTF-8 text").into()))?;
             let lower = text.to_lowercase();
             let starts = lower.trim_start().starts_with("<svg");
             if !starts || FORBIDDEN.iter().any(|f| lower.contains(f)) || has_event_attribute(&lower) {
-                return Err(AppError::Invalid("isi SVG tidak diizinkan".into()));
+                return Err(AppError::Invalid(crate::tr!("isi SVG tidak diizinkan", "SVG content is not allowed").into()));
             }
             Ok("svg")
         }
-        _ => Err(AppError::Invalid("format gambar tidak dikenal".into())),
+        _ => Err(AppError::Invalid(crate::tr!("format gambar tidak dikenal", "unknown image format").into())),
     }
 }
 

@@ -27,7 +27,7 @@ pub struct VerifyReport {
 #[tauri::command]
 pub async fn verify_gaps(state: State<'_, AppState>, keys: Vec<String>) -> AppResult<Vec<VerifyReport>> {
     if keys.len() > MAX_TARGETS || keys.iter().any(|k| k.len() > 300) {
-        return Err(AppError::Invalid("daftar celah terlalu panjang".into()));
+        return Err(AppError::Invalid(crate::tr!("daftar celah terlalu panjang", "gap list is too long").into()));
     }
     // Gaps come from the filtered collection; "already in the collection" below checks the whole one.
     let (targets, year) = super::with_analysis(&state, |conn| {
@@ -42,7 +42,7 @@ pub async fn verify_gaps(state: State<'_, AppState>, keys: Vec<String>) -> AppRe
         Ok((chosen, current_year(conn)?))
     })?;
     if targets.is_empty() {
-        return Err(AppError::Invalid("belum ada celah yang diterima untuk diverifikasi".into()));
+        return Err(AppError::Invalid(crate::tr!("belum ada celah yang diterima untuk diverifikasi", "no accepted gaps to verify yet").into()));
     }
     let api_key = tauri::async_runtime::spawn_blocking(|| secrets::get(Service::Openalex))
         .await
@@ -55,7 +55,7 @@ pub async fn verify_gaps(state: State<'_, AppState>, keys: Vec<String>) -> AppRe
         }
         let query = verify::query_text(terms);
         if query.chars().count() < 2 {
-            reports.push(VerifyReport { key: key.clone(), found: 0, matching: 0, verdict: "", error: Some("celah ini tidak punya kata kunci untuk dicari".into()) });
+            reports.push(VerifyReport { key: key.clone(), found: 0, matching: 0, verdict: "", error: Some(crate::tr!("celah ini tidak punya kata kunci untuk dicari", "this gap has no keywords to search for").into()) });
             continue;
         }
         let search = SearchQuery { text: query.clone(), year_from: year - RECENT_YEARS, year_to: year, doc_type: None, max_results: PER_GAP };

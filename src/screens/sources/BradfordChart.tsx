@@ -1,5 +1,6 @@
 import { formatInt } from "../../lib/format";
 import type { BradfordItem, ZoneSummary } from "../../lib/sourcesTypes";
+import { t } from "../../i18n";
 
 const PLOT_H = 170;
 
@@ -23,25 +24,25 @@ export function BradfordChart({ ranked, zones }: Props) {
             className="bradford-bar"
             data-zone={r.zone}
             style={{ height: `${(r.count / max) * (PLOT_H - 8)}px` }}
-            title={`${r.rank}. ${r.label}: ${formatInt(r.count)} dokumen`}
+            title={t("{rank}. {name}: {n} dokumen", { rank: r.rank, name: r.label, n: formatInt(r.count) })}
           />
         ))}
         {/* Drawn after the bars and beside the core zone, so the first tall bar never hides it. */}
         <span className="bradford-core-label" style={coreWidth > 75 ? { left: 6 } : { left: `calc(${coreWidth}% + 6px)` }}>
-          {coreWidth > 75 ? "Zona inti" : "\u2190 Zona inti"}
+          {coreWidth > 75 ? t("Zona inti") : `\u2190 ${t("Zona inti")}`}
         </span>
       </div>
       <div className="axis-row muted">
-        <span>peringkat 1</span>
-        <span>sumber diurutkan dari yang paling produktif</span>
+        <span>{t("peringkat 1")}</span>
+        <span>{t("sumber diurutkan dari yang paling produktif")}</span>
         <span className="num">{ranked.length}</span>
       </div>
       <div className="zone-grid">
         {zones.map((z, i) => (
           <div key={i}>
-            <div className="zone-title">Zona {i + 1}</div>
+            <div className="zone-title">{t("Zona {n}", { n: i + 1 })}</div>
             <div className="num muted">
-              {formatInt(z.sources)} sumber, {formatInt(z.documents)} dok
+              {t("{sources} sumber, {docs} dok", { sources: formatInt(z.sources), docs: formatInt(z.documents) })}
             </div>
           </div>
         ))}

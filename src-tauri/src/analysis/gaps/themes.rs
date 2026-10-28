@@ -2,6 +2,7 @@
 
 use super::model::{part, slug, Draft, EvidenceRef, Kind, Signal};
 use super::Ctx;
+use crate::tr;
 use crate::analysis::thematic::{self, Theme};
 use std::collections::HashMap;
 
@@ -54,19 +55,37 @@ pub fn detect(ctx: &Ctx) -> Vec<Draft> {
         let (kind, title, statement) = if emerging {
             (
                 Kind::Emerging,
-                format!("Tema {lead} baru tumbuh dan belum terhubung dengan tema utama"),
-                format!(
-                    "Tema {} ({} dokumen) berada di kuadran baru muncul: {} dokumennya terbit {period}, di atas rata-rata koleksi ({}). Sentralitasnya rendah, artinya tema ini masih jarang dikaitkan dengan tema utama.",
-                    t.name, t.documents, pct(t.recent_share), pct(map.collection_recent_share)
+                tr!(
+                    format!("Tema {lead} baru tumbuh dan belum terhubung dengan tema utama"),
+                    format!("Theme {lead} is emerging and not yet linked to the main themes")
+                ),
+                tr!(
+                    format!(
+                        "Tema {} ({} dokumen) berada di kuadran baru muncul: {} dokumennya terbit {period}, di atas rata-rata koleksi ({}). Sentralitasnya rendah, artinya tema ini masih jarang dikaitkan dengan tema utama.",
+                        t.name, t.documents, pct(t.recent_share), pct(map.collection_recent_share)
+                    ),
+                    format!(
+                        "Theme {} ({} documents) sits in the emerging quadrant: {} of its documents were published in {period}, above the collection average ({}). Its centrality is low, so the theme is still rarely linked to the main themes.",
+                        t.name, t.documents, pct(t.recent_share), pct(map.collection_recent_share)
+                    )
                 ),
             )
         } else {
             (
                 Kind::Niche,
-                format!("Tema {lead} berkembang sendiri, terpisah dari tema utama"),
-                format!(
-                    "Tema {} ({} dokumen) adalah tema niche: rapat di dalam kelompoknya (densitas tinggi) tetapi jarang terhubung dengan tema lain (sentralitas rendah). Kaitannya dengan tema motor bisa menjadi celah riset.",
-                    t.name, t.documents
+                tr!(
+                    format!("Tema {lead} berkembang sendiri, terpisah dari tema utama"),
+                    format!("Theme {lead} develops on its own, apart from the main themes")
+                ),
+                tr!(
+                    format!(
+                        "Tema {} ({} dokumen) adalah tema niche: rapat di dalam kelompoknya (densitas tinggi) tetapi jarang terhubung dengan tema lain (sentralitas rendah). Kaitannya dengan tema motor bisa menjadi celah riset.",
+                        t.name, t.documents
+                    ),
+                    format!(
+                        "Theme {} ({} documents) is a niche theme: dense within itself (high density) but rarely linked to other themes (low centrality). Its link to the motor themes may be a research gap.",
+                        t.name, t.documents
+                    )
                 ),
             )
         };
@@ -76,19 +95,25 @@ pub fn detect(ctx: &Ctx) -> Vec<Draft> {
             terms: std::iter::once(lead.clone()).chain(main_lead.clone().filter(|m| *m != lead)).collect(),
             title,
             statement,
-            parts: vec![part("Kebaruan", 1.0 - t.x), part("Bukti", t.documents as f64 / 30.0), part("Momentum", ctx.momentum(&docs))],
+            parts: vec![part(tr!("Kebaruan", "Novelty"), 1.0 - t.x), part(tr!("Bukti", "Evidence"), t.documents as f64 / 30.0), part("Momentum", ctx.momentum(&docs))],
             signals: vec![Signal {
-                analysis: "Peta tematik",
-                finding: format!("Sentralitas {:.2}, densitas {:.2}, {} dokumen terbit {period}", t.centrality, t.density, pct(t.recent_share)),
+                analysis: tr!("Peta tematik", "Thematic map"),
+                finding: tr!(
+                    format!("Sentralitas {:.2}, densitas {:.2}, {} dokumen terbit {period}", t.centrality, t.density, pct(t.recent_share)),
+                    format!("Centrality {:.2}, density {:.2}, {} of documents published in {period}", t.centrality, t.density, pct(t.recent_share))
+                ),
                 screen: "conceptual",
                 tab: None,
             }],
             evidence,
             questions: {
-                let main = main_lead.clone().filter(|m| *m != lead).unwrap_or_else(|| "tema-tema utama".into());
+                let main = main_lead.clone().filter(|m| *m != lead).unwrap_or_else(|| tr!("tema-tema utama", "the main themes").into());
                 vec![
-                    format!("Bagaimana {lead} dapat dikaitkan dengan {main}?"),
-                    format!("Apa yang dibutuhkan agar temuan tentang {lead} dapat diterapkan pada {main}?"),
+                    tr!(format!("Bagaimana {lead} dapat dikaitkan dengan {main}?"), format!("How can {lead} be linked to {main}?")),
+                    tr!(
+                        format!("Apa yang dibutuhkan agar temuan tentang {lead} dapat diterapkan pada {main}?"),
+                        format!("What is needed for findings on {lead} to apply to {main}?")
+                    ),
                 ]
             },
         });

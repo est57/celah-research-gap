@@ -15,16 +15,18 @@ import { FilterView } from "./FilterView";
 import { DeleteBar } from "./DeleteBar";
 import { OriginRemove } from "./OriginRemove";
 import { ExportView } from "./ExportView";
+import { NumText } from "./NumText";
+import { t, tk } from "../../i18n";
 
 export type CollectionTab = "collection" | "quality" | "duplicates" | "filter" | "export";
 type TabId = CollectionTab;
 
 const TABS: TabDef<TabId>[] = [
-  { id: "collection", label: "Koleksi" },
-  { id: "quality", label: "Kualitas metadata" },
-  { id: "duplicates", label: "Duplikat" },
-  { id: "filter", label: "Filter analisis" },
-  { id: "export", label: "Ekspor & cadangan" },
+  { id: "collection", label: tk("Koleksi") },
+  { id: "quality", label: tk("Kualitas metadata") },
+  { id: "duplicates", label: tk("Duplikat") },
+  { id: "filter", label: tk("Filter analisis") },
+  { id: "export", label: tk("Ekspor & cadangan") },
 ];
 
 interface Props {
@@ -64,7 +66,7 @@ export function CollectionScreen({ stats, statsError, onChanged, initialTab = "c
 
   return (
     <>
-      <Tabs label="Data" tabs={TABS} active={tab} onChange={setTab} />
+      <Tabs label="Data" tabs={TABS.map((d) => ({ ...d, label: t(d.label) }))} active={tab} onChange={setTab} />
       {tab === "quality" ? (
         <QualityView version={stats.total} />
       ) : tab === "filter" ? (
@@ -78,13 +80,13 @@ export function CollectionScreen({ stats, statsError, onChanged, initialTab = "c
           <section className="screen-main">
             {!isDesktop() ? (
               <div className="notice" style={{ margin: "12px 16px 0" }}>
-                Anda membuka pratinjau di browser. Pencarian dan penyimpanan hanya berjalan di aplikasi desktop.
+                {t("Anda membuka pratinjau di browser. Pencarian dan penyimpanan hanya berjalan di aplikasi desktop.")}
               </div>
             ) : null}
             <div className="import-panel">
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                <strong>Sumber impor</strong>
-                <span className="muted">{formatInt(stats.total)} dokumen unik di koleksi</span>
+                <strong>{t("Sumber impor")}</strong>
+                <span className="muted">{t("{n} dokumen unik di koleksi", { n: formatInt(stats.total) })}</span>
               </div>
               <SearchForm onImported={handleImported} />
               <FileImport onImported={handleImported} />
@@ -92,13 +94,13 @@ export function CollectionScreen({ stats, statsError, onChanged, initialTab = "c
               <OriginRemove origins={stats.origins} onDeleted={handleDeleted} />
             </div>
             <div className="toolbar">
-              <label htmlFor="doc-filter" className="sr-only">Saring dokumen</label>
+              <label htmlFor="doc-filter" className="sr-only">{t("Saring dokumen")}</label>
               <input
                 id="doc-filter"
                 className="input"
                 type="search"
                 maxLength={200}
-                placeholder="Saring judul, penulis, kata kunci"
+                placeholder={t("Saring judul, penulis, kata kunci")}
                 style={{ width: "min(280px, 100%)" }}
                 value={filter}
                 onChange={(e) => {
@@ -107,14 +109,14 @@ export function CollectionScreen({ stats, statsError, onChanged, initialTab = "c
                 }}
               />
               <span className="spacer muted">
-                Menampilkan <span className="num">{formatInt(papers.data.items.length)}</span> dari{" "}
-                <span className="num">{formatInt(papers.data.total)}</span>
+                <NumText text={t("Menampilkan {shown} dari {total}")}
+                  vars={{ shown: formatInt(papers.data.items.length), total: formatInt(papers.data.total) }} />
               </span>
             </div>
             {removed !== null ? (
               <div className="notice removed-note" role="status">
-                {`${formatInt(removed)} dokumen dihapus dari koleksi.`}
-                <button type="button" className="btn" onClick={() => setRemoved(null)}>Tutup</button>
+                {t("{n} dokumen dihapus dari koleksi.", { n: formatInt(removed) })}
+                <button type="button" className="btn" onClick={() => setRemoved(null)}>{t("Tutup")}</button>
               </div>
             ) : null}
             <DeleteBar selected={selected} onClear={() => setSelected(new Set())} onDeleted={handleDeleted} />

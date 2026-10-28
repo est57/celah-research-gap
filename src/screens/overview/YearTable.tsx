@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { t } from "../../i18n";
 
 export interface YearColumn {
   label: string;
@@ -13,7 +14,7 @@ export function YearTable({ years, columns, label }: { years: number[]; columns:
   return (
     <div className="year-table" role="table" aria-label={label}>
       <div className="year-row year-head" role="row" style={{ gridTemplateColumns: `64px repeat(${columns.length}, minmax(0, 1fr))` }}>
-        <span role="columnheader">Tahun</span>
+        <span role="columnheader">{t("Tahun")}</span>
         {columns.map((c) => <span key={c.label} role="columnheader" className={c.wide ? "cell-right year-wide" : "cell-right"}>{c.label}</span>)}
       </div>
       {order.map((i) => (

@@ -45,7 +45,7 @@ pub struct TopRefs {
 }
 
 pub fn compute(conn: &Connection, p: &TopRefParams) -> AppResult<TopRefs> {
-    let top = in_range(p.top, 20, 500, "jumlah rujukan")? as usize;
+    let top = in_range(p.top, 20, 500, crate::tr!("jumlah rujukan", "number of references"))? as usize;
     let documents: i64 = conn.query_row("SELECT COUNT(*) FROM papers", [], |r| r.get(0))?;
     let newest: Option<i64> = conn.query_row("SELECT MAX(year) FROM main.papers", [], |r| r.get(0))?;
     let counts = count(conn, newest.map_or(2100, |y| y.clamp(1800, 2100) as u16))?;

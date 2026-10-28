@@ -1,5 +1,6 @@
 import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 export interface Column<T> {
   label: string;
@@ -21,7 +22,7 @@ interface Props<T> {
   initialQuery?: string;
 }
 
-/** Searchable, sortable, paged table; the first grid column is the name. */
+/** Searchable, sortable, paged table; the first grid column is the name. `label` is translated by the caller, column labels here. */
 export function EntityTable<T>({ id, label, rows, name, columns, initialSort, pageSize = 50, initialQuery = "" }: Props<T>) {
   const [query, setQuery] = useState(initialQuery);
   const [sortBy, setSortBy] = useState(initialSort);
@@ -40,8 +41,8 @@ export function EntityTable<T>({ id, label, rows, name, columns, initialSort, pa
   return (
     <div className="ent">
       <div className="ent-bar">
-        <label htmlFor={`${id}-q`} className="sr-only">{`Cari ${label.toLowerCase()}`}</label>
-        <input id={`${id}-q`} className="input" type="search" maxLength={100} placeholder={`Cari ${label.toLowerCase()}`} value={query}
+        <label htmlFor={`${id}-q`} className="sr-only">{t("Cari {label}", { label: label.toLowerCase() })}</label>
+        <input id={`${id}-q`} className="input" type="search" maxLength={100} placeholder={t("Cari {label}", { label: label.toLowerCase() })} value={query}
           onChange={(e) => { setQuery(e.target.value); setPage(0); }} />
         <span className="muted">{`${formatInt(shown.length)} ${label.toLowerCase()}`}</span>
       </div>
@@ -52,8 +53,8 @@ export function EntityTable<T>({ id, label, rows, name, columns, initialSort, pa
           {columns.map((c, i) => (
             <span key={c.label} role="columnheader" className={c.wide ? "cell-right ent-wide" : "cell-right"}>
               {c.sort ? (
-                <button type="button" className="ent-sort" aria-pressed={sortBy === i} onClick={() => { setSortBy(i); setPage(0); }}>{c.label}</button>
-              ) : c.label}
+                <button type="button" className="ent-sort" aria-pressed={sortBy === i} onClick={() => { setSortBy(i); setPage(0); }}>{t(c.label)}</button>
+              ) : t(c.label)}
             </span>
           ))}
         </div>
@@ -64,13 +65,13 @@ export function EntityTable<T>({ id, label, rows, name, columns, initialSort, pa
             {columns.map((c) => <span key={c.label} role="cell" className={c.wide ? "num cell-right ent-wide" : "num cell-right"}>{c.cell(r)}</span>)}
           </div>
         ))}
-        {shown.length === 0 ? <p className="muted ent-empty">Tidak ada yang cocok.</p> : null}
+        {shown.length === 0 ? <p className="muted ent-empty">{t("Tidak ada yang cocok.")}</p> : null}
       </div>
       {pages > 1 ? (
         <div className="pager">
-          <button type="button" className="btn" disabled={current === 0} onClick={() => setPage(current - 1)}>Sebelumnya</button>
+          <button type="button" className="btn" disabled={current === 0} onClick={() => setPage(current - 1)}>{t("Sebelumnya")}</button>
           <span className="num muted">{`${current + 1} / ${pages}`}</span>
-          <button type="button" className="btn" disabled={current >= pages - 1} onClick={() => setPage(current + 1)}>Berikutnya</button>
+          <button type="button" className="btn" disabled={current >= pages - 1} onClick={() => setPage(current + 1)}>{t("Berikutnya")}</button>
         </div>
       ) : null}
     </div>

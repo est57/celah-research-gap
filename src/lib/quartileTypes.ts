@@ -1,3 +1,4 @@
+import { tk } from "../i18n";
 export interface SjrStatus {
   /** Distinct journals in the imported list; 0 when none is imported. */
   journals: number;
@@ -20,4 +21,4 @@ export interface Quartiles {
   sources: QuartileSource[];
 }
 
-export const QUARTILE_LABELS = ["Q1", "Q2", "Q3", "Q4", "Tanpa kuartil"] as const;
+export const QUARTILE_LABELS = ["Q1", "Q2", "Q3", "Q4", tk("Tanpa kuartil")] as const;

@@ -53,17 +53,23 @@ pub fn build(conn: &Connection, p: &ReportParams) -> AppResult<Report> {
     let style = match p.style.as_str() {
         "apa" => Style::Apa,
         "ieee" => Style::Ieee,
-        _ => return Err(AppError::Invalid("gaya sitasi tidak dikenal".into())),
+        _ => return Err(AppError::Invalid(crate::tr!("gaya sitasi tidak dikenal", "unknown citation style").into())),
     };
     let lang = match p.language.as_str() {
         "id" => Lang::Id,
         "en" => Lang::En,
-        _ => return Err(AppError::Invalid("bahasa tidak dikenal".into())),
+        _ => return Err(AppError::Invalid(crate::tr!("bahasa tidak dikenal", "unknown language").into())),
     };
     let list = gaps::compute(conn)?;
     let accepted: Vec<&Gap> = list.gaps.iter().filter(|g| g.status == "accepted").collect();
     if accepted.is_empty() {
-        return Err(AppError::Invalid("belum ada celah yang diterima; tandai celah sebagai Diterima di Gap Explorer".into()));
+        return Err(AppError::Invalid(
+            crate::tr!(
+                "belum ada celah yang diterima; tandai celah sebagai Diterima di Gap Explorer",
+                "no accepted gap yet; mark gaps as Accepted in Gap Explorer"
+            )
+            .into(),
+        ));
     }
     let ids: Vec<i64> = accepted.iter().flat_map(|g| g.evidence.iter().map(|e| e.paper_id)).collect();
     let works = cite::load(conn, &ids)?;

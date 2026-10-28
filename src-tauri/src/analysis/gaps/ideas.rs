@@ -5,6 +5,7 @@ use super::model::{part, Draft, EvidenceRef, Kind, Signal};
 use crate::analysis::idea::{compute, IdeaParams};
 use crate::db::ideas;
 use crate::error::AppResult;
+use crate::tr;
 use rusqlite::Connection;
 
 pub fn detect(conn: &Connection) -> AppResult<Vec<Draft>> {
@@ -20,27 +21,39 @@ pub fn detect(conn: &Connection) -> AppResult<Vec<Draft>> {
         out.push(Draft {
             key: saved.key,
             kind: Kind::Idea,
-            title: format!("{a} dengan {b}: ide yang Anda uji"),
-            statement: format!(
-                "\"{a}\" muncul di {} dokumen dan \"{b}\" di {} dokumen, tetapi keduanya hanya muncul bersama di {} dokumen, sementara bila tidak saling terkait diperkirakan sekitar {:.1}.",
-                r.with_a, r.with_b, r.with_both, r.expected
+            title: tr!(format!("{a} dengan {b}: ide yang Anda uji"), format!("{a} with {b}: your tested idea")),
+            statement: tr!(
+                format!(
+                    "\"{a}\" muncul di {} dokumen dan \"{b}\" di {} dokumen, tetapi keduanya hanya muncul bersama di {} dokumen, sementara bila tidak saling terkait diperkirakan sekitar {:.1}.",
+                    r.with_a, r.with_b, r.with_both, r.expected
+                ),
+                format!(
+                    "\"{a}\" appears in {} documents and \"{b}\" in {} documents, but they appear together in only {} documents, against about {:.1} expected if they were unrelated.",
+                    r.with_a, r.with_b, r.with_both, r.expected
+                )
             ),
             terms: vec![a.clone(), b.clone()],
             parts: vec![
-                part("Kebaruan", 1.0 - ratio.min(1.0)),
-                part("Bukti", ((r.with_a.min(r.with_b)) as f64 / 15.0).min(1.0)),
+                part(tr!("Kebaruan", "Novelty"), 1.0 - ratio.min(1.0)),
+                part(tr!("Bukti", "Evidence"), ((r.with_a.min(r.with_b)) as f64 / 15.0).min(1.0)),
                 part("Momentum", momentum),
             ],
             signals: vec![Signal {
-                analysis: "Uji ide celah",
-                finding: format!("{} dari {} dokumen menggabungkan keduanya (perkiraan {:.1})", r.with_both, r.documents, r.expected),
+                analysis: tr!("Uji ide celah", "Gap idea test"),
+                finding: tr!(
+                    format!("{} dari {} dokumen menggabungkan keduanya (perkiraan {:.1})", r.with_both, r.documents, r.expected),
+                    format!("{} of {} documents combine both (expected {:.1})", r.with_both, r.documents, r.expected)
+                ),
                 screen: "gaps",
                 tab: None,
             }],
             evidence,
             questions: vec![
-                format!("Bagaimana {a} dapat diterapkan untuk {b}?"),
-                format!("Apa yang berubah bila {a} dan {b} diteliti dalam satu desain studi?"),
+                tr!(format!("Bagaimana {a} dapat diterapkan untuk {b}?"), format!("How can {a} be applied to {b}?")),
+                tr!(
+                    format!("Apa yang berubah bila {a} dan {b} diteliti dalam satu desain studi?"),
+                    format!("What changes when {a} and {b} are studied in one study design?")
+                ),
             ],
         });
     }

@@ -1,0 +1,45 @@
+// English texts for backend values shown in the gaps screens, and for the report screen.
+export const LABELS: Record<string, string> = {
+  // Backend values: evidence role and gap confidence
+  "mendukung": "supporting",
+  "hampir menjawab": "nearly answers",
+  "konteks": "context",
+  "Kuat": "Strong",
+  "Sedang": "Moderate",
+  "Lemah": "Weak",
+
+  // Report screen
+  "Laporan": "Report",
+  "Draf research gap": "Research gap draft",
+  "Draf metode & hasil": "Methods & results draft",
+  "Draf": "Draft",
+  "Draf Markdown": "Markdown draft",
+  "Opsi laporan": "Report options",
+  "Opsi draf": "Draft options",
+  "Opsi draf metode dan hasil": "Methods and results draft options",
+  "Gaya sitasi": "Citation style",
+  "Bahasa draf": "Draft language",
+  "Sertakan hasil verifikasi literatur terbaru": "Include recent literature verification results",
+  "Celah yang dimasukkan ({n})": "Gaps included ({n})",
+  "Kelola di Gap Explorer": "Manage in Gap Explorer",
+  "Simpan ke file": "Save to file",
+  "Menyimpan...": "Saving...",
+  "Ekspor file hanya tersedia di aplikasi desktop.": "File export is only available in the desktop app.",
+  "Tersimpan sebagai {name}": "Saved as {name}",
+  "Penyimpanan dibatalkan.": "Saving cancelled.",
+  "Tersalin": "Copied",
+  "Gagal menyalin; pilih teks lalu salin manual.": "Could not copy; select the text and copy it manually.",
+  "Belum ada celah yang diterima": "No accepted gaps yet",
+  "Draf research gap disusun dari celah yang Anda tandai Diterima di Gap Explorer. Draf metode & hasil bisa disusun sekarang.":
+    "The research gap draft is built from gaps you mark as Accepted in Gap Explorer. The methods & results draft can be built now.",
+  "Buka Gap Explorer": "Open Gap Explorer",
+  "Menyusun draf dari celah yang diterima...": "Building the draft from accepted gaps...",
+  "Menyusun draf metode dan hasil...": "Building the methods and results draft...",
+  "Pratinjau browser: draf di halaman ini dibuat dari data contoh.": "Browser preview: the draft on this page is built from sample data.",
+  "Angka diambil dari koleksi yang sedang dianalisis, termasuk filter dan sinonim yang aktif. Bagian metode mengutip bibliometrix, dan bagian akar sejarah mengutip metode RPYS.":
+    "Figures come from the collection under analysis, including the active filters and synonyms. The methods section cites bibliometrix, and the historical roots section cites the RPYS method.",
+  "Pratinjau laporan": "Report preview",
+  "Tampilan pratinjau": "Preview view",
+  "Salin teks": "Copy text",
+  "Salin": "Copy",
+};

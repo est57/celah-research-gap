@@ -23,20 +23,20 @@ pub fn set(conn: &Connection, key: &str, status: &str, note: &str, title: &str) 
         && key.len() <= MAX_KEY
         && key.chars().all(|c| c.is_alphanumeric() || matches!(c, '-' | ':' | '_'));
     if !key_ok {
-        return Err(AppError::Invalid("kunci celah tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("kunci celah tidak sah", "invalid gap key").into()));
     }
     if note.chars().count() > MAX_NOTE || note.chars().any(|c| c.is_control() && c != '\n') {
-        return Err(AppError::Invalid("catatan terlalu panjang atau berisi karakter tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("catatan terlalu panjang atau berisi karakter tidak sah", "note is too long or has invalid characters").into()));
     }
     if title.chars().count() > MAX_TITLE || title.chars().any(char::is_control) {
-        return Err(AppError::Invalid("judul celah terlalu panjang atau berisi karakter tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("judul celah terlalu panjang atau berisi karakter tidak sah", "gap title is too long or has invalid characters").into()));
     }
     if status.is_empty() {
         conn.execute("DELETE FROM gap_reviews WHERE gap_key = ?1", params![key])?;
         return Ok(());
     }
     if !STATUSES.contains(&status) {
-        return Err(AppError::Invalid("status review tidak dikenal".into()));
+        return Err(AppError::Invalid(crate::tr!("status review tidak dikenal", "unknown review status").into()));
     }
     conn.execute(
         "INSERT INTO gap_reviews (gap_key, status, note, title) VALUES (?1, ?2, ?3, ?4)

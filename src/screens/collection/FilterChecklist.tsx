@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { formatInt } from "../../lib/format";
 import type { Choice } from "../../lib/filterTypes";
+import { t } from "../../i18n";
 
 interface Props {
   id: string;
@@ -25,14 +26,14 @@ export function FilterChecklist({ id, title, choices, selected, label, searchabl
     <section className="pnl filter-group">
       <div className="ph">
         {title}
-        <span className="ph-aside">{selected.length ? `${selected.length} dipilih` : "semua"}</span>
+        <span className="ph-aside">{selected.length ? t("{n} dipilih", { n: selected.length }) : t("semua")}</span>
       </div>
       {searchable ? (
         <div className="filter-search">
-          <label htmlFor={`${id}-q`} className="sr-only">{`Cari ${title.toLowerCase()}`}</label>
-          <input id={`${id}-q`} className="input" type="search" maxLength={100} placeholder="Cari nama sumber"
+          <label htmlFor={`${id}-q`} className="sr-only">{t("Cari {name}", { name: title.toLowerCase() })}</label>
+          <input id={`${id}-q`} className="input" type="search" maxLength={100} placeholder={t("Cari nama sumber")}
             value={query} onChange={(e) => setQuery(e.target.value)} />
-          {selected.length ? <button type="button" className="btn" onClick={() => onChange([])}>Kosongkan</button> : null}
+          {selected.length ? <button type="button" className="btn" onClick={() => onChange([])}>{t("Kosongkan")}</button> : null}
         </div>
       ) : null}
       <ul className={searchable ? "filter-list filter-list-long" : "filter-list"}>
@@ -45,7 +46,7 @@ export function FilterChecklist({ id, title, choices, selected, label, searchabl
             </label>
           </li>
         ))}
-        {shown.length === 0 ? <li className="muted filter-none">Tidak ada yang cocok.</li> : null}
+        {shown.length === 0 ? <li className="muted filter-none">{t("Tidak ada yang cocok.")}</li> : null}
       </ul>
     </section>
   );

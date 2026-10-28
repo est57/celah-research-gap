@@ -1,5 +1,6 @@
 import { formatInt } from "../../lib/format";
 import { isDesktop } from "../../lib/api";
+import { t } from "../../i18n";
 
 interface Props {
   total: number;
@@ -23,16 +24,16 @@ export function StatusBar({ total, analyzed, sources, keyConfigured }: Props) {
             background: desktop ? "var(--ok)" : "var(--warn)",
           }}
         />
-        {desktop ? "Tersimpan lokal" : "Mode pratinjau browser"}
+        {desktop ? t("Tersimpan lokal") : t("Mode pratinjau browser")}
       </span>
       <span className="num">
-        {analyzed === null ? `${formatInt(total)} dokumen` : `${formatInt(analyzed)} dari ${formatInt(total)} dokumen dianalisis`}
+        {analyzed === null ? t("{n} dokumen", { n: formatInt(total) }) : t("{n} dari {total} dokumen dianalisis", { n: formatInt(analyzed), total: formatInt(total) })}
       </span>
       <span className="wide-only">
-        {sources.length ? `Sumber: ${sources.join(", ")}` : "Belum ada sumber"}
+        {sources.length ? t("Sumber: {list}", { list: sources.join(", ") }) : t("Belum ada sumber")}
       </span>
       <span className="wide-only">
-        {keyConfigured ? "OpenAlex: kunci API aktif" : "OpenAlex: kuota bersama"}
+        {keyConfigured ? t("OpenAlex: kunci API aktif") : t("OpenAlex: kuota bersama")}
       </span>
       <span className="num" style={{ marginLeft: "auto" }}>
         v0.1

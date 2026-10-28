@@ -1,3 +1,4 @@
+import { tk } from "../i18n";
 export interface TypeCount {
   docType: string;
   count: number;
@@ -47,12 +48,12 @@ export interface FieldLink {
 export type ThreeFieldId = "authors" | "author_keywords" | "keywords_plus" | "sources" | "countries" | "references";
 
 export const THREE_FIELD_LABEL: Record<ThreeFieldId, string> = {
-  authors: "Penulis",
-  author_keywords: "Kata kunci penulis",
-  keywords_plus: "Keywords Plus",
-  sources: "Sumber",
-  countries: "Negara",
-  references: "Referensi tersitasi",
+  authors: tk("Penulis"),
+  author_keywords: tk("Kata kunci penulis"),
+  keywords_plus: tk("Keywords Plus"),
+  sources: tk("Sumber"),
+  countries: tk("Negara"),
+  references: tk("Referensi tersitasi"),
 };
 
 export interface ThreeFieldParams {

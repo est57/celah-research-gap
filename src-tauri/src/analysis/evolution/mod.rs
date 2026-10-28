@@ -51,9 +51,9 @@ pub struct Evolution {
 }
 
 pub fn compute(conn: &Connection, p: &EvolutionParams) -> AppResult<Evolution> {
-    let words = in_range(p.words, 20, 1000, "jumlah kata")? as usize;
-    let min_freq = in_range(p.min_cluster_freq, 0, 100, "frekuensi minimum tema")?;
-    let labels = in_range(p.labels, 1, 5, "label per tema")? as usize;
+    let words = in_range(p.words, 20, 1000, crate::tr!("jumlah kata", "number of words"))? as usize;
+    let min_freq = in_range(p.min_cluster_freq, 0, 100, crate::tr!("frekuensi minimum tema", "minimum theme frequency"))?;
+    let labels = in_range(p.labels, 1, 5, crate::tr!("label per tema", "labels per theme"))? as usize;
     periods::validate(&p.cuts)?;
     let field = field_choice(conn, &p.field)?;
     let years = periods::years(conn)?;

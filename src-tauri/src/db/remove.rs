@@ -11,7 +11,7 @@ const MAX_ORIGIN: usize = 100;
 /// Removes the given documents; unknown ids are ignored. Returns how many were removed.
 pub fn by_ids(conn: &mut Connection, ids: &[i64]) -> AppResult<usize> {
     if ids.is_empty() || ids.len() > MAX_IDS || ids.iter().any(|&id| id <= 0) {
-        return Err(AppError::Invalid(format!("pilih 1 sampai {MAX_IDS} dokumen")));
+        return Err(AppError::Invalid(crate::tr!(format!("pilih 1 sampai {MAX_IDS} dokumen"), format!("choose 1 to {MAX_IDS} documents"))));
     }
     let tx = conn.transaction()?;
     let mut removed = 0;
@@ -28,11 +28,11 @@ pub fn by_ids(conn: &mut Connection, ids: &[i64]) -> AppResult<usize> {
 /// Removes every document imported from `origin` (e.g. "Crossref").
 pub fn by_origin(conn: &Connection, origin: &str) -> AppResult<usize> {
     if origin.is_empty() || origin.chars().count() > MAX_ORIGIN || origin.chars().any(char::is_control) {
-        return Err(AppError::Invalid("sumber impor tidak sah".into()));
+        return Err(AppError::Invalid(crate::tr!("sumber impor tidak sah", "invalid import source").into()));
     }
     let removed = conn.execute("DELETE FROM papers WHERE origin = ?1", params![origin])?;
     if removed == 0 {
-        return Err(AppError::Invalid("tidak ada dokumen dari sumber impor itu".into()));
+        return Err(AppError::Invalid(crate::tr!("tidak ada dokumen dari sumber impor itu", "no documents from that import source").into()));
     }
     Ok(removed)
 }

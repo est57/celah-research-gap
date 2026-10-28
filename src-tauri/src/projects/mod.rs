@@ -42,7 +42,7 @@ pub fn path_of(dir: &Path, id: &str) -> AppResult<PathBuf> {
         return Ok(dir.join("celah.sqlite"));
     }
     if !valid_id(id) {
-        return Err(AppError::Invalid("proyek tidak dikenal".into()));
+        return Err(AppError::Invalid(crate::tr!("proyek tidak dikenal", "unknown project").into()));
     }
     Ok(dir.join("proyek").join(format!("{id}.sqlite")))
 }
@@ -73,7 +73,7 @@ pub fn save(dir: &Path, r: &Registry) -> AppResult<()> {
 fn clean_name(raw: &str) -> AppResult<String> {
     let name = raw.trim();
     if name.is_empty() || name.chars().count() > MAX_NAME || name.chars().any(char::is_control) {
-        return Err(AppError::Invalid(format!("nama proyek harus 1 sampai {MAX_NAME} karakter")));
+        return Err(AppError::Invalid(crate::tr!(format!("nama proyek harus 1 sampai {MAX_NAME} karakter"), format!("project name must be 1 to {MAX_NAME} characters"))));
     }
     Ok(name.to_string())
 }
@@ -87,7 +87,9 @@ pub fn list(dir: &Path, r: &Registry) -> Vec<ProjectInfo> {
                 .and_then(|p| Connection::open_with_flags(p, OpenFlags::SQLITE_OPEN_READ_ONLY).ok())
                 .and_then(|c| c.query_row("SELECT COUNT(*) FROM papers", [], |row| row.get(0)).ok())
                 .unwrap_or(0);
-            ProjectInfo { id: id.clone(), name: name.clone(), documents, current: *id == r.current }
+            // The default name of the main project follows the interface language.
+            let name = if id == MAIN && name == "Proyek utama" { crate::tr!("Proyek utama", "Main project").to_string() } else { name.clone() };
+            ProjectInfo { id: id.clone(), name, documents, current: *id == r.current }
         })
         .collect()
 }
@@ -96,7 +98,7 @@ pub fn list(dir: &Path, r: &Registry) -> Vec<ProjectInfo> {
 pub fn create(dir: &Path, r: &mut Registry, raw_name: &str) -> AppResult<String> {
     let name = clean_name(raw_name)?;
     if r.names.len() >= MAX_PROJECTS {
-        return Err(AppError::Invalid(format!("paling banyak {MAX_PROJECTS} proyek")));
+        return Err(AppError::Invalid(crate::tr!(format!("paling banyak {MAX_PROJECTS} proyek"), format!("at most {MAX_PROJECTS} projects"))));
     }
     let base: String = { let s = slug(&name); if valid_id(&s) && s != MAIN { s.chars().take(36).collect() } else { "proyek".into() } };
     let id = (1..).map(|n| if n == 1 { base.clone() } else { format!("{base}-{n}") }).find(|id| !r.names.contains_key(id)).unwrap_or(base);
@@ -110,7 +112,7 @@ pub fn create(dir: &Path, r: &mut Registry, raw_name: &str) -> AppResult<String>
 
 pub fn rename(dir: &Path, r: &mut Registry, id: &str, raw_name: &str) -> AppResult<()> {
     let name = clean_name(raw_name)?;
-    let slot = r.names.get_mut(id).ok_or_else(|| AppError::Invalid("proyek tidak dikenal".into()))?;
+    let slot = r.names.get_mut(id).ok_or_else(|| AppError::Invalid(crate::tr!("proyek tidak dikenal", "unknown project").into()))?;
     *slot = name;
     save(dir, r)
 }
@@ -118,7 +120,7 @@ pub fn rename(dir: &Path, r: &mut Registry, id: &str, raw_name: &str) -> AppResu
 /// Deletes a project's files. The open project and the main project cannot be deleted.
 pub fn delete(dir: &Path, r: &mut Registry, id: &str) -> AppResult<()> {
     if id == MAIN || id == r.current || !r.names.contains_key(id) {
-        return Err(AppError::Invalid("proyek utama dan proyek yang sedang dibuka tidak bisa dihapus".into()));
+        return Err(AppError::Invalid(crate::tr!("proyek utama dan proyek yang sedang dibuka tidak bisa dihapus", "the main project and the open project cannot be deleted").into()));
     }
     let path = path_of(dir, id)?;
     for suffix in ["", "-wal", "-shm"] {

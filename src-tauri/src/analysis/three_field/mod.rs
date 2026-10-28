@@ -107,10 +107,10 @@ pub fn compute(conn: &Connection, n: usize) -> AppResult<ThreeField> {
 }
 
 pub fn compute_params(conn: &Connection, p: &ThreeFieldParams) -> AppResult<ThreeField> {
-    let n = super::conceptual::in_range(p.items, 5, 30, "jumlah item")? as usize;
+    let n = super::conceptual::in_range(p.items, 5, 30, crate::tr!("jumlah item", "number of items"))? as usize;
     let cols = [Field::parse(&p.left)?, Field::parse(&p.middle)?, Field::parse(&p.right)?];
     if cols[0] == cols[1] || cols[1] == cols[2] || cols[0] == cols[2] {
-        return Err(AppError::Invalid("tiap kolom harus memakai bidang yang berbeda".into()));
+        return Err(AppError::Invalid(crate::tr!("tiap kolom harus memakai bidang yang berbeda", "each column must use a different field").into()));
     }
     compute_with(conn, cols, n)
 }

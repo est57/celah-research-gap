@@ -5,6 +5,7 @@ import { forceLayout } from "../../lib/forceLayout";
 import { formatInt } from "../../lib/format";
 import { placeLabels } from "../../lib/labelPlace";
 import { clusterColor, type Bridge, type NetEdge, type NetNode } from "../../lib/structureTypes";
+import { t } from "../../i18n";
 
 const PAD = 28;
 /** Labels shown at 1x; more appear as the view is zoomed in. */
@@ -48,13 +49,13 @@ export function NetworkGraph({ nodes, edges: rawEdges, bridge, focus, onFocus }:
 
   return (
     <div ref={box} className="netgraph">
-      <div className="net-zoom" role="group" aria-label="Perbesar jaringan">
-        <span className="muted">Roda mouse untuk zoom, seret untuk menggeser</span>
-        <button type="button" className="btn" aria-label="Perbesar" onClick={zoom.zoomIn}>+</button>
-        <button type="button" className="btn" aria-label="Perkecil" disabled={k <= 1} onClick={zoom.zoomOut}>-</button>
-        <button type="button" className="btn" disabled={k === 1} onClick={zoom.reset}>Atur ulang</button>
+      <div className="net-zoom" role="group" aria-label={t("Perbesar jaringan")}>
+        <span className="muted">{t("Roda mouse untuk zoom, seret untuk menggeser")}</span>
+        <button type="button" className="btn" aria-label={t("Perbesar")} onClick={zoom.zoomIn}>+</button>
+        <button type="button" className="btn" aria-label={t("Perkecil")} disabled={k <= 1} onClick={zoom.zoomOut}>-</button>
+        <button type="button" className="btn" disabled={k === 1} onClick={zoom.reset}>{t("Atur ulang")}</button>
       </div>
-      <svg ref={zoom.ref} width={width} height={height} role="img" aria-label="Jaringan, warna menunjukkan cluster; roda mouse untuk zoom, seret untuk menggeser"
+      <svg ref={zoom.ref} width={width} height={height} role="img" aria-label={t("Jaringan, warna menunjukkan cluster; roda mouse untuk zoom, seret untuk menggeser")}
         data-zoomed={k > 1} {...zoom.handlers} onClick={() => { if (!zoom.wasDrag()) onFocus(null); }}>
         {edges.map((e, i) => {
           const same = nodes[e.from].cluster === nodes[e.to].cluster;

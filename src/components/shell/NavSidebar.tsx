@@ -1,5 +1,6 @@
 import { NAV, type ScreenId } from "../../nav";
 import { formatInt } from "../../lib/format";
+import { t } from "../../i18n";
 
 interface Props {
   active: ScreenId;
@@ -16,14 +17,14 @@ export function NavSidebar({ active, total, open, onSelect, onClose }: Props) {
         type="button"
         className="nav-backdrop"
         data-open={open}
-        aria-label="Tutup menu"
+        aria-label={t("Tutup menu")}
         tabIndex={-1}
         onClick={onClose}
       />
-      <nav id="nav" className="nav" data-open={open} aria-label="Navigasi analisis">
+      <nav id="nav" className="nav" data-open={open} aria-label={t("Navigasi analisis")}>
         {NAV.map((section) => (
           <div key={section.title}>
-            <h2>{section.title}</h2>
+            <h2>{t(section.title)}</h2>
             {section.items.map((item) => (
               <button
                 key={item.id}
@@ -33,7 +34,7 @@ export function NavSidebar({ active, total, open, onSelect, onClose }: Props) {
                 aria-current={item.id === active ? "page" : undefined}
                 onClick={() => onSelect(item.id)}
               >
-                {item.label}
+                {t(item.label)}
                 {item.showsTotal ? <span className="count">{formatInt(total)}</span> : null}
               </button>
             ))}

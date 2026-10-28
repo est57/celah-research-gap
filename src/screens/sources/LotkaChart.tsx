@@ -1,5 +1,6 @@
 import { formatDecimal, formatInt } from "../../lib/format";
 import type { LotkaRow } from "../../lib/sourcesTypes";
+import { t } from "../../i18n";
 
 const PLOT_H = 160;
 const GROUPS = 5;
@@ -46,7 +47,7 @@ export function LotkaChart({ rows, totalAuthors, beta }: Props) {
           const bar = (g.observed / max) * (PLOT_H - 20);
           const theory = (g.theoretical / max) * (PLOT_H - 20);
           return (
-            <div key={g.label} className="lotka-col" title={`${g.label} dokumen: ${pct(g.observed)} penulis`}>
+            <div key={g.label} className="lotka-col" title={t("{n} dokumen: {pct} penulis", { n: g.label, pct: pct(g.observed) })}>
               <div className="lotka-bar" style={{ height: bar }} />
               <div className="lotka-theory" style={{ bottom: theory }} />
               {/* Above whichever is higher, the bar or the dashed theory line, so neither covers the number. */}
@@ -61,14 +62,14 @@ export function LotkaChart({ rows, totalAuthors, beta }: Props) {
         ))}
       </div>
       <div className="legend-row muted">
-        <span><span className="swatch" style={{ background: "var(--accent)" }} />teramati</span>
-        <span><span className="dash" />teoretis (beta = 2)</span>
-        <span className="legend-right">dokumen per penulis</span>
+        <span><span className="swatch" style={{ background: "var(--accent)" }} />{t("teramati")}</span>
+        <span><span className="dash" />{t("teoretis (beta = 2)")}</span>
+        <span className="legend-right">{t("dokumen per penulis")}</span>
       </div>
       <p className="muted chart-note">
-        {formatInt(totalAuthors)} penulis.
-        {beta !== null ? ` Beta terukur pada koleksi ini ${formatDecimal(beta, 2)}.` : ""} Beta di atas 2 berarti
-        produktivitas lebih terpusat pada sedikit penulis.
+        {t("{n} penulis.", { n: formatInt(totalAuthors) })}
+        {beta !== null ? ` ${t("Beta terukur pada koleksi ini {beta}.", { beta: formatDecimal(beta, 2) })}` : ""}
+        {` ${t("Beta di atas 2 berarti produktivitas lebih terpusat pada sedikit penulis.")}`}
       </p>
     </div>
   );

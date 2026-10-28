@@ -44,7 +44,9 @@ pub fn list(conn: &Connection) -> AppResult<Vec<ReviewEntry>> {
         let key: String = r.get(0)?;
         let stored: String = r.get(4)?;
         let now = current.get(&key);
-        let title = now.map(|(t, _)| t.clone()).filter(|_| stored.is_empty()).unwrap_or(stored);
+        // A gap still found takes its freshly generated title, so it follows the interface
+        // language; the stored title (saved in the language of the time) is the fallback.
+        let title = now.map(|(t, _)| t.clone()).unwrap_or(stored);
         Ok(ReviewEntry {
             kind: key.split(':').next().unwrap_or("").to_string(),
             title: if title.is_empty() { title_from_key(&key) } else { title },

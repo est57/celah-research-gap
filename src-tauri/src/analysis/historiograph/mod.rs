@@ -53,7 +53,7 @@ pub struct Historiograph {
 }
 
 pub fn compute(conn: &Connection, p: &HistParams) -> AppResult<Historiograph> {
-    let top = in_range(p.nodes, 10, 100, "jumlah dokumen")? as usize;
+    let top = in_range(p.nodes, 10, 100, crate::tr!("jumlah dokumen", "number of documents"))? as usize;
     let documents: i64 = conn.query_row("SELECT COUNT(*) FROM papers", [], |r| r.get(0))?;
     let found = links::find(conn)?;
     let mut lcs: HashMap<i64, i64> = HashMap::new();

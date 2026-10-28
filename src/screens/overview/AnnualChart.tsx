@@ -1,3 +1,4 @@
+import { t } from "../../i18n";
 import { formatInt } from "../../lib/format";
 import type { YearPoint } from "../../lib/overviewTypes";
 
@@ -24,7 +25,7 @@ export function AnnualChart({ points, height = 150 }: { points: YearPoint[]; hei
           </div>
         ))}
         {points.map((p) => (
-          <div key={p.year} className="annual-col" title={`${p.year}: ${formatInt(p.documents)} dokumen`}>
+          <div key={p.year} className="annual-col" title={t("{year}: {n} dokumen", { year: p.year, n: formatInt(p.documents) })}>
             {!dense ? <span className="num annual-value">{formatInt(p.documents)}</span> : null}
             <div
               className="annual-bar"
@@ -42,7 +43,7 @@ export function AnnualChart({ points, height = 150 }: { points: YearPoint[]; hei
         ))}
       </div>
       {points.some((p) => p.partial) ? (
-        <div className="muted chart-note">Tahun berjalan berarsir: datanya belum satu tahun penuh.</div>
+        <div className="muted chart-note">{t("Tahun berjalan berarsir: datanya belum satu tahun penuh.")}</div>
       ) : null}
     </div>
   );

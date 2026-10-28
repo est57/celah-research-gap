@@ -5,6 +5,7 @@ import { convexHull, type Pt } from "../../lib/hull";
 import { placeLabels } from "../../lib/labelPlace";
 import { clusterColor } from "../../lib/structureTypes";
 import type { Factorial } from "../../lib/factorialTypes";
+import { t } from "../../i18n";
 
 const PAD = 34;
 const LABELS = 20;
@@ -42,7 +43,7 @@ export function FactorialMap({ data, focus, onFocus }: Props) {
 
   return (
     <div ref={ref} className="fmap">
-      <svg width={width} height={height} role="img" aria-label="Peta konseptual kata kunci hasil MCA" onClick={() => onFocus(null)}>
+      <svg width={width} height={height} role="img" aria-label={t("Peta konseptual kata kunci hasil MCA")} onClick={() => onFocus(null)}>
         <line x1={sx(0)} x2={sx(0)} y1={PAD / 2} y2={height - PAD / 2} className="fmap-axis" />
         <line x1={PAD / 2} x2={width - PAD / 2} y1={sy(0)} y2={sy(0)} className="fmap-axis" />
         <text x={width - PAD / 2} y={height - 6} textAnchor="end" className="fmap-dim">{`Dim 1 (${formatDecimal(data.explained[0] * 100, 1)}%)`}</text>
@@ -61,7 +62,7 @@ export function FactorialMap({ data, focus, onFocus }: Props) {
           return (
             <g key={w.label} opacity={dim(w.cluster) ? 0.2 : 1}>
               <circle cx={sx(w.x)} cy={sy(w.y)} r={radius(w.freq)} fill={clusterColor(w.cluster)}>
-                <title>{`${w.label} (${w.freq} dokumen)`}</title>
+                <title>{t("{label} ({n} dokumen)", { label: w.label, n: w.freq })}</title>
               </circle>
               {l ? <text x={l.x} y={l.y} dy="0.35em" textAnchor={l.anchor} className="fmap-label">{w.label}</text> : null}
             </g>

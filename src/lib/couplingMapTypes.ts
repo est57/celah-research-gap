@@ -1,10 +1,11 @@
+import { tk } from "../i18n";
 export type CouplingQuadrant = "motor" | "niche" | "basic" | "peripheral";
 
 export const COUPLING_QUADRANT: Record<CouplingQuadrant, string> = {
-  motor: "Front inti berdampak",
-  niche: "Niche berdampak",
-  basic: "Arus utama, dampak rendah",
-  peripheral: "Pinggiran",
+  motor: tk("Front inti berdampak"),
+  niche: tk("Niche berdampak"),
+  basic: tk("Arus utama, dampak rendah"),
+  peripheral: tk("Pinggiran"),
 };
 
 export interface ClusterDoc {

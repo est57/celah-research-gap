@@ -6,13 +6,14 @@ import { AuthorTimeline } from "./AuthorTimeline";
 import { ImpactTable } from "./ImpactTable";
 import { LotkaChart } from "./LotkaChart";
 import { Panel, SaOverview } from "./SaPanel";
+import { t, tk } from "../../i18n";
 
 export type AuthorsScreenTab = "overview" | "authors" | "affiliations";
 
 const TABS: TabDef<AuthorsScreenTab>[] = [
-  { id: "overview", label: "Ikhtisar penulis" },
-  { id: "authors", label: "Tabel penulis" },
-  { id: "affiliations", label: "Afiliasi" },
+  { id: "overview", label: tk("Ikhtisar penulis") },
+  { id: "authors", label: tk("Tabel penulis") },
+  { id: "affiliations", label: tk("Afiliasi") },
 ];
 
 interface Props {
@@ -32,11 +33,11 @@ export function AuthorsScreen({ version, initialTab = "overview", initialQuery, 
     body = (
       <SaOverview version={version} stack content={(d) => (
         <>
-          <Panel title="Hukum Lotka" aside="produktivitas penulis">
+          <Panel title={t("Hukum Lotka")} aside={t("produktivitas penulis")}>
             <LotkaChart rows={d.lotka.rows} totalAuthors={d.lotka.totalAuthors} beta={d.lotka.beta} />
           </Panel>
-          <Panel title="Dampak lokal penulis" aside="urut indeks h"><ImpactTable rows={d.impact} /></Panel>
-          <Panel title="Produksi penulis dari waktu ke waktu" aside="ukuran = dokumen, warna = sitasi per tahun">
+          <Panel title={t("Dampak lokal penulis")} aside={t("urut indeks h")}><ImpactTable rows={d.impact} /></Panel>
+          <Panel title={t("Produksi penulis dari waktu ke waktu")} aside={t("ukuran = dokumen, warna = sitasi per tahun")}>
             <AuthorTimeline rows={d.production} currentYear={d.currentYear} />
           </Panel>
         </>
@@ -45,7 +46,7 @@ export function AuthorsScreen({ version, initialTab = "overview", initialQuery, 
   }
   return (
     <>
-      <Tabs label="Penulis" tabs={TABS} active={tab} onChange={setTab} />
+      <Tabs label={t("Penulis")} tabs={TABS.map((x) => ({ ...x, label: t(x.label) }))} active={tab} onChange={setTab} />
       {body}
     </>
   );

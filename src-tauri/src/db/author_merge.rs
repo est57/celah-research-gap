@@ -29,13 +29,13 @@ pub fn merge(conn: &mut Connection, keys: &[String], target: &str) -> AppResult<
     unique.dedup();
     let bad = |k: &String| k.is_empty() || k.chars().count() > MAX_KEY || k.chars().any(char::is_control);
     if unique.len() < 2 || unique.len() > MAX_KEYS || unique.len() != keys.len() || keys.iter().any(bad) || !unique.iter().any(|k| k == target) {
-        return Err(AppError::Invalid(format!("pilih 2 sampai {MAX_KEYS} nama berbeda, termasuk nama tujuan")));
+        return Err(AppError::Invalid(crate::tr!(format!("pilih 2 sampai {MAX_KEYS} nama berbeda, termasuk nama tujuan"), format!("choose 2 to {MAX_KEYS} different names, including the target name"))));
     }
     let tx = conn.transaction()?;
-    let Some(to_name) = label(&tx, target)? else { return Err(AppError::Invalid("nama tujuan tidak ditemukan".into())) };
+    let Some(to_name) = label(&tx, target)? else { return Err(AppError::Invalid(crate::tr!("nama tujuan tidak ditemukan", "target name not found").into())) };
     let mut changed = 0;
     for key in unique.iter().filter(|k| *k != target) {
-        let Some(from_name) = label(&tx, key)? else { return Err(AppError::Invalid("salah satu nama tidak ditemukan".into())) };
+        let Some(from_name) = label(&tx, key)? else { return Err(AppError::Invalid(crate::tr!("salah satu nama tidak ditemukan", "one of the names was not found").into())) };
         tx.execute(
             "INSERT OR REPLACE INTO author_aliases (from_key, from_name, to_key, to_name) VALUES (?1, ?2, ?3, ?4)",
             params![key, from_name, target, to_name],
@@ -53,7 +53,7 @@ pub fn merge(conn: &mut Connection, keys: &[String], target: &str) -> AppResult<
 pub fn split(conn: &mut Connection, from_key: &str) -> AppResult<usize> {
     let tx = conn.transaction()?;
     let target: Option<String> = tx.query_row("SELECT to_key FROM author_aliases WHERE from_key = ?1", params![from_key], |r| r.get(0)).optional()?;
-    let Some(target) = target else { return Err(AppError::Invalid("penyatuan itu tidak ditemukan".into())) };
+    let Some(target) = target else { return Err(AppError::Invalid(crate::tr!("penyatuan itu tidak ditemukan", "that merge was not found").into())) };
     tx.execute("DELETE FROM author_aliases WHERE from_key = ?1", params![from_key])?;
     let rows: Vec<(i64, i64, String)> = tx
         .prepare("SELECT paper_id, position, name FROM paper_authors WHERE name_key = ?1")?

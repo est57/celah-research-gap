@@ -14,11 +14,11 @@ pub fn import_sjr(app: AppHandle, state: State<'_, AppState>) -> AppResult<Optio
     let picked = app
         .dialog()
         .file()
-        .set_title("Impor data SJR dari scimagojr.com")
-        .add_filter("Data SJR (CSV)", &["csv"])
+        .set_title(crate::tr!("Impor data SJR dari scimagojr.com", "Import SJR data from scimagojr.com"))
+        .add_filter(crate::tr!("Data SJR (CSV)", "SJR data (CSV)"), &["csv"])
         .blocking_pick_file();
     let Some(picked) = picked else { return Ok(None) };
-    let path = picked.into_path().map_err(|_| AppError::Invalid("lokasi file tidak didukung".into()))?;
+    let path = picked.into_path().map_err(|_| AppError::Invalid(crate::tr!("lokasi file tidak didukung", "unsupported file location").into()))?;
     let (journals, year) = import::sjr::parse(&import::read_text(&path)?)?;
     let mut conn = state.db.lock().map_err(|_| AppError::Internal)?;
     sjr::replace(&mut conn, &journals, year).map(Some)

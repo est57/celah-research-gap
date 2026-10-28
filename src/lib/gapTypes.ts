@@ -1,3 +1,4 @@
+import { tk } from "../i18n";
 import type { ScreenId } from "../nav";
 
 export type GapKind = "matrix" | "emerging" | "niche" | "structural" | "front" | "explicit" | "idea";
@@ -79,25 +80,25 @@ export interface GapList {
 }
 
 export const KIND_INFO: Record<GapKind, { label: string; letter: string; color: string }> = {
-  matrix: { label: "Kombinasi jarang", letter: "K", color: "#2456A6" },
-  emerging: { label: "Baru muncul", letter: "B", color: "#7A5BB0" },
-  niche: { label: "Niche", letter: "N", color: "#2E8B6E" },
-  structural: { label: "Struktural", letter: "S", color: "#D9622B" },
-  front: { label: "Front terisolasi", letter: "F", color: "#4F6D2E" },
-  explicit: { label: "Eksplisit", letter: "E", color: "#B8457A" },
-  idea: { label: "Ide peneliti", letter: "I", color: "#3B8FB5" },
+  matrix: { label: tk("Kombinasi jarang"), letter: "K", color: "#2456A6" },
+  emerging: { label: tk("Baru muncul"), letter: "B", color: "#7A5BB0" },
+  niche: { label: tk("Niche"), letter: "N", color: "#2E8B6E" },
+  structural: { label: tk("Struktural"), letter: "S", color: "#D9622B" },
+  front: { label: tk("Front terisolasi"), letter: "F", color: "#4F6D2E" },
+  explicit: { label: tk("Eksplisit"), letter: "E", color: "#B8457A" },
+  idea: { label: tk("Ide peneliti"), letter: "I", color: "#3B8FB5" },
 };
 
 export const STATUS_LABEL: Record<Exclude<ReviewStatus, "">, string> = {
-  accepted: "Diterima",
-  check: "Perlu cek",
-  rejected: "Ditolak",
+  accepted: tk("Diterima"),
+  check: tk("Perlu cek"),
+  rejected: tk("Ditolak"),
 };
 
 export const VERDICT_LABEL: Record<Verdict, string> = {
-  open: "Masih terbuka",
-  new: "Ada studi baru, perlu dibaca",
-  answered: "Mungkin sudah dijawab",
+  open: tk("Masih terbuka"),
+  new: tk("Ada studi baru, perlu dibaca"),
+  answered: tk("Mungkin sudah dijawab"),
 };
 
 /** A stored review, including gaps no longer among the current candidates. */

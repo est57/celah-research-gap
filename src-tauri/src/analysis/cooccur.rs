@@ -23,7 +23,7 @@ impl Field {
     }
     pub fn label(self) -> &'static str {
         match self {
-            Field::AuthorKeywords => "Kata kunci penulis",
+            Field::AuthorKeywords => crate::tr!("Kata kunci penulis", "Author keywords"),
             Field::KeywordsPlus => "Keywords Plus",
         }
     }

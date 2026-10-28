@@ -11,7 +11,7 @@ pub const MAX_DOIS: usize = 50;
 /// `dois` must be normalized (lowercase, "10." prefix); unsafe values are rejected.
 pub async fn by_doi(client: &reqwest::Client, dois: &[String], api_key: Option<&str>) -> AppResult<Vec<NewPaper>> {
     if dois.is_empty() || dois.len() > MAX_DOIS || !dois.iter().all(|d| filter_safe_doi(d)) {
-        return Err(AppError::Invalid(format!("isi 1 sampai {MAX_DOIS} DOI yang valid")));
+        return Err(AppError::Invalid(crate::tr!(format!("isi 1 sampai {MAX_DOIS} DOI yang valid"), format!("give 1 to {MAX_DOIS} valid DOIs"))));
     }
     let filter = format!("doi:{}", dois.join("|"));
     let per_page = dois.len().to_string();

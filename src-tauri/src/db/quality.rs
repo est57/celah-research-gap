@@ -64,8 +64,8 @@ pub fn quality(conn: &Connection) -> AppResult<MetadataQuality> {
         .collect::<Result<Vec<_>, _>>()?;
     Ok(MetadataQuality {
         total: origins.iter().map(|o| o.count).sum(),
-        fields: FIELDS.iter().map(|&(tag, label, _)| FieldInfo { tag, label }).collect(),
-        analyses: ANALYSES.iter().map(|&(key, label, needs, _)| AnalysisInfo { key, label, needs }).collect(),
+        fields: FIELDS.iter().map(|&(tag, label, _)| FieldInfo { tag, label: super::stats::label(label) }).collect(),
+        analyses: ANALYSES.iter().map(|&(key, label, needs, _)| AnalysisInfo { key, label: super::stats::label(label), needs }).collect(),
         origins,
     })
 }

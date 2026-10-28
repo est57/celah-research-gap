@@ -24,19 +24,19 @@ pub fn import_file(app: AppHandle, state: State<'_, AppState>) -> AppResult<Opti
     let picked = app
         .dialog()
         .file()
-        .set_title("Impor ekspor Scopus, Web of Science, PubMed, atau RIS")
-        .add_filter("Ekspor bibliografi", &["bib", "csv", "txt", "ris", "nbib"])
+        .set_title(crate::tr!("Impor ekspor Scopus, Web of Science, PubMed, atau RIS", "Import a Scopus, Web of Science, PubMed, or RIS export"))
+        .add_filter(crate::tr!("Ekspor bibliografi", "Bibliographic export"), &["bib", "csv", "txt", "ris", "nbib"])
         .blocking_pick_file();
     let Some(picked) = picked else { return Ok(None) };
     let path = picked
         .into_path()
-        .map_err(|_| AppError::Invalid("lokasi file tidak didukung".into()))?;
+        .map_err(|_| AppError::Invalid(crate::tr!("lokasi file tidak didukung", "unsupported file location").into()))?;
 
     let text = import::read_text(&path)?;
     let format = import::detect(&path, &text)?;
     let items = import::parse(format, &text);
     if items.is_empty() {
-        return Err(AppError::Invalid("tidak ada rekaman yang bisa dibaca di file ini".into()));
+        return Err(AppError::Invalid(crate::tr!("tidak ada rekaman yang bisa dibaca di file ini", "no readable records in this file").into()));
     }
 
     let mut conn = state.db.lock().map_err(|_| AppError::Internal)?;

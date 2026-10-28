@@ -1,10 +1,12 @@
 import { formatInt } from "../../lib/format";
-import { VERDICT_LABEL, type CheckSummary } from "../../lib/gapTypes";
+import { getLang, t } from "../../i18n";
+import type { CheckSummary } from "../../lib/gapTypes";
+import { verdictLabel } from "./labels";
 
 /** SQLite stores "YYYY-MM-DD HH:MM:SS" in UTC; show it in the viewer's local time. */
 function localTime(utc: string): string {
   const d = new Date(`${utc.replace(" ", "T")}Z`);
-  return Number.isNaN(d.getTime()) ? utc : d.toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
+  return Number.isNaN(d.getTime()) ? utc : d.toLocaleString(getLang() === "en" ? "en-GB" : "id-ID", { dateStyle: "medium", timeStyle: "short" });
 }
 
 interface Props {
@@ -18,17 +20,19 @@ export function CheckResult({ check, limit }: Props) {
   return (
     <div className="check">
       <div className="check-head">
-        <span className="verdict-pill" data-verdict={check.verdict}>{VERDICT_LABEL[check.verdict]}</span>
+        <span className="verdict-pill" data-verdict={check.verdict}>{verdictLabel(check.verdict)}</span>
         <span className="muted">
-          {formatInt(check.matching)} dari {formatInt(check.found)} paper baru memuat semua kata kunci · dicek {localTime(check.checkedAt)}
+          {t("{m} dari {n} paper baru memuat semua kata kunci · dicek {time}", {
+            m: formatInt(check.matching), n: formatInt(check.found), time: localTime(check.checkedAt),
+          })}
         </span>
       </div>
-      <div className="muted check-query">Kueri: <span className="num">{check.query}</span></div>
+      <div className="muted check-query">{t("Kueri:")} <span className="num">{check.query}</span></div>
       {check.papers.length ? (
         <ul className="check-papers">
           {check.papers.slice(0, limit).map((p, i) => (
             <li key={i}>
-              <span className="check-mark" data-match={p.matches}>{p.matches ? "cocok" : "terkait"}</span>
+              <span className="check-mark" data-match={p.matches}>{p.matches ? t("cocok") : t("terkait")}</span>
               <span className="check-paper">
                 <span>{p.title}</span>
                 <span className="muted">
@@ -42,7 +46,7 @@ export function CheckResult({ check, limit }: Props) {
           ))}
         </ul>
       ) : (
-        <p className="muted">Tidak ada paper baru di luar koleksi untuk kueri ini.</p>
+        <p className="muted">{t("Tidak ada paper baru di luar koleksi untuk kueri ini.")}</p>
       )}
     </div>
   );

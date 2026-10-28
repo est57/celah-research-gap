@@ -1,8 +1,10 @@
 //! "Matrix" gaps: two frequent keywords that appear together far less often
 //! than their frequencies predict (observed / expected co-occurrence).
 
-use super::model::{part, score, slug, Draft, EvidenceRef, Kind, Signal};
+use super::model::{part, score, Draft};
+use super::pair_text::draft;
 use super::Ctx;
+use crate::tr;
 
 const TOP_WORDS: usize = 60;
 const MIN_EXPECTED: f64 = 3.0;
@@ -69,7 +71,7 @@ pub fn detect(ctx: &Ctx) -> Vec<Draft> {
         .into_iter()
         .map(|(i, j, observed, expected, ratio)| {
             let union: Vec<usize> = net.docs[i].iter().chain(&net.docs[j]).copied().collect();
-            let parts = vec![part("Kebaruan", 1.0 - ratio), part("Bukti", expected / 10.0), part("Momentum", ctx.momentum(&union))];
+            let parts = vec![part(tr!("Kebaruan", "Novelty"), 1.0 - ratio), part(tr!("Bukti", "Evidence"), expected / 10.0), part("Momentum", ctx.momentum(&union))];
             let s = score(&parts, &[0.5, 0.25, 0.25]);
             (s, draft(ctx, i, j, observed, expected, parts), i, j)
         })
@@ -89,40 +91,6 @@ pub fn detect(ctx: &Ctx) -> Vec<Draft> {
         }
     }
     out
-}
-
-fn draft(ctx: &Ctx, i: usize, j: usize, observed: i64, expected: f64, parts: Vec<super::model::ScorePart>) -> Draft {
-    let net = &ctx.net;
-    let (a, b) = (&net.labels[i], &net.labels[j]);
-    let both: Vec<usize> = net.docs[i].iter().filter(|d| net.docs[j].contains(d)).copied().collect();
-    let mut evidence: Vec<EvidenceRef> = ctx.top(&both, 3).into_iter().map(|id| EvidenceRef { paper_id: id, role: "hampir menjawab", quote: None }).collect();
-    for id in ctx.top(&net.docs[i], 2).into_iter().chain(ctx.top(&net.docs[j], 2)) {
-        if !evidence.iter().any(|e| e.paper_id == id) {
-            evidence.push(EvidenceRef { paper_id: id, role: "konteks", quote: None });
-        }
-    }
-    Draft {
-        key: format!("matrix:{}:{}", slug(a), slug(b)),
-        kind: Kind::Matrix,
-        terms: vec![a.clone(), b.clone()],
-        title: format!("{a} dan {b} jarang diteliti bersama"),
-        statement: format!(
-            "\"{a}\" muncul di {} dokumen dan \"{b}\" di {} dokumen, tetapi keduanya hanya muncul bersama di {observed} dokumen, padahal menurut frekuensinya diperkirakan sekitar {expected:.1}.",
-            net.freq[i], net.freq[j]
-        ),
-        parts,
-        signals: vec![Signal {
-            analysis: "Ko-kemunculan kata kunci",
-            finding: format!("{a} dengan {b}: {observed} dokumen, perkiraan {expected:.1} (rasio {:.2})", observed as f64 / expected),
-            screen: "conceptual",
-            tab: None,
-        }],
-        evidence,
-        questions: vec![
-            format!("Bagaimana pendekatan yang umum pada studi {a} dapat diterapkan untuk {b}?"),
-            format!("Apa yang berubah jika {a} dan {b} diteliti dalam satu desain studi?"),
-        ],
-    }
 }
 
 #[cfg(test)]

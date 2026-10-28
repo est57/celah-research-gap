@@ -2,6 +2,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import { EmptyCollection, ScreenMessage } from "../../components/ScreenMessage";
 import { Tabs, type TabDef } from "../../components/shell/Tabs";
 import { useGaps } from "../../hooks/useGaps";
+import { t, tk } from "../../i18n";
 import type { ScreenId } from "../../nav";
 import { GapDetail } from "./GapDetail";
 import { GapListPane, type KindFilter, type SortBy } from "./GapListPane";
@@ -12,9 +13,9 @@ import { IdeaView } from "./IdeaView";
 export type GapsTab = "explorer" | "idea" | "history";
 
 const TABS: TabDef<GapsTab>[] = [
-  { id: "explorer", label: "Kandidat celah" },
-  { id: "idea", label: "Uji ide celah" },
-  { id: "history", label: "Riwayat review" },
+  { id: "explorer", label: tk("Kandidat celah") },
+  { id: "idea", label: tk("Uji ide celah") },
+  { id: "history", label: tk("Riwayat review") },
 ];
 
 interface Props {
@@ -49,13 +50,13 @@ export function GapsScreen({ version, initialTab, initialIdea, onNavigate }: Pro
   if (tab === "history") body = <HistoryView version={version} onOpen={openInExplorer} onRemoved={reload} />;
   else if (tab === "idea") body = <IdeaView onOpen={openInExplorer} onChanged={reload} initialA={initialIdea} />;
   else if (error) body = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
-  else if (!data) body = <ScreenMessage>{loading ? "Mencari kandidat celah dari semua analisis..." : ""}</ScreenMessage>;
+  else if (!data) body = <ScreenMessage>{loading ? t("Mencari kandidat celah dari semua analisis...") : ""}</ScreenMessage>;
   else if (data.documents === 0) body = <EmptyCollection />;
   else if (items.length === 0) {
     body = (
       <ScreenMessage>
-        <strong>Belum ada kandidat celah</strong>
-        <span className="muted">Butuh lebih banyak dokumen yang punya kata kunci. Tambahkan koleksi dari OpenAlex, PubMed, atau impor Scopus/WoS.</span>
+        <strong>{t("Belum ada kandidat celah")}</strong>
+        <span className="muted">{t("Butuh lebih banyak dokumen yang punya kata kunci. Tambahkan koleksi dari OpenAlex, PubMed, atau impor Scopus/WoS.")}</span>
       </ScreenMessage>
     );
   } else {
@@ -65,7 +66,7 @@ export function GapsScreen({ version, initialTab, initialIdea, onNavigate }: Pro
           <GapListPane gaps={shown} all={items} selected={current?.key ?? null} kind={kind} sort={sort}
             onKind={setKind} onSort={setSort} onSelect={setSelected} />
           <div className="gap-main">
-            {sample ? <div className="notice gap-sample">Pratinjau browser: kandidat di halaman ini adalah data contoh.</div> : null}
+            {sample ? <div className="notice gap-sample">{t("Pratinjau browser: kandidat di halaman ini adalah data contoh.")}</div> : null}
             {current ? <GapDetail gap={current} onNavigate={onNavigate} /> : null}
           </div>
           {current ? (
@@ -79,7 +80,7 @@ export function GapsScreen({ version, initialTab, initialIdea, onNavigate }: Pro
 
   return (
     <>
-      <Tabs label="Pencarian celah" tabs={TABS} active={tab} onChange={setTab} />
+      <Tabs label={t("Pencarian celah")} tabs={TABS.map((x) => ({ ...x, label: t(x.label) }))} active={tab} onChange={setTab} />
       {body}
     </>
   );

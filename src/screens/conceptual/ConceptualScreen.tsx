@@ -3,6 +3,7 @@ import { EmptyCollection, ScreenMessage } from "../../components/ScreenMessage";
 import { Tabs, type TabDef } from "../../components/shell/Tabs";
 import { useConceptual } from "../../hooks/useConceptual";
 import { formatInt } from "../../lib/format";
+import { t, tk } from "../../i18n";
 import { DEFAULT_PARAMS, type ConceptualParams } from "../../lib/conceptualTypes";
 import { ParamsForm } from "./ParamsForm";
 import { ThematicMap } from "./ThematicMap";
@@ -18,12 +19,12 @@ export type ConceptualTab = "map" | "words" | "network" | "evolution" | "factori
 type TabId = ConceptualTab;
 
 const TABS: TabDef<TabId>[] = [
-  { id: "map", label: "Peta tematik & tren" },
-  { id: "words", label: "Analisis kata" },
-  { id: "network", label: "Jaringan ko-kemunculan" },
-  { id: "evolution", label: "Evolusi tematik" },
-  { id: "factorial", label: "Analisis faktorial" },
-  { id: "synonyms", label: "Sinonim kata kunci" },
+  { id: "map", label: tk("Peta tematik & tren") },
+  { id: "words", label: tk("Analisis kata") },
+  { id: "network", label: tk("Jaringan ko-kemunculan") },
+  { id: "evolution", label: tk("Evolusi tematik") },
+  { id: "factorial", label: tk("Analisis faktorial") },
+  { id: "synonyms", label: tk("Sinonim kata kunci") },
 ];
 
 interface Props {
@@ -40,30 +41,30 @@ export function ConceptualScreen({ version, initialTab = "map", onDataChanged }:
   const { data, sample, error, loading } = useConceptual(version, params);
 
   const themes = data?.map.themes ?? [];
-  const current = themes.find((t) => t.id === selected) ?? themes.find((t) => t.quadrant === "emerging") ?? themes[0];
+  const current = themes.find((x) => x.id === selected) ?? themes.find((x) => x.quadrant === "emerging") ?? themes[0];
 
   let main: ReactNode;
   if (error) main = <ScreenMessage><span role="alert">{error}</span></ScreenMessage>;
-  else if (!data) main = <ScreenMessage>{loading ? "Menyusun peta tematik..." : ""}</ScreenMessage>;
+  else if (!data) main = <ScreenMessage>{loading ? t("Menyusun peta tematik...") : ""}</ScreenMessage>;
   else if (data.documents === 0) main = <EmptyCollection />;
   else if (themes.length === 0) {
-    main = <ScreenMessage>Belum ada tema yang memenuhi syarat. Coba turunkan frekuensi minimum tema, atau pilih field kata kunci lain.</ScreenMessage>;
+    main = <ScreenMessage>{t("Belum ada tema yang memenuhi syarat. Coba turunkan frekuensi minimum tema, atau pilih field kata kunci lain.")}</ScreenMessage>;
   } else {
     main = (
       <div className="conceptual-main">
-        {sample ? <div className="notice">Pratinjau browser: angka di halaman ini adalah data contoh.</div> : null}
+        {sample ? <div className="notice">{t("Pratinjau browser: angka di halaman ini adalah data contoh.")}</div> : null}
         <section className="pnl">
           <div className="ph">
-            Peta tematik
-            <span className="ph-aside">{`${formatInt(themes.length)} tema dari ${formatInt(data.wordsUsed)} ${data.field.toLowerCase()} · klik tema untuk detail`}</span>
+            {t("Peta tematik")}
+            <span className="ph-aside">{t("{n} tema dari {words} {field} · klik tema untuk detail", { n: formatInt(themes.length), words: formatInt(data.wordsUsed), field: data.field.toLowerCase() })}</span>
           </div>
           <div className="pnl-body"><ThematicMap themes={themes} selected={current?.id ?? null}
             collectionShare={data.map.collectionRecentShare} onSelect={setSelected} /></div>
         </section>
         <section className="pnl">
           <div className="ph">
-            Tren topik
-            <span className="ph-aside">rentang Q1-Q3 tahun terbit, titik = median, ukuran = frekuensi</span>
+            {t("Tren topik")}
+            <span className="ph-aside">{t("rentang Q1-Q3 tahun terbit, titik = median, ukuran = frekuensi")}</span>
           </div>
           <div className="pnl-body"><TrendTopics trends={data.trends} /></div>
         </section>
@@ -71,7 +72,7 @@ export function ConceptualScreen({ version, initialTab = "map", onDataChanged }:
     );
   }
 
-  const tabs = <Tabs label="Struktur konseptual" tabs={TABS} active={tab} onChange={setTab} />;
+  const tabs = <Tabs label={t("Struktur konseptual")} tabs={TABS.map((x) => ({ ...x, label: t(x.label) }))} active={tab} onChange={setTab} />;
   if (tab !== "map") {
     return (
       <>
@@ -89,15 +90,15 @@ export function ConceptualScreen({ version, initialTab = "map", onDataChanged }:
       {tabs}
       <div className="screen">
         <section className="screen-main">{main}</section>
-        <aside className="inspector" aria-label="Parameter dan detail tema">
-          <div className="ph">Parameter</div>
+        <aside className="inspector" aria-label={t("Parameter dan detail tema")}>
+          <div className="ph">{t("Parameter")}</div>
           <ParamsForm applied={params} busy={loading} onApply={(p) => { setSelected(null); setParams(p); }} />
-          <div className="ph">Tema dipilih</div>
+          <div className="ph">{t("Tema dipilih")}</div>
           {current && data ? (
             <ThemeDetail theme={current} collectionShare={data.map.collectionRecentShare}
               recentFrom={data.map.recentFrom} recentTo={data.map.recentTo} />
           ) : (
-            <p className="muted" style={{ padding: "10px 12px", margin: 0 }}>Belum ada tema.</p>
+            <p className="muted" style={{ padding: "10px 12px", margin: 0 }}>{t("Belum ada tema.")}</p>
           )}
         </aside>
       </div>

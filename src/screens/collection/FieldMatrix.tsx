@@ -1,5 +1,6 @@
 import { formatPct, quality as grade } from "../../lib/format";
 import type { MetadataQuality } from "../../lib/qualityTypes";
+import { t } from "../../i18n";
 
 /** Severity bucket for the cell tint, from the share of missing documents. */
 function level(missing: number, total: number): number {
@@ -13,15 +14,15 @@ export function FieldMatrix({ quality }: { quality: MetadataQuality }) {
   return (
     <section className="pnl">
       <div className="ph">
-        Field kosong per sumber impor
-        <span className="ph-aside">persentase dokumen tanpa field tersebut</span>
+        {t("Field kosong per sumber impor")}
+        <span className="ph-aside">{t("persentase dokumen tanpa field tersebut")}</span>
       </div>
       <div className="fmx-scroll">
         <table className="fmx">
           <thead>
             <tr>
-              <th scope="col">Field</th>
-              <th scope="col" className="fmx-total">Semua</th>
+              <th scope="col">{t("Field")}</th>
+              <th scope="col" className="fmx-total">{t("Semua")}</th>
               {quality.origins.map((o) => (
                 <th scope="col" key={o.origin}>
                   {o.origin}
