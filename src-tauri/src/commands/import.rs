@@ -24,8 +24,8 @@ pub fn import_file(app: AppHandle, state: State<'_, AppState>) -> AppResult<Opti
     let picked = app
         .dialog()
         .file()
-        .set_title("Impor ekspor Scopus atau Web of Science")
-        .add_filter("Ekspor bibliografi", &["bib", "csv", "txt"])
+        .set_title("Impor ekspor Scopus, Web of Science, PubMed, atau RIS")
+        .add_filter("Ekspor bibliografi", &["bib", "csv", "txt", "ris", "nbib"])
         .blocking_pick_file();
     let Some(picked) = picked else { return Ok(None) };
     let path = picked

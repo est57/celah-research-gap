@@ -34,9 +34,9 @@ export function FileImport({ onImported }: { onImported: () => void }) {
     <div className="file-import">
       <div className="file-import-row">
         <button type="button" className="btn" disabled={busy} onClick={() => void run()}>
-          {busy ? "Mengimpor..." : "Impor file Scopus / WoS"}
+          {busy ? "Mengimpor..." : "Impor file ekspor"}
         </button>
-        <span className="muted">Scopus: .csv atau .bib. Web of Science: .txt (Plain text, Full record and cited references).</span>
+        <span className="muted">Scopus: .csv, .bib, atau .ris. Web of Science: .txt (Plain text, Full record and cited references). PubMed: .nbib atau .txt (PubMed format). Zotero, Mendeley, EndNote: .ris.</span>
       </div>
       {msg ? (
         <span className="message" data-kind={msg.kind} role="status">

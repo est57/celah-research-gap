@@ -1,6 +1,7 @@
 # Checks and installers for macOS, Windows and Linux.
 # Pushes and pull requests run the checks; a "v*" tag also builds the installers
-# and attaches them to a draft GitHub release. Signing secrets are optional.
+# and attaches them to a draft GitHub release. Signing secrets are optional: with
+# TAURI_SIGNING_PRIVATE_KEY the release also carries signed updater files (latest.json).
 name: build
 
 on:
@@ -46,6 +47,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       APPLE_SIGNING: ${{ secrets.APPLE_CERTIFICATE != '' && 'yes' || 'no' }}
+      UPDATER_ARGS: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY != '' && '--config {"bundle":{"createUpdaterArtifacts":true}}' || '' }}
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ""
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -74,7 +78,7 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: "Celah ${{ github.ref_name }}"
           releaseDraft: true
-          args: ${{ matrix.args }}
+          args: ${{ matrix.args }} ${{ env.UPDATER_ARGS }}
       - name: Build installers (ad-hoc signed on macOS)
         if: env.APPLE_SIGNING != 'yes' || !startsWith(matrix.os, 'macos')
         uses: tauri-apps/tauri-action@v0
@@ -84,4 +88,4 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: "Celah ${{ github.ref_name }}"
           releaseDraft: true
-          args: ${{ matrix.args }}
+          args: ${{ matrix.args }} ${{ env.UPDATER_ARGS }}

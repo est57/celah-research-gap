@@ -10,6 +10,7 @@ const COLORS: Record<string, string> = {
   arXiv: "#6B7480",
   Crossref: "#B8457A",
   "Semantic Scholar": "#8C7A3E",
+  RIS: "#4F7F8C",
 };
 
 interface Props {

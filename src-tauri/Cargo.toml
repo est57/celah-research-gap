@@ -1,6 +1,6 @@
 [package]
 name = "celah"
-version = "0.1.0"
+version = "0.1.1"
 license = "MIT"
 description = "Bibliometric analysis and research gap finder"
 edition = "2021"
@@ -24,6 +24,7 @@ csv = "1.4"
 roxmltree = "0.21"
 tokio = { version = "1", features = ["time"] }
 tauri-plugin-dialog = "2"
+tauri-plugin-updater = "2"
 keyring = { version = "3.6", features = ["apple-native", "windows-native", "sync-secret-service", "crypto-rust"] }
 
 [dev-dependencies]

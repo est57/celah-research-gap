@@ -5,6 +5,7 @@ import type { ApiKeyState } from "../../hooks/useApiKey";
 import { ApiKeyPanel } from "./ApiKeyPanel";
 import { DisplayPanel } from "./DisplayPanel";
 import { AboutPanel } from "./AboutPanel";
+import { UpdatePanel } from "./UpdatePanel";
 import type { DisplaySettings } from "../../lib/display";
 
 export type SettingsTab = "sources" | "display" | "about";
@@ -32,7 +33,7 @@ export function SettingsScreen({ openalex, semanticScholar, ncbi, display, onDis
       <>
         <Tabs label="Pengaturan" tabs={TABS} active={tab} onChange={setTab} />
         <div className="settings-page">
-          {tab === "display" ? <DisplayPanel settings={display} onChange={onDisplay} /> : <AboutPanel />}
+          {tab === "display" ? <DisplayPanel settings={display} onChange={onDisplay} /> : <><AboutPanel /><UpdatePanel /></>}
         </div>
       </>
     );

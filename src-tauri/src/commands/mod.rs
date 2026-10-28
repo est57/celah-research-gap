@@ -16,6 +16,7 @@ pub mod settings;
 pub mod sjr;
 pub mod synonyms;
 pub mod text_refs;
+pub mod update;
 pub mod verify;
 pub mod workflow;
 
@@ -107,6 +108,8 @@ pub fn handler() -> impl Fn(tauri::ipc::Invoke) -> bool + Send + Sync + 'static 
         settings::api_key_status,
         settings::set_api_key,
         settings::clear_api_key,
-        settings::app_info
+        settings::app_info,
+        update::check_update,
+        update::install_update
     ]
 }

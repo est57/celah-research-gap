@@ -62,6 +62,8 @@ pub fn run() {
     tauri::Builder::default()
         // Used only from Rust (commands::import); no dialog permission is granted to the frontend.
         .plugin(tauri_plugin_dialog::init())
+        // Also used only from Rust (commands::update), so no updater permission is granted either.
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .setup(|app| {
             let dir = app.path().app_data_dir()?;
             std::fs::create_dir_all(&dir)?;

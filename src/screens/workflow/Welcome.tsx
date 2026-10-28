@@ -3,7 +3,7 @@ import type { Jump } from "../../lib/commands";
 const START: { title: string; text: string; label: string; jump: Jump; primary?: boolean }[] = [
   { title: "Cari dokumen", text: "Tulis topik riset Anda, pilih sumber (OpenAlex, PubMed, Crossref, dan lainnya), lalu simpan hasilnya ke koleksi.",
     label: "Mulai mencari", jump: { screen: "collection", tab: "collection" }, primary: true },
-  { title: "Atau impor file", text: "Sudah punya ekspor Scopus (CSV atau BibTeX) atau Web of Science (TXT)? Impor dari layar yang sama; rujukannya ikut terbaca.",
+  { title: "Atau impor file", text: "Sudah punya ekspor Scopus, Web of Science, PubMed, atau RIS dari Zotero, Mendeley, dan EndNote? Impor dari layar yang sama; rujukannya ikut terbaca bila ada.",
     label: "Impor ekspor", jump: { screen: "collection", tab: "collection" } },
   { title: "Kunci API (opsional)", text: "Kunci OpenAlex, Semantic Scholar, atau NCBI menaikkan kuota pencarian. Kunci disimpan di keychain sistem, bukan di file.",
     label: "Atur kunci API", jump: { screen: "settings", tab: "sources" } },

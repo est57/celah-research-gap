@@ -7,7 +7,8 @@ penelitian yang didukung bukti dokumen. Semua data tersimpan di komputer Anda.
 
 1. Buka **Alur kerja** (layar pertama). Layar ini menunjukkan enam langkah dan langkah berikutnya.
 2. Buka **Koleksi & impor**, tulis topik riset, pilih sumber, lalu klik cari. Atau impor ekspor Scopus
-   (CSV/BibTeX) atau Web of Science (TXT, *Full record and cited references*).
+   (CSV/BibTeX/RIS), Web of Science (TXT, *Full record and cited references*), PubMed (*PubMed format*,
+   .nbib/.txt), atau RIS dari Zotero, Mendeley, dan EndNote.
 3. Rapikan data: gabungkan **Duplikat**, terima saran **Sinonim kata kunci**, dan satukan **Nama penulis**.
 4. Jelajahi struktur bidang, lalu buka **Gap Explorer** untuk meninjau kandidat celah.
 5. Tandai celah **Diterima**, verifikasi ke literatur terbaru, lalu susun laporan di **Laporan & ekspor**.

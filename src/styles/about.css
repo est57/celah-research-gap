@@ -32,3 +32,12 @@
 .about-hint {
   font-size: 12px;
 }
+
+/* Release notes keep the line breaks of the GitHub release text. */
+.update-notes {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  max-height: 240px;
+  overflow-y: auto;
+}
