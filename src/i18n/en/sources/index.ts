@@ -1,6 +1,7 @@
 // English texts for the sources area (Overview, Sources, Authors), keyed by the Indonesian source text.
 import { PART2 } from "./part2";
 import { PART3 } from "./part3";
+import { JOURNALS } from "./journals";
 
 export const DICT: Record<string, string> = {
   "{year}: {n} dokumen": "{year}: {n} documents",
@@ -75,4 +76,5 @@ export const DICT: Record<string, string> = {
   "Aliran dokumen: {fields}": "Document flow: {fields}",
   ...PART2,
   ...PART3,
+  ...JOURNALS,
 };

@@ -1,0 +1,91 @@
+/* Koleksi > Skrining: one document card with its decision. */
+
+.scr-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+}
+
+.scr-card[data-decision="include"] {
+  border-left-color: var(--ok);
+}
+
+.scr-card[data-decision="exclude"] {
+  border-left-color: var(--bad);
+}
+
+.scr-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.scr-title {
+  font-size: 13.5px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.scr-badge {
+  flex: none;
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.scr-badge[data-decision="exclude"] {
+  background: color-mix(in srgb, var(--bad) 12%, var(--panel));
+  color: var(--bad);
+}
+
+.scr-meta,
+.scr-keys {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.scr-abstract {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.scr-abstract[data-open="false"] {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
+
+.scr-more {
+  font-size: 12px;
+}
+
+.scr-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.scr-actions .btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+}
+
+.scr-note {
+  flex: 1 1 200px;
+  min-width: 0;
+}

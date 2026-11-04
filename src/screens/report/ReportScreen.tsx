@@ -9,12 +9,14 @@ import type { ScreenId } from "../../nav";
 import { ReportOptions } from "./ReportOptions";
 import { plainText, ReportPreview, type PreviewView } from "./ReportPreview";
 import { SummaryView } from "./SummaryView";
+import { PrismaView } from "./PrismaView";
 
-export type ReportTab = "draft" | "summary";
+export type ReportTab = "draft" | "summary" | "prisma";
 
 const TABS: TabDef<ReportTab>[] = [
   { id: "draft", label: tk("Draf research gap") },
   { id: "summary", label: tk("Draf metode & hasil") },
+  { id: "prisma", label: tk("Diagram PRISMA") },
 ];
 
 interface Props {
@@ -94,7 +96,8 @@ export function ReportScreen({ version, onNavigate, defaults, initialTab = "draf
   return (
     <>
       <Tabs label={t("Laporan")} tabs={TABS.map((x) => ({ ...x, label: t(x.label) }))} active={tab} onChange={setTab} />
-      {tab === "summary" ? <SummaryView version={version} defaults={defaults} /> : body}
+      {tab === "summary" ? <SummaryView version={version} defaults={defaults} />
+        : tab === "prisma" ? <PrismaView version={version} onNavigate={onNavigate} /> : body}
     </>
   );
 }

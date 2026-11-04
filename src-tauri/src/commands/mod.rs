@@ -11,6 +11,7 @@ pub mod import;
 pub mod projects;
 pub mod report;
 pub mod restore;
+pub mod screening;
 pub mod search;
 pub mod settings;
 pub mod sjr;
@@ -94,6 +95,7 @@ pub fn handler() -> impl Fn(tauri::ipc::Invoke) -> bool + Send + Sync + 'static 
         sjr::import_sjr,
         sjr::clear_sjr,
         sjr::quartiles,
+        sjr::journal_targets,
         report::report,
         report::export_report,
         report::report_summary,
@@ -105,6 +107,9 @@ pub fn handler() -> impl Fn(tauri::ipc::Invoke) -> bool + Send + Sync + 'static 
         restore::cancel_restore,
         restore::restore_backup,
         import::import_file,
+        screening::screening_page,
+        screening::set_screening,
+        screening::prisma_flow,
         settings::api_key_status,
         settings::set_api_key,
         settings::clear_api_key,

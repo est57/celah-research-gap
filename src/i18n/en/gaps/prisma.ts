@@ -1,0 +1,31 @@
+// English texts for Report > PRISMA diagram.
+export const PRISMA: Record<string, string> = {
+  "Diagram PRISMA": "PRISMA diagram",
+  "Identifikasi": "Identification",
+  "Disertakan": "Included",
+  "Diagram alir PRISMA 2020": "PRISMA 2020 flow diagram",
+  " Sebanyak {n} rekaman lagi dikecualikan oleh kriteria kelayakan.": " A further {n} records were excluded by the eligibility criteria.",
+  "Pencarian menghasilkan {identified} rekaman dari {sources}. Setelah {dup} duplikat dan {other} rekaman lain dihapus, {screened} rekaman disaring berdasarkan judul dan abstrak, dan {excluded} di antaranya dikecualikan.{filter} Sebanyak {included} studi disertakan dalam analisis bibliometrik.":
+    "The search returned {identified} records from {sources}. After removing {dup} duplicates and {other} other records, {screened} records were screened by title and abstract, and {excluded} of them were excluded.{filter} In total, {included} studies were included in the bibliometric analysis.",
+  "Menghitung alur PRISMA...": "Counting the PRISMA flow...",
+  "{n} dokumen yang dianalisis belum disaring. Saring dulu agar diagram mencerminkan proses seleksi yang lengkap.": "{n} analyzed documents have not been screened. Screen them first so the diagram reflects the full selection process.",
+  "Buka Skrining": "Open Screening",
+  "Kalimat untuk bagian metode": "Sentence for the methods section",
+  "Salin kalimat": "Copy sentence",
+  "Angka identifikasi berasal dari catatan impor dan pencarian. Untuk koleksi yang dibuat sebelum fitur ini ada, jumlahnya diambil dari dokumen yang tersimpan, sehingga duplikat yang dilewati saat impor lama tidak terhitung.":
+    "Identification figures come from the import and search log. For collections created before this feature, they are taken from the stored documents, so duplicates skipped in older imports are not counted.",
+  "- {label} (n = {n})": "- {label} (n = {n})",
+  "Rekaman lama yang sudah digabung": "Earlier merged records",
+  "Rekaman dari basis data (n = {n})": "Records identified from databases (n = {n})",
+  "Rekaman dihapus sebelum skrining:": "Records removed before screening:",
+  "Dihapus karena alasan lain": "Removed for other reasons",
+  "Rekaman disaring (n = {n})": "Records screened (n = {n})",
+  "judul dan abstrak": "title and abstract",
+  "Rekaman dikecualikan (n = {n})": "Records excluded (n = {n})",
+  "Rekaman dinilai kelayakannya (n = {n})": "Records assessed for eligibility (n = {n})",
+  "kriteria filter analisis": "analysis filter criteria",
+  "Dikecualikan oleh kriteria (n = {n})": "Excluded by criteria (n = {n})",
+  "tahun, jenis dokumen, sumber, atau kuartil": "year, document type, source or quartile",
+  "termasuk {n} yang belum disaring": "including {n} not yet screened",
+  "Studi dalam analisis (n = {n})": "Studies included in the analysis (n = {n})",
+};

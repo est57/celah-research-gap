@@ -35,7 +35,8 @@ export function serializeSvg(svg: SVGSVGElement): SvgImage {
     clone.setAttribute("xmlns", NS);
     clone.setAttribute("width", String(Math.round(width)));
     clone.setAttribute("height", String(Math.round(height)));
-    clone.setAttribute("viewBox", `0 0 ${Math.round(width)} ${Math.round(height)}`);
+    // A chart drawn in its own coordinates and scaled to fit keeps them, so nothing is cut off.
+    if (!svg.getAttribute("viewBox")) clone.setAttribute("viewBox", `0 0 ${Math.round(width)} ${Math.round(height)}`);
     const bg = document.createElementNS(NS, "rect");
     bg.setAttribute("width", "100%");
     bg.setAttribute("height", "100%");

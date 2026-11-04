@@ -99,8 +99,9 @@ pub fn save(conn: &Connection, f: &CollectionFilter) -> AppResult<()> {
     Ok(())
 }
 
-/// Documents of the whole collection that pass the filter.
+/// Documents of the whole collection that pass the filter and were not excluded at screening.
 pub fn matching(conn: &Connection, f: &CollectionFilter) -> AppResult<i64> {
     let (cond, values) = f.condition();
-    Ok(conn.query_row(&format!("SELECT COUNT(*) FROM main.papers WHERE {cond}"), params_from_iter(values), |r| r.get(0))?)
+    let sql = format!("SELECT COUNT(*) FROM main.papers WHERE {cond} AND {}", super::screening::NOT_EXCLUDED);
+    Ok(conn.query_row(&sql, params_from_iter(values), |r| r.get(0))?)
 }

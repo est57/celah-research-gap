@@ -1,6 +1,7 @@
 // English texts for the gaps area, keyed by the Indonesian source text.
 import { IDEAS } from "./ideas";
 import { LABELS } from "./labels";
+import { PRISMA } from "./prisma";
 
 const EXPLORER: Record<string, string> = {
   "Kandidat celah": "Gap candidates",
@@ -81,4 +82,4 @@ const EXPLORER: Record<string, string> = {
   "Hapus review": "Delete review",
 };
 
-export const DICT: Record<string, string> = { ...EXPLORER, ...IDEAS, ...LABELS };
+export const DICT: Record<string, string> = { ...EXPLORER, ...IDEAS, ...LABELS, ...PRISMA };

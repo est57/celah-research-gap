@@ -36,3 +36,10 @@ pub fn clear_sjr(state: State<'_, AppState>) -> AppResult<SjrStatus> {
 pub fn quartiles(state: State<'_, AppState>) -> AppResult<Quartiles> {
     with_analysis(&state, quartiles::compute)
 }
+
+/// Journals that publish work on the accepted gaps, ranked as submission targets.
+/// Takes no input from the frontend; it reads only the (filtered) collection.
+#[tauri::command(async)]
+pub fn journal_targets(state: State<'_, AppState>) -> AppResult<crate::analysis::journals::JournalTargets> {
+    with_analysis(&state, crate::analysis::journals::compute)
+}

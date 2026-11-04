@@ -6,6 +6,7 @@
 //! while all writes go through the main connection and never see these tables.
 
 use super::filter::{self, CollectionFilter};
+use super::screening;
 use super::synonyms;
 use crate::error::AppResult;
 use rusqlite::{params, params_from_iter, Connection, OpenFlags};
@@ -41,7 +42,8 @@ impl AnalysisDb {
         if !current {
             self.drop_temp()?;
             let synonyms = synonyms::load(&self.conn)?;
-            if f.is_active() || !synonyms.is_empty() {
+            // Screening exclusions narrow the documents like the filter does.
+            if f.is_active() || screening::has_exclusions(&self.conn)? || !synonyms.is_empty() {
                 self.build(&f)?;
                 self.apply_synonyms(&synonyms)?;
             }
@@ -80,7 +82,8 @@ impl AnalysisDb {
 
     fn build(&self, f: &CollectionFilter) -> AppResult<()> {
         let (cond, values) = f.condition();
-        self.conn.execute(&format!("CREATE TEMP TABLE papers AS SELECT * FROM main.papers WHERE {cond}"), params_from_iter(values))?;
+        let sql = format!("CREATE TEMP TABLE papers AS SELECT * FROM main.papers WHERE {cond} AND {}", screening::NOT_EXCLUDED);
+        self.conn.execute(&sql, params_from_iter(values))?;
         self.conn.execute_batch("CREATE INDEX temp.f_papers_id ON papers(id); CREATE INDEX temp.f_papers_title ON papers(title_key, year);\n             CREATE INDEX temp.f_papers_ext ON papers(ext_id);")?;
         for (table, index) in CHILDREN {
             // Table and column names are the fixed literals above.

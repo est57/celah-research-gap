@@ -99,6 +99,13 @@ pub fn insert_and_fill(conn: &mut Connection, items: &[NewPaper], origin: &str) 
             inserted += 1;
         }
     }
+    // Every import and saved search is logged for the PRISMA flow diagram.
+    if !items.is_empty() {
+        tx.execute(
+            "INSERT INTO import_log (origin, fetched, inserted, duplicates) VALUES (?1, ?2, ?3, ?4)",
+            params![origin, items.len() as i64, inserted as i64, (items.len() - inserted) as i64],
+        )?;
+    }
     tx.commit()?;
     Ok((inserted, items.len() - inserted, completed))
 }

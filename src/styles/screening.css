@@ -1,0 +1,64 @@
+/* Koleksi > Skrining: one card per document with Include and Exclude. */
+
+.scr-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px 12px;
+}
+
+.scr-intro p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.scr-progress {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line-soft);
+  overflow: hidden;
+}
+
+.scr-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.scr-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.scr-search {
+  flex: 1 1 200px;
+  max-width: 320px;
+}
+
+.scr-reason {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+}
+
+.scr-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 12px;
+}
+
+.scr-pager > :first-child {
+  margin-right: auto;
+}
+
+.scr-empty {
+  margin: 0;
+  font-size: 12.5px;
+}

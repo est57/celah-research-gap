@@ -1,0 +1,76 @@
+/* Jurnal tujuan tab: explanation, gaps used and the ranked journal table. */
+
+.jr-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px 14px;
+  font-size: 13px;
+}
+
+.jr-text {
+  margin: 0;
+  line-height: 1.55;
+  max-width: 78ch;
+}
+
+.jr-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.jr-notice span {
+  flex: 1 1 320px;
+}
+
+.jr-used {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jr-used li {
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 12px;
+}
+
+/* The table scrolls inside its panel rather than widening the page. */
+.jr-table {
+  overflow-x: auto;
+}
+
+.jr-row {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.jr-name {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 1px;
+}
+
+.jr-gaps {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11.5px;
+}
+
+.jr-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 0 14px 12px;
+  font-size: 11.5px;
+}

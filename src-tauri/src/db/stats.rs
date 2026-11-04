@@ -67,8 +67,10 @@ pub fn collection(conn: &Connection) -> AppResult<CollectionStats> {
     })?;
 
     let active = super::filter::load(conn)?;
-    let analyzed = if active.is_active() { super::filter::matching(conn, &active)? } else { total };
-    Ok(CollectionStats { total, filtered: active.is_active(), analyzed, origins, fields })
+    // Documents excluded at screening leave the analyses just like filtered ones.
+    let narrowed = active.is_active() || super::screening::has_exclusions(conn)?;
+    let analyzed = if narrowed { super::filter::matching(conn, &active)? } else { total };
+    Ok(CollectionStats { total, filtered: narrowed, analyzed, origins, fields })
 }
 
 /// English name of a field or analysis label above, when the interface is in English.

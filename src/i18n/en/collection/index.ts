@@ -1,6 +1,7 @@
 // English texts for the collection area, keyed by the Indonesian source text.
 import { PART2 } from "./part2";
 import { PART3 } from "./part3";
+import { SCREENING } from "./screening";
 
 export const DICT: Record<string, string> = {
   "; analisis akan kosong": "; the analysis will be empty",
@@ -65,4 +66,5 @@ export const DICT: Record<string, string> = {
   "Hapus {n} dokumen": "Remove {n} documents",
   ...PART2,
   ...PART3,
+  ...SCREENING,
 };

@@ -6,14 +6,17 @@ import { Panel, SaOverview } from "./SaPanel";
 import { SourcesTab } from "./SourcesTab";
 import { TopSources } from "./TopSources";
 import { QuartilesTab } from "./QuartilesTab";
+import { JournalsTab } from "./JournalsTab";
+import type { Jump } from "../../lib/commands";
 import { t, tk } from "../../i18n";
 
-export type SourcesScreenTab = "overview" | "sources" | "quartiles";
+export type SourcesScreenTab = "overview" | "sources" | "quartiles" | "journals";
 
 const TABS: TabDef<SourcesScreenTab>[] = [
   { id: "overview", label: tk("Ikhtisar sumber") },
   { id: "sources", label: tk("Tabel sumber") },
   { id: "quartiles", label: tk("Kuartil (SJR)") },
+  { id: "journals", label: tk("Jurnal tujuan") },
 ];
 
 /** Journals and other publication sources: the most relevant ones, Bradford zones and the source table. */
@@ -22,15 +25,17 @@ interface Props {
   initialTab?: SourcesScreenTab;
   initialQuery?: string;
   onDataChanged: () => void;
+  onJump: (j: Jump) => void;
 }
 
-export function SourcesScreen({ version, initialTab = "overview", initialQuery, onDataChanged }: Props) {
+export function SourcesScreen({ version, initialTab = "overview", initialQuery, onDataChanged, onJump }: Props) {
   const [tab, setTab] = useState<SourcesScreenTab>(initialTab);
   return (
     <>
       <Tabs label={t("Sumber")} tabs={TABS.map((x) => ({ ...x, label: t(x.label) }))} active={tab} onChange={setTab} />
       {tab === "sources" ? <SourcesTab version={version} query={initialQuery} />
-        : tab === "quartiles" ? <QuartilesTab version={version} onDataChanged={onDataChanged} /> : (
+        : tab === "quartiles" ? <QuartilesTab version={version} onDataChanged={onDataChanged} />
+        : tab === "journals" ? <JournalsTab version={version} onJump={onJump} onOpenSjr={() => setTab("quartiles")} /> : (
         <SaOverview version={version} stack content={(d) => (
           <>
             <Panel title={t("Sumber paling relevan")} aside={t("{n} sumber", { n: formatInt(d.totalSources) })}><TopSources items={d.topSources} wide /></Panel>

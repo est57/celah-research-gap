@@ -17,6 +17,7 @@ pub mod factorial;
 pub mod gaps;
 pub mod historiograph;
 pub mod idea;
+pub mod journals;
 mod louvain;
 pub mod lotka;
 pub mod main_info;

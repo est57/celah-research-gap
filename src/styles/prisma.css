@@ -1,0 +1,78 @@
+/* Laporan > Diagram PRISMA: the flow diagram and the methods sentence. */
+
+.prisma-wrap {
+  padding: 14px;
+}
+
+.prisma {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  margin-inline: auto;
+}
+
+.prisma-box rect {
+  fill: var(--panel);
+  stroke: var(--axis);
+  stroke-width: 1;
+}
+
+.prisma-box[data-kind="side"] rect {
+  fill: var(--sunken);
+}
+
+.prisma-head {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.prisma-line {
+  font-size: 12.5px;
+  fill: var(--ink-2);
+}
+
+.prisma-phase rect {
+  fill: var(--accent-soft);
+}
+
+.prisma-phase text {
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--accent-strong);
+}
+
+.prisma-link {
+  stroke: var(--axis);
+  stroke-width: 1.2;
+}
+
+.prisma-arrowhead {
+  fill: var(--axis);
+}
+
+.prisma-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.prisma-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+
+.prisma-text p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.prisma-text .prisma-hint {
+  font-size: 12px;
+}
