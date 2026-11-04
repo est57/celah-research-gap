@@ -23,6 +23,7 @@ import "./styles/duplicates.css";
 import "./styles/screening.css";
 import "./styles/screenCard.css";
 import "./styles/docOpen.css";
+import "./styles/watch.css";
 import "./styles/prisma.css";
 import "./styles/filter.css";
 import "./styles/dupRecord.css";

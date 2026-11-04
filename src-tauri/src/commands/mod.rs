@@ -20,6 +20,7 @@ pub mod synonyms;
 pub mod text_refs;
 pub mod update;
 pub mod verify;
+pub mod watch;
 pub mod workflow;
 
 use crate::error::{AppError, AppResult};
@@ -115,6 +116,11 @@ pub fn handler() -> impl Fn(tauri::ipc::Invoke) -> bool + Send + Sync + 'static 
         oa::find_open_access,
         oa::document_links,
         oa::open_document,
+        watch::save_watch,
+        watch::list_watches,
+        watch::delete_watch,
+        watch::watch_hits,
+        watch::run_watch,
         settings::api_key_status,
         settings::set_api_key,
         settings::clear_api_key,

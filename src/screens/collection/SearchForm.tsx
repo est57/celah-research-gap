@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { searchSources } from "../../lib/api";
+import { saveWatch } from "../../lib/apiWatch";
 import { formatInt } from "../../lib/format";
 import type { DocType, SourceId, SourceReport } from "../../lib/types";
 import { SourcePicker } from "./SourcePicker";
@@ -17,6 +18,20 @@ export function SearchForm({ onImported }: { onImported: () => void }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reports, setReports] = useState<SourceReport[]>([]);
+  const [saved, setSaved] = useState<string | null>(null);
+
+  const watch = async () => {
+    const q = query.trim();
+    if (q.length < 2) return setError(t("Kata kunci minimal 2 karakter."));
+    if (sources.length === 0) return setError(t("Pilih minimal satu sumber data."));
+    setError(null);
+    try {
+      await saveWatch({ query: q, yearFrom, docType: docType || null, maxResults, sources });
+      setSaved(t("Pencarian disimpan. Jalankan lagi kapan saja dari tab Pantau topik."));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    }
+  };
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -78,9 +93,13 @@ export function SearchForm({ onImported }: { onImported: () => void }) {
       <button type="submit" className="btn btn-primary" disabled={busy}>
         {busy ? t("Mencari...") : t("Cari")}
       </button>
+      <button type="button" className="btn" disabled={busy} onClick={() => void watch()} title={t("Simpan pencarian ini untuk dijalankan lagi nanti")}>
+        {t("Simpan sebagai pantauan")}
+      </button>
       <div className="search-results" role="status">
         {busy ? <span className="message">{t("Mengambil data dari {n} sumber...", { n: sources.length })}</span> : null}
         {error ? <span className="message" data-kind="error">{error}</span> : null}
+        {saved && !error ? <span className="message" data-kind="ok">{saved}</span> : null}
         {reports.map((r) => (
           <span key={r.source} className="message" data-kind={r.error ? "error" : "ok"}>
             <strong>{r.source}:</strong>{" "}

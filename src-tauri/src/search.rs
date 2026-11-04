@@ -1,9 +1,9 @@
 //! Source-independent search request and the list of searchable sources.
 
 use crate::secrets::Service;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Deserialize, Serialize, Clone, Copy, Debug, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum Source {
     Openalex,

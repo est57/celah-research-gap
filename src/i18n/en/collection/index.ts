@@ -2,6 +2,7 @@
 import { PART2 } from "./part2";
 import { PART3 } from "./part3";
 import { SCREENING } from "./screening";
+import { WATCH } from "./watch";
 
 export const DICT: Record<string, string> = {
   "; analisis akan kosong": "; the analysis will be empty",
@@ -67,4 +68,5 @@ export const DICT: Record<string, string> = {
   ...PART2,
   ...PART3,
   ...SCREENING,
+  ...WATCH,
 };

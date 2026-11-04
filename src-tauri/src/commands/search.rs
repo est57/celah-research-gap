@@ -40,7 +40,7 @@ pub async fn search_sources(state: State<'_, AppState>, input: SearchInput) -> A
     let mut reports = Vec::with_capacity(sources.len());
     for source in sources {
         let report = match run_source(state.inner(), source, &query).await {
-            Ok((fetched, inserted, duplicates)) => {
+            Ok((fetched, inserted, duplicates, _)) => {
                 SourceReport { source: source.label(), fetched, inserted, duplicates, error: None }
             }
             Err(err) => SourceReport {
@@ -56,7 +56,8 @@ pub async fn search_sources(state: State<'_, AppState>, input: SearchInput) -> A
     Ok(reports)
 }
 
-async fn run_source(state: &AppState, source: Source, q: &SearchQuery) -> AppResult<(usize, usize, usize)> {
+/// Searches one source and saves the results. Returns (fetched, inserted, duplicates, ids of the new documents).
+pub async fn run_source(state: &AppState, source: Source, q: &SearchQuery) -> AppResult<(usize, usize, usize, Vec<i64>)> {
     let key = match source.key_service() {
         // Keychain access can block on an OS prompt, so keep it off the async workers.
         Some(service) => tauri::async_runtime::spawn_blocking(move || secrets::get(service))
@@ -73,6 +74,10 @@ async fn run_source(state: &AppState, source: Source, q: &SearchQuery) -> AppRes
         Source::Arxiv => arxiv::search(&state.http, q).await?,
     };
     let mut conn = state.db.lock().map_err(|_| AppError::Internal)?;
+    // Ids only grow and the lock is held, so the new documents are those above the old maximum.
+    let before: i64 = conn.query_row("SELECT COALESCE(MAX(id), 0) FROM papers", [], |r| r.get(0))?;
     let (inserted, duplicates) = insert::insert_many(&mut conn, &items, source.label())?;
-    Ok((items.len(), inserted, duplicates))
+    let mut stmt = conn.prepare("SELECT id FROM papers WHERE id > ?1 ORDER BY id")?;
+    let ids = stmt.query_map([before], |r| r.get(0))?.collect::<Result<Vec<i64>, _>>()?;
+    Ok((items.len(), inserted, duplicates, ids))
 }

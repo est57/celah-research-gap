@@ -19,6 +19,8 @@ mod schema;
 mod schema_late;
 mod schema_screening;
 mod schema_oa;
+mod schema_watch;
+pub mod watches;
 pub mod oa;
 pub mod screening;
 pub mod prisma;

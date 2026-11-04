@@ -24,6 +24,7 @@ export const COMMANDS: Command[] = [
   c(tk("Koleksi & impor"), tk("Data"), "cari tambah impor openalex scopus wos pubmed", "collection", "collection"),
   c(tk("Kualitas metadata"), tk("Koleksi"), "field kosong kelengkapan", "collection", "quality"),
   c(tk("Duplikat"), tk("Koleksi"), "gabung preprint", "collection", "duplicates"),
+  c(tk("Pantau topik"), tk("Koleksi"), "pantau monitor pencarian tersimpan terbaru living review alert", "collection", "watch"),
   c(tk("Skrining"), tk("Koleksi"), "screening saring judul abstrak masuk keluar prisma inklusi eksklusi", "collection", "screening"),
   c(tk("Filter analisis"), tk("Koleksi"), "batasi tahun jenis dokumen sumber", "collection", "filter"),
   c(tk("Ekspor & cadangan"), tk("Koleksi"), "csv bibtex ris zotero backup database pulihkan restore", "collection", "export"),

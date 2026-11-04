@@ -16,14 +16,16 @@ import { DeleteBar } from "./DeleteBar";
 import { OriginRemove } from "./OriginRemove";
 import { ExportView } from "./ExportView";
 import { ScreeningView } from "./ScreeningView";
+import { WatchView } from "./WatchView";
 import { NumText } from "./NumText";
 import { t, tk } from "../../i18n";
 
-export type CollectionTab = "collection" | "quality" | "duplicates" | "screening" | "filter" | "export";
+export type CollectionTab = "collection" | "watch" | "quality" | "duplicates" | "screening" | "filter" | "export";
 type TabId = CollectionTab;
 
 const TABS: TabDef<TabId>[] = [
   { id: "collection", label: tk("Koleksi") },
+  { id: "watch", label: tk("Pantau topik") },
   { id: "quality", label: tk("Kualitas metadata") },
   { id: "duplicates", label: tk("Duplikat") },
   { id: "screening", label: tk("Skrining") },
@@ -75,6 +77,8 @@ export function CollectionScreen({ stats, statsError, onChanged, initialTab = "c
         <FilterView version={stats.total} onApplied={() => void onChanged()} />
       ) : tab === "export" ? (
         <ExportView stats={stats} onChanged={() => void onChanged()} />
+      ) : tab === "watch" ? (
+        <WatchView onChanged={() => void onChanged()} />
       ) : tab === "screening" ? (
         <ScreeningView onChanged={() => void onChanged()} />
       ) : tab === "duplicates" ? (

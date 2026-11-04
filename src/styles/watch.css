@@ -1,0 +1,68 @@
+/* Koleksi > Pantau topik: saved searches and what they added. */
+
+.watch-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+}
+
+.watch-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.watch-query {
+  font-size: 13.5px;
+  overflow-wrap: anywhere;
+}
+
+.watch-state {
+  flex: none;
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  background: var(--ok-soft);
+  color: var(--ok-ink);
+}
+
+.watch-state[data-stale="true"] {
+  background: var(--warn-soft);
+  color: var(--warn-ink);
+}
+
+.watch-meta,
+.watch-counts {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.watch-hits {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+}
+
+.watch-hits li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.watch-hit-title {
+  overflow-wrap: anywhere;
+}
+
+.watch-page .scr-intro {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
