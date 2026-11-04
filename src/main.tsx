@@ -22,6 +22,7 @@ import "./styles/fieldMatrix.css";
 import "./styles/duplicates.css";
 import "./styles/screening.css";
 import "./styles/screenCard.css";
+import "./styles/docOpen.css";
 import "./styles/prisma.css";
 import "./styles/filter.css";
 import "./styles/dupRecord.css";

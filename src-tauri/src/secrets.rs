@@ -15,6 +15,8 @@ pub enum Service {
     SemanticScholar,
     /// NCBI E-utilities (PubMed).
     Ncbi,
+    /// Contact email Unpaywall asks every caller for (not a key, but kept with them).
+    Unpaywall,
 }
 
 impl Service {
@@ -23,6 +25,7 @@ impl Service {
             Service::Openalex => "openalex-api-key",
             Service::SemanticScholar => "semantic-scholar-api-key",
             Service::Ncbi => "ncbi-api-key",
+            Service::Unpaywall => "unpaywall-email",
         }
     }
 }

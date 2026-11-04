@@ -1,6 +1,7 @@
 // English texts for the shell area, keyed by the Indonesian source text.
 import { PART2 } from "./part2";
 import { PART3 } from "./part3";
+import { OPEN_ACCESS } from "./openAccess";
 
 export const DICT: Record<string, string> = {
   "Data": "Data",
@@ -137,4 +138,5 @@ export const DICT: Record<string, string> = {
   "Perlu perhatian": "Needs attention",
   ...PART2,
   ...PART3,
+  ...OPEN_ACCESS,
 };

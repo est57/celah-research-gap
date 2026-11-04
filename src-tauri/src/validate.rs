@@ -92,6 +92,19 @@ pub fn api_key(raw: &str) -> AppResult<String> {
     Ok(key.to_string())
 }
 
+/// A plausible email address: one "@", a dotted domain, no spaces or control characters.
+pub fn email(raw: &str) -> AppResult<String> {
+    let e = raw.trim();
+    let ok = (6..=254).contains(&e.len())
+        && e.split('@').count() == 2
+        && e.split_once('@').is_some_and(|(local, domain)| !local.is_empty() && domain.contains('.') && !domain.starts_with('.') && !domain.ends_with('.'))
+        && !e.chars().any(|c| c.is_whitespace() || c.is_control() || matches!(c, '"' | '<' | '>' | ',' | ';'));
+    if !ok {
+        return Err(AppError::Invalid(crate::tr!("format email tidak dikenali", "unrecognized email format").into()));
+    }
+    Ok(e.to_string())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -110,6 +123,14 @@ mod tests {
         assert_eq!(doc_type(Some("review")).unwrap(), Some("review"));
         assert!(page(0, 0).is_err());
         assert_eq!(filter(Some("   ")).unwrap(), None);
+    }
+
+    #[test]
+    fn email_shapes() {
+        assert_eq!(email("  peneliti@kampus.ac.id ").unwrap(), "peneliti@kampus.ac.id");
+        for bad in ["", "a@b", "no-at.example.org", "a@@b.org", "a b@c.org", "a@b.org,c@d.org", "@b.org", "a@.org", "a@org."] {
+            assert!(email(bad).is_err(), "{bad}");
+        }
     }
 
     #[test]

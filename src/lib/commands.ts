@@ -62,6 +62,7 @@ export const COMMANDS: Command[] = [
   c(tk("Draf metode & hasil"), tk("Keluaran"), "metodologi hasil bibliometrik paragraf data sumber penulis negara", "report", "summary"),
   c(tk("Diagram PRISMA"), tk("Keluaran"), "prisma flow alir seleksi skrining identifikasi", "report", "prisma"),
   c(tk("Kunci API"), tk("Pengaturan"), "openalex semantic scholar ncbi keychain", "settings", "sources"),
+  c(tk("PDF akses terbuka"), tk("Pengaturan"), "unpaywall pdf open access gratis unduh email", "settings", "sources"),
   c(tk("Tampilan"), tk("Pengaturan"), "tema gelap terang ukuran angka", "settings", "display"),
   c(tk("Tentang Celah"), tk("Pengaturan"), "versi folder data lokasi basis data ukuran diagnostik", "settings", "about"),
 ];

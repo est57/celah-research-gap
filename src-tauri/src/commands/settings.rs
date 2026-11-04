@@ -26,7 +26,7 @@ pub fn api_key_status(service: Service) -> AppResult<KeyStatus> {
 
 #[tauri::command(async)]
 pub fn set_api_key(service: Service, key: String) -> AppResult<KeyStatus> {
-    let key = validate::api_key(&key)?;
+    let key = if service == Service::Unpaywall { validate::email(&key)? } else { validate::api_key(&key)? };
     secrets::set(service, &key)?;
     Ok(KeyStatus::from_key(Some(&key)))
 }

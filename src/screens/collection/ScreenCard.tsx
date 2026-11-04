@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { t } from "../../i18n";
 import { REASON_LABEL, type Decision, type Reason, type ScreenRow } from "../../lib/screeningTypes";
+import type { DocLinks } from "../../lib/apiOa";
+import { OpenDocButton } from "../../components/OpenDocButton";
 
 interface Props {
   row: ScreenRow;
   reason: Reason;
+  links: DocLinks | undefined;
   onDecide: (decision: Decision | null, reason?: Reason, note?: string) => void;
 }
 
 /** One document to screen: title, abstract and keywords, with Include and Exclude. */
-export function ScreenCard({ row, reason, onDecide }: Props) {
+export function ScreenCard({ row, reason, links, onDecide }: Props) {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(row.note);
   const meta = [row.authors, row.year ?? t("t.t."), row.sourceName].filter(Boolean).join(" · ");
@@ -43,6 +46,7 @@ export function ScreenCard({ row, reason, onDecide }: Props) {
           {t("Keluar: {reason}", { reason: t(REASON_LABEL[reason]).toLowerCase() })}
         </button>
         {row.decision ? <button type="button" className="btn" onClick={() => onDecide(null)}>{t("Batalkan keputusan")}</button> : null}
+        <OpenDocButton links={links} />
         {row.decision === "exclude" ? (
           <input className="input scr-note" maxLength={200} value={note} placeholder={t("Catatan alasan (opsional)")}
             aria-label={t("Catatan alasan")} onChange={(e) => setNote(e.target.value)}

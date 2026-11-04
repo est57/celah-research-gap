@@ -38,6 +38,7 @@ mod search;
 mod secrets;
 mod semantic_scholar;
 mod text;
+mod unpaywall;
 mod validate;
 mod verify;
 
@@ -65,6 +66,8 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         // Also used only from Rust (commands::update), so no updater permission is granted either.
         .plugin(tauri_plugin_updater::Builder::new().build())
+        // Opens document links from Rust (commands::oa) only; no opener permission is granted.
+        .plugin(tauri_plugin_opener::init())
         .setup(|app| {
             let dir = app.path().app_data_dir()?;
             std::fs::create_dir_all(&dir)?;

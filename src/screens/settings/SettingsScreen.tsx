@@ -6,6 +6,7 @@ import { ApiKeyPanel } from "./ApiKeyPanel";
 import { DisplayPanel } from "./DisplayPanel";
 import { AboutPanel } from "./AboutPanel";
 import { UpdatePanel } from "./UpdatePanel";
+import { UnpaywallPanel } from "./UnpaywallPanel";
 import type { DisplaySettings } from "../../lib/display";
 import { fill } from "../../components/fill";
 import { t, tk } from "../../i18n";
@@ -73,6 +74,7 @@ export function SettingsScreen({ openalex, semanticScholar, ncbi, display, onDis
           intro={fill(t("Tanpa kunci, PubMed membatasi 3 permintaan per detik sehingga pencarian besar lebih lambat. Dengan kunci gratis dari akun NCBI, batasnya naik menjadi 10. Buat kunci di halaman pengaturan akun {link} lalu tempel di bawah."),
             { link: link("ncbi.nlm.nih.gov/account") })}
         />
+        <UnpaywallPanel />
         <p className="muted" style={{ margin: 0, fontSize: 12 }}>
           {t("Crossref, Europe PMC, dan arXiv tidak memerlukan kunci API.")}
         </p>

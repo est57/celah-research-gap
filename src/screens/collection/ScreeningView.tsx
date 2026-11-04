@@ -5,6 +5,7 @@ import { formatInt, formatPct } from "../../lib/format";
 import { REASON_LABEL, type Reason, type ScreenStatus } from "../../lib/screeningTypes";
 import { NumText } from "./NumText";
 import { ScreenCard } from "./ScreenCard";
+import { useDocLinks } from "../../hooks/useDocLinks";
 
 const STATUSES: ScreenStatus[] = ["none", "include", "exclude", "all"];
 
@@ -15,6 +16,7 @@ export function ScreeningView({ onChanged }: { onChanged: () => void }) {
   const [page, setPage] = useState(0);
   const [reason, setReason] = useState<Reason>("topic");
   const { data, error, loading, decide, sample } = useScreening(status, query, page, onChanged);
+  const links = useDocLinks(data.items.map((r) => r.id));
   const c = data.counts;
   const total = c.unscreened + c.included + c.excluded;
   const count: Record<ScreenStatus, number> = { none: c.unscreened, include: c.included, exclude: c.excluded, all: total };
@@ -60,7 +62,7 @@ export function ScreeningView({ onChanged }: { onChanged: () => void }) {
       ) : null}
       <ul className="dup-list" aria-busy={loading}>
         {data.items.map((row) => (
-          <ScreenCard key={`${row.id}-${row.decision}`} row={row} reason={reason}
+          <ScreenCard key={`${row.id}-${row.decision}`} row={row} reason={reason} links={links.get(row.id)}
             onDecide={(d, r, note) => void decide([row.id], d, d === "exclude" ? (r ?? reason) : "", note ?? "")} />
         ))}
       </ul>

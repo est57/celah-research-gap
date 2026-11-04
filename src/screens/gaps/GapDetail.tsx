@@ -4,6 +4,8 @@ import { KIND_INFO, type Gap } from "../../lib/gapTypes";
 import type { ScreenId } from "../../nav";
 import { CheckResult } from "./CheckResult";
 import { kindLabel } from "./labels";
+import { OpenDocButton } from "../../components/OpenDocButton";
+import { useDocLinks } from "../../hooks/useDocLinks";
 
 interface Props {
   gap: Gap;
@@ -11,6 +13,7 @@ interface Props {
 }
 
 export function GapDetail({ gap, onNavigate }: Props) {
+  const links = useDocLinks(gap.evidence.map((e) => e.paperId));
   return (
     <article className="gap-detail">
       <header className="gap-head">
@@ -48,7 +51,10 @@ export function GapDetail({ gap, onNavigate }: Props) {
                 {e.source ? ` · ${e.source}` : ""} · {t("{n} sitasi", { n: formatInt(e.citedBy) })}
               </span>
             </div>
-            <span className="role-pill" data-role={e.role}>{t(e.role)}</span>
+            <span className="evidence-side">
+              <span className="role-pill" data-role={e.role}>{t(e.role)}</span>
+              <OpenDocButton links={links.get(e.paperId)} />
+            </span>
           </div>
         ))}
       </section>

@@ -1,6 +1,6 @@
 export type DocType = "article" | "review" | "preprint" | "book-chapter" | "proceedings";
 export type SourceId = "openalex" | "semantic_scholar" | "crossref" | "pubmed" | "europe_pmc" | "arxiv";
-export type ServiceId = "openalex" | "semantic_scholar" | "ncbi";
+export type ServiceId = "openalex" | "semantic_scholar" | "ncbi" | "unpaywall";
 
 export interface SearchInput {
   query: string;

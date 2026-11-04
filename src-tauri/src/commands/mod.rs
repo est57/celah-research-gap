@@ -7,6 +7,7 @@ pub mod enrich;
 pub mod export;
 pub mod filter;
 pub mod idea;
+pub mod oa;
 pub mod import;
 pub mod projects;
 pub mod report;
@@ -110,6 +111,10 @@ pub fn handler() -> impl Fn(tauri::ipc::Invoke) -> bool + Send + Sync + 'static 
         screening::screening_page,
         screening::set_screening,
         screening::prisma_flow,
+        oa::open_access_status,
+        oa::find_open_access,
+        oa::document_links,
+        oa::open_document,
         settings::api_key_status,
         settings::set_api_key,
         settings::clear_api_key,
