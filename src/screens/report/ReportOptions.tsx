@@ -26,6 +26,7 @@ export function Choice<T extends string>({ label, value, options, onPick }: { la
 }
 
 export const EXPORTS: [ExportFormat, string, string][] = [
+  ["docx", tk("Draf Word"), ".docx"],
   ["markdown", tk("Draf Markdown"), ".md"],
   ["bibtex", "BibTeX", ".bib"],
   ["ris", "RIS (Zotero, Mendeley)", ".ris"],

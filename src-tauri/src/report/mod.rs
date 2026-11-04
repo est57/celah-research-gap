@@ -3,6 +3,8 @@
 pub mod bibtex;
 pub mod cite;
 mod citations;
+pub mod docx;
+mod docx_parts;
 mod markdown;
 pub(crate) mod names;
 pub mod summary;

@@ -58,7 +58,7 @@ export const COMMANDS: Command[] = [
   c(tk("Uji ide celah"), tk("Pencarian celah"), "konsep gabungan ide sendiri cek", "gaps", "idea"),
   c(tk("Verifikasi celah"), tk("Pencarian celah"), "cek literatur terbaru", "verify"),
   c(tk("Riwayat review"), tk("Pencarian celah"), "diterima ditolak catatan", "gaps", "history"),
-  c(tk("Laporan & ekspor"), tk("Keluaran"), "draf bibtex ris markdown", "report"),
+  c(tk("Laporan & ekspor"), tk("Keluaran"), "draf word docx bibtex ris markdown", "report"),
   c(tk("Draf metode & hasil"), tk("Keluaran"), "metodologi hasil bibliometrik paragraf data sumber penulis negara", "report", "summary"),
   c(tk("Diagram PRISMA"), tk("Keluaran"), "prisma flow alir seleksi skrining identifikasi", "report", "prisma"),
   c(tk("Kunci API"), tk("Pengaturan"), "openalex semantic scholar ncbi keychain", "settings", "sources"),

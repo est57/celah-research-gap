@@ -1,6 +1,7 @@
 // English texts for Report > PRISMA diagram.
 export const PRISMA: Record<string, string> = {
   "Diagram PRISMA": "PRISMA diagram",
+  "Draf Word": "Word draft",
   "Identifikasi": "Identification",
   "Disertakan": "Included",
   "Diagram alir PRISMA 2020": "PRISMA 2020 flow diagram",

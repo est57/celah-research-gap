@@ -65,16 +65,18 @@ pub fn build(conn: &Connection, p: &SummaryParams) -> AppResult<Summary> {
     let style = match p.style.as_str() {
         "apa" => Style::Apa,
         "ieee" => Style::Ieee,
-        _ => return Err(AppError::Invalid("gaya sitasi tidak dikenal".into())),
+        _ => return Err(AppError::Invalid(crate::tr!("gaya sitasi tidak dikenal", "unknown citation style").into())),
     };
     let lang = match p.language.as_str() {
         "id" => Lang::Id,
         "en" => Lang::En,
-        _ => return Err(AppError::Invalid("bahasa tidak dikenal".into())),
+        _ => return Err(AppError::Invalid(crate::tr!("bahasa tidak dikenal", "unknown language").into())),
     };
     let f = facts::gather(conn)?;
     if f.info.documents == 0 {
-        return Err(AppError::Invalid("koleksi masih kosong; tambahkan dokumen di Koleksi & impor".into()));
+        return Err(AppError::Invalid(
+            crate::tr!("koleksi masih kosong; tambahkan dokumen di Koleksi & impor", "the collection is empty; add documents in Collection & import").into(),
+        ));
     }
     let ids: Vec<i64> = f.cited.iter().map(|c| c.0).collect();
     let mut works = cite::load(conn, &ids)?;

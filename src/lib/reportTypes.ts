@@ -1,6 +1,6 @@
 export type CitationStyle = "apa" | "ieee";
 export type ReportLanguage = "id" | "en";
-export type ExportFormat = "markdown" | "bibtex" | "ris";
+export type ExportFormat = "docx" | "markdown" | "bibtex" | "ris";
 
 export interface ReportParams {
   style: CitationStyle;
